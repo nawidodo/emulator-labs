@@ -189,7 +189,7 @@ def expand_tmp(s: str, tmp: Path) -> str:
     return s.replace("{{tmp}}", str(tmp))
 
 
-def main() -> int:
+def main_cmd(argv: list[str]) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", default=".")
     ap.add_argument("--pipeline", action="store_true",
@@ -200,7 +200,7 @@ def main() -> int:
                          "(author sweeps) instead of failing them")
     ap.add_argument("targets", nargs="*",
                     help="chapter dirs under tests/hidden (or pipeline)")
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
     global ALLOW_MISSING_ENV
     ALLOW_MISSING_ENV = args.allow_missing_env
 
@@ -250,6 +250,10 @@ def main() -> int:
     if failed_chapters:
         print(f"failing chapters: {', '.join(failed_chapters)}")
     return 1 if failed_chapters else 0
+
+
+def main() -> int:
+    return main_cmd(sys.argv[1:])
 
 
 if __name__ == "__main__":

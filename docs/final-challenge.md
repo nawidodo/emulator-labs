@@ -665,6 +665,42 @@ pc = entry. Execution begins at cycle 0 with the fetch of the entry instruction.
 
 ---
 
+## 9b. Architecture Deliverable (required, before M1)
+
+Before touching code, write `ARCHITECTURE.md` in your submission root. It
+must specify, from the spec alone:
+
+```text
+CPU state model (registers, delay-slot policy, exception entry)
+memory map + bus ownership (which device decodes what; open-bus policy)
+device boundaries (GPU/DMA/APU/controller responsibilities and interfaces)
+scheduler model (master clock, event ordering, stall accounting)
+interrupt routing (vector table, masking, EPC/CAUSE/RTE discipline)
+serialization ownership (what state belongs to which device)
+test strategy (which milestone fixtures exercise which design decisions)
+```
+
+Grading reviews the design note for internal consistency with the code —
+architecture is part of the exam, not an optional extra.
+
+## 9c. First-Divergence Debugging Report (required, by M8)
+
+The hidden suite includes at least one subtly faulty fixture. Your
+submission must contain `DEBUG-REPORT.md` documenting your investigation
+of it, in the same five-field contract every 90_debug chapter teaches:
+
+```text
+symptom               what you observed (failing case, wrong golden)
+first divergent event the earliest trace line / frame byte / event where
+                      your output leaves the expected sequence
+root cause            the mechanism, not the symptom
+fix                   what changed, and why it cannot regress
+regression test       the test that now guards this behavior
+```
+
+A submission whose first-divergence section is missing or hand-wavy does
+not graduate, regardless of hidden-case count.
+
 ## 10. Milestones
 
 Ordered bring-up. Each milestone names its public fixture (under

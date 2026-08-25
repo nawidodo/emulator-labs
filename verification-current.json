@@ -1,21 +1,33 @@
 {
-  "generated_at": "2026-08-25T23:35:05",
-  "head": "c71f99c",
-  "ctest": {
-    "ran": 0,
-    "passed": 0,
+  "generated_at": "2026-08-25T23:51:34",
+  "head": "56fe677",
+  "platform": "darwin",
+  "reference_ctest": {
+    "status": "green",
+    "ran": 414,
+    "passed": 414,
     "failed": 0
   },
   "unseen_grade": {
-    "passed": "343",
-    "skipped": "47",
-    "failed": "0",
-    "of": "390"
+    "status": "green",
+    "passed": 343,
+    "skipped": 47,
+    "failed": 0,
+    "total": 390
+  },
+  "grader_self_tests": {
+    "status": "green",
+    "ran": 12,
+    "failed": 0
+  },
+  "external_tracks": {
+    "foundations-c17": {
+      "verified_nodes": 1,
+      "audit": "green"
+    }
   },
   "integration_reference": {
     "ch52": "pending",
     "ch51": "pending"
-  },
-  "c17_verified_nodes": 1,
-  "platform": "darwin"
+  }
 }

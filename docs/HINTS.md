@@ -23,7 +23,7 @@ collapsed under spoiler markers so you can read incrementally.
 
 If you reveal a full solution, that task is marked
 `SOLVED WITH REFERENCE` in progress notes. The gate still requires a PASS on
-the hidden coding test covering the same concept — the test is the arbiter,
+an unseen coding test covering the same concept — the test is the arbiter,
 not the struggle.
 
 ## Debugging exercises are different

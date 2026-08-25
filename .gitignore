@@ -17,3 +17,10 @@ __pycache__/
 .DS_Store
 # Test scratch (written to cwd by runner binaries)
 ch14_99_v2_tmp.ppu
+
+# Learner-local progress (review rec #8: author verification lives in the
+# repo, learner state does not)
+.emulator-labs/
+
+# Legacy location of learner progress (now lives in .emulator-labs/)
+progress.json

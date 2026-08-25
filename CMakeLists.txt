@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.21)
-project(emulator-labs LANGUAGES CXX)
+# Language policy (intentional, see docs/AUTHORING.md):
+#   C   → strict ISO C17, reserved for emulator cores on the strict-C track
+#   CXX → ISO C++20, the course implementation language
+project(emulator-labs LANGUAGES C CXX)
+
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

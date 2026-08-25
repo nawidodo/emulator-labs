@@ -1,0 +1,11 @@
+{
+  "description": "ch52 playable-NES gate. The capstone-style deliverable is graded externally via {{env:LABS_NES_GATE_BIN}} (see templates/ch52_nes_playable_gate/99_coding_test/manifest.example.json). This always-on manifest carries the pipeline self-check.",
+  "cases": [
+    {
+      "name": "selfcheck.pipeline_ok",
+      "binary": "tests/hidden/ch52_nes_playable_gate/selfcheck/selfcheck.sh",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

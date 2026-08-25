@@ -180,3 +180,82 @@ with a "Verification" section recording exactly what was run and what passed.
 6. Descriptive gate-dir names (`91_boot` instead of `91_challenge`) are
    acceptable ONLY when the chapter README maps them explicitly to the
    gate component. The audit treats the README as source of truth.
+
+## Language policy (intentional)
+
+```
+course implementation   → ISO C++20
+strict-C track cores    → strict ISO C17 (docs/CURRICULUM-foundations-c17.md)
+grading tooling         → C++20 / Python
+platform frontend       → anything, OUTSIDE the core
+```
+
+Root CMake declares both standards; never let a core drift languages
+mid-chapter. Platform headers stay out of every core (`make lint-portable`).
+
+## Bus transactions are first-class test data
+
+Register-level assertions can pass while memory accesses run in the wrong
+order. Whenever a chapter's CPU/device touches MMIO, DMA, or serial
+peripherals, record and pin the transaction sequence too:
+
+```cpp
+struct BusTxn {
+    uint64_t cycle;
+    uint32_t address;
+    uint32_t data;
+    uint8_t  width;   // 1/2/4 bytes
+    uint8_t  write;   // 1 = write, 0 = read
+};
+```
+
+A step result may then be verified as: architectural state + cycle count +
+exact bus transaction sequence. Existing exemplars: ch19 `RecordingBus`,
+ch24 DMA accounting.
+
+## Trace format versioning
+
+Every golden trace file begins with a header line `EMU_TRACE_V1`. Comparers
+reject unknown versions instead of mis-parsing future formats.
+
+## Golden metadata schema
+
+Next to every generated fixture set, provenance.md (or a sidecar .json)
+records:
+
+```json
+{
+  "fixture": "adc_case_42.bin",
+  "generated_by": "reference_cpu",
+  "validated_against": "external_suite_or_manual_proof",
+  "generator_seed": 1234,
+  "format": "EMU_TRACE_V1"
+}
+```
+
+Running the reference twice proves DETERMINISM only. Correctness comes from
+validating against an independent oracle — public test suite, PSX-SPX /
+NESdev-defined behavior, or a hand-proved vector — before minting goldens.
+
+## Assertions vs hardware quirks
+
+Assert programmer invariants (`assert(idx < TABLE_SIZE)`) freely. Never use
+assertions to declare real hardware behavior impossible: if the silicon does
+it, the emulator must do it. Weird-but-legal gets implemented and tested,
+not asserted away.
+
+## Unknown MMIO diagnostics
+
+Never silently `return 0` for unimplemented space. Log deterministically:
+
+```
+UNHANDLED READ8 addr=0x4018 pc=0xC123 cyc=44102
+```
+
+so failures arrive with clues attached.
+
+## Terminology
+
+Committed grading cases are called **unseen tests** (they exercise
+specifications learners have not practiced). The directory
+`tests/hidden/` is historical naming and stays for path stability.

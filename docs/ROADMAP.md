@@ -21,6 +21,15 @@ produce specification → architecture → CPU → bus → devices → scheduler
 tests → debugger → working emulator without a tutorial. The Final Coding
 Test (`docs/final-challenge.md`, MiniConsole-32) is exactly that exam.
 
+## Progression model: prerequisite DAG, not a linear queue
+
+`course-manifest.json` declares each chapter's `requires`, `track`, and
+`optional` flags; `progress.py` unlocks a chapter the moment its explicit
+prerequisites pass. The default chain is linear, but the NES track may jump
+straight to PS1 (set `requires` of `ch38_ps1_r3000a_cpu` to the ch18–ch24
+gate set and mark GB/GBA/SNES chapters `optional`) — chapter numbers are
+identifiers, not positions.
+
 ## Primary references
 
 | System | Reference | Testing |

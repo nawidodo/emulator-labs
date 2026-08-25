@@ -2,7 +2,7 @@
 
 A gated laboratory course that takes you from bit manipulation to a
 PlayStation-class emulator. Modeled on Linux Kernel Labs: generated skeletons
-with explicit `TODO(n)` checkpoints, reference solutions, hidden coding tests,
+with explicit `TODO(n)` checkpoints, reference solutions, committed unseen coding tests,
 and hard chapter gates. Not a playlist of tutorials.
 
 Derived from `docs/CURRICULUM-source.md`.
@@ -39,9 +39,9 @@ current gate passes all five components.
 templates/   source of truth: lectures + annotated exercises (solutions inside)
 skels/       YOUR working copies (generated)
 solutions/   full reference trees (generated)
-tests/       public fixtures + hidden grade manifests per chapter
+tests/       public fixtures + unseen grade manifests per chapter
 tools/labs/  generate.py  skeleton generator (@LABS marker grammar)
-             grade.py     hidden-test runner      progress.py gate tracker
+             grade.py     unseen-test runner      progress.py gate tracker
              compare_trace.py / hash_frame.py    golden differ tools
              verify_chapter.sh isolated author verification
 roms/        homebrew/test area — commercial ROMs NEVER enter this repo
@@ -58,7 +58,7 @@ third_party/ labstest.hpp minimal deterministic C++20 test framework
 | `make build` / `make test` | configure+build / ctest with failure output |
 | `make debug` | Debug build |
 | `make sanitize` | ASan+UBSan build + tests |
-| `GRADE_TARGETS=chNN make grade` | hidden coding-test cases for a chapter |
+| `GRADE_TARGETS=chNN make grade` | unseen coding-test cases for a chapter |
 | `make trace-test` | batch golden-trace comparison |
 | `make solutions` | regenerate full solution trees |
 | `make solution-build` / `solution-test` | build & run the reference trees |

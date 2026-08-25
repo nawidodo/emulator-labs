@@ -85,12 +85,12 @@ third_party/ labstest.hpp minimal deterministic C++20 test framework
 
 ## Build troubleshooting
 
-Builds default to 4 parallel jobs. On constrained machines:
+Builds are serial by default for reliability. Scale up explicitly on capable machines:
 
 ```bash
-make build JOBS=2          # fewer compiler processes
-make build JOBS=1          # serial
-CMAKE_BUILD_PARALLEL_LEVEL=2 make build
+make build JOBS=2
+make build JOBS=4
+CMAKE_BUILD_PARALLEL_LEVEL=4 make build
 ```
 
 ## Rules of the house

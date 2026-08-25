@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "known_good_commit": "8d517c8",
+  "known_good_commit": "911295f",
   "reference": {
     "build": "GREEN",
     "ctest": "414/414 GREEN (build-solutions)",
@@ -249,5 +249,6 @@
   "language_policy": {
     "canonical_learner_language": "ISO C++20 (current executable course)",
     "strict_c17": "alternate track; recommended long-term direction \u2014 migration not started"
-  }
+  },
+  "snapshot_semantics": "This file is a LAST-CERTIFIED CHECKPOINT: values describe the commit in known_good_commit, refreshed after each green sweep. CI (verification-current.json) will carry the live state when generated."
 }

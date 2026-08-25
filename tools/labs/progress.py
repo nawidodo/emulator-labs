@@ -15,7 +15,8 @@ Usage:
   progress.py status
   progress.py mark <chapter> <component> passed|failed|active
   progress.py unlock-check <chapter>
-Components: exercises starter debug challenge coding_test
+Ordinary lab components: exercises starter debug challenge coding_test
+Integration gates/capstones define components in course-manifest.json.
 """
 
 from __future__ import annotations

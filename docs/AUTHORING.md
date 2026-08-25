@@ -143,11 +143,11 @@ After authoring a chapter you MUST verify from repo root:
 
 ```bash
 python3 tools/labs/generate.py --force --targets chNN_slug
-cmake -S . -B build && cmake --build build -j && \
+cmake -S . -B build && cmake --build build --parallel 1 && \
   ctest --test-dir build --output-on-failure          # skeletons RED (or skipped)
 python3 tools/labs/generate.py --mode solution --force --targets chNN_slug
 cmake -S . -B build-solutions -DLABS_BUILD_SOLUTIONS=On && \
-  cmake --build build-solutions -j && \
+  cmake --build build-solutions --parallel 1 && \
   ctest --test-dir build-solutions --output-on-failure  # solutions ALL GREEN
 python3 tools/labs/grade.py --repo . chNN_slug          # unseen manifest passes
 ```

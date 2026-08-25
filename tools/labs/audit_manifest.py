@@ -112,6 +112,78 @@ def main() -> int:
         dupes = sorted(o for o in orders if orders.count(o) > 1)
         problems.append(f"display_order duplicates: {dupes}")
 
+    # 9. Redundant-edge WARNINGS (fresh-review #14): an edge A->B is
+    #    redundant when B stays reachable from A's other prerequisites.
+    #    Warning-only: the graph may carry these while being simplified.
+    for cid, e in chapters.items():
+        for pre in list(e.get("requires", [])):
+            reduced = [r for r in e.get("requires", []) if r != pre]
+            frontier = list(reduced)
+            seen_set = set(frontier)
+            while frontier:
+                c = frontier.pop()
+                for d in dependents.get(c, []):
+                    if d == cid:
+                        continue
+                    if d not in seen_set:
+                        seen_set.add(d)
+                        frontier.append(d)
+            if pre in seen_set:
+                print(f"[audit] WARNING: redundant edge {cid} -> {pre} "
+                      f"(reachable via other prerequisites)")
+
+    # 10. Track-reachability policy tests (fresh-review #15).
+    def reachable_from(target, roots):
+        seen_set, frontier = set(roots), list(roots)
+        while frontier:
+            c = frontier.pop()
+            for d in dependents.get(c, []):
+                if d not in seen_set:
+                    seen_set.add(d)
+                    frontier.append(d)
+        return target in seen_set
+
+    core_roots = [c for c, e in chapters.items()
+                  if not e.get("requires", [])]
+    ps1_cap = "ch51_ps1_capstone"
+    gate = "ch52_nes_playable_gate"
+    core_tracks = {"core", "nes-depth", "ps1"}
+    # Allowed-track subgraph: chapters whose track intersects core_tracks
+    # (classic-depth-only chapters are invisible to the ps1 route).
+    allowed = {c for c, e in chapters.items()
+               if set(e.get("track", [])) & core_tracks}
+    core_deps = {c: [r for r in e.get("requires", []) if r in allowed]
+                 for c, e in chapters.items() if c in allowed}
+    frontier = [c for c in allowed if not core_deps.get(c, [])]
+    seen_set = set(frontier)
+    while frontier:
+        c = frontier.pop()
+        for d, reqs in core_deps.items():
+            if c in reqs and d not in seen_set:
+                seen_set.add(d)
+                frontier.append(d)
+    if ps1_cap not in seen_set:
+        problems.append(f"policy: {ps1_cap} unreachable through "
+                        f"core/nes-depth/ps1 tracks alone")
+    if gate not in seen_set:
+        problems.append(f"policy: {gate} unreachable through the core route")
+
+    # Classic-depth route remains internally reachable when selected.
+    classic = {c for c, e in chapters.items()
+               if "classic-depth" in e.get("track", [])}
+    c_roots = [c for c in classic
+               if all(r not in classic for r in chapters[c]
+                      .get("requires", []))]
+    c_seen, c_frontier = set(c_roots), list(c_roots)
+    while c_frontier:
+        c = c_frontier.pop()
+        for d in classic:
+            if c in chapters[d].get("requires", []) and d not in c_seen:
+                c_seen.add(d)
+                c_frontier.append(d)
+    if len(c_seen) != len(classic):
+        problems.append("policy: classic-depth branch not fully reachable")
+
     for pr in problems:
         print(f"[audit] PROBLEM: {pr}")
     print(f"[audit] {len(chapters)} chapters, {len(roots)} roots, "

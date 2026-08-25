@@ -69,13 +69,17 @@ third_party/ labstest.hpp minimal deterministic C++20 test framework
 - Cores are headless-first and deterministic (`StepResult step()`, integer
   guest clocks, hashed frames/traces).
 - Every CPU gets a disassembler early; every device is instantiable alone.
-- Golden data comes from running the reference twice, never hand-invented.
+- Goldens must be deterministic AND independently validated against an
+  accepted oracle/spec/test before becoming trusted fixtures
+  (see docs/AUTHORING.md).
 - Commercial ROM images are never committed; external suites attach via your
   own dumps (`roms/`, `requires_rom` gating).
 
 ## Status
 
-Chapter availability is tracked in `progress.json`; view any time:
+Learner progress lives in gitignored `.emulator-labs/progress.json`;
+course structure lives in `course-manifest.json`; author verification in
+`verification.json`. View progress any time:
 
 ```bash
 python3 tools/labs/progress.py status

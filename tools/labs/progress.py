@@ -119,7 +119,20 @@ def requires_for(ch: str) -> list[str]:
 
 
 def chapters_in_order(data: dict) -> list[str]:
-    return sorted(data["chapters"].keys())
+    """Presentation order: manifest display_order (fresh-review #8),
+    falling back to lexicographic ids."""
+    disp = manifest_display_order()
+    return sorted(data["chapters"].keys(),
+                  key=lambda c: (disp.get(c, 10_000), c))
+
+
+def manifest_display_order() -> dict:
+    mf = repo() / "course-manifest.json"
+    if not mf.is_file():
+        return {}
+    mch = json.loads(mf.read_text()).get("chapters", {})
+    return {cid: e.get("display_order", 10_000 + i)
+            for i, (cid, e) in enumerate(sorted(mch.items()))}
 
 
 def gate_passed(st: dict) -> bool:
@@ -191,14 +204,59 @@ def manifest_entry(ch: str) -> dict:
     return {}
 
 
-def active_track(data: dict) -> str:
-    return (data.get("student", {}) or {}).get("track", "") or ""
+def selected_tracks(data: dict) -> set[str]:
+    st = (data.get("student", {}) or {})
+    sel = st.get("selected_tracks") or ([st["track"]] if st.get("track")
+                                        else [])
+    return set(sel)
+
+
+def cmd_tracks(ns: argparse.Namespace) -> int:
+    data = load()
+    mf = repo() / "course-manifest.json"
+    valid = json.loads(mf.read_text()).get("tracks", []) if mf.is_file() \
+        else []
+    sel = selected_tracks(data)
+    print("tracks:", ", ".join(valid))
+    print("selected:", ", ".join(sorted(sel)) or "(none — full course)")
+    return 0
+
+
+def cmd_track_add(ns: argparse.Namespace) -> int:
+    data = load()
+    mf = repo() / "course-manifest.json"
+    valid = json.loads(mf.read_text()).get("tracks", []) if mf.is_file() \
+        else []
+    if ns.track_name not in valid:
+        sys.exit(f"error: unknown track '{ns.track_name}' (valid: {valid})")
+    st = data.setdefault("student", {})
+    sel = set(st.get("selected_tracks", []))
+    sel.add(ns.track_name)
+    st["selected_tracks"] = sorted(sel)
+    save(data)
+    print("selected tracks:", ", ".join(sorted(sel)))
+    nxt = next_open_chapter(data)
+    print("next open chapter:", nxt or "(none)")
+    return 0
+
+
+def cmd_track_remove(ns: argparse.Namespace) -> int:
+    data = load()
+    st = data.setdefault("student", {})
+    sel = set(st.get("selected_tracks", []))
+    sel.discard(ns.track_name)
+    st["selected_tracks"] = sorted(sel)
+    save(data)
+    print("selected tracks:", ", ".join(sorted(sel)) or "(none)")
+    nxt = next_open_chapter(data)
+    print("next open chapter:", nxt or "(none)")
+    return 0
 
 
 def next_open_chapter(data: dict) -> str:
     """Earliest unlocked, unfinished chapter. With an active track set,
     optional chapters outside that track are deferred to the end."""
-    track = active_track(data)
+    sel = selected_tracks(data)
     on_track, off_track = [], []
     for c in chapters_in_order(data):
         st = data["chapters"][c]
@@ -206,8 +264,8 @@ def next_open_chapter(data: dict) -> str:
             continue
         mf_entry = manifest_entry(c)
         optional = mf_entry.get("optional", False)
-        tracks = mf_entry.get("track", [])
-        if track and optional and track not in tracks:
+        tracks = set(mf_entry.get("track", []))
+        if sel and optional and not (sel & tracks):
             off_track.append(c)
         else:
             on_track.append(c)
@@ -215,15 +273,12 @@ def next_open_chapter(data: dict) -> str:
 
 
 def cmd_track(ns: argparse.Namespace) -> int:
+    """Compatibility wrapper: 'track X' == select track X alone."""
     data = load()
-    valid = json.loads((repo() / "course-manifest.json").read_text()) \
-        .get("tracks", []) if (repo() / "course-manifest.json").is_file() \
-        else []
-    if ns.track_name and ns.track_name not in valid:
-        sys.exit(f"error: unknown track '{ns.track_name}' (valid: {valid})")
-    data.setdefault("student", {})["track"] = ns.track_name or ""
+    st = data.setdefault("student", {})
+    st["selected_tracks"] = [ns.track_name] if ns.track_name else []
     save(data)
-    print(f"active track: {ns.track_name or '(none — full linear course)'}")
+    print(f"selected tracks: {ns.track_name or '(none — full course)'}")
     nxt = next_open_chapter(data)
     print(f"next open chapter: {nxt or '(none)'}")
     return 0
@@ -248,12 +303,18 @@ def main() -> int:
     u.add_argument("chapter")
     t = sub.add_parser("track")
     t.add_argument("track_name", nargs="?", default="",
-                   help="foundations-c17 | core | nes-depth | "
-                        "classic-depth | ps1 (empty clears)")
+                   help="select one track (alias for track-add)")
+    sub.add_parser("tracks")
+    ta = sub.add_parser("track-add")
+    ta.add_argument("track_name")
+    tr = sub.add_parser("track-remove")
+    tr.add_argument("track_name")
     args = ap.parse_args()
     try:
         table = {"status": cmd_status, "mark": cmd_mark,
-                 "track": cmd_track,
+                 "track": cmd_track, "tracks": cmd_tracks,
+                 "track-add": cmd_track_add,
+                 "track-remove": cmd_track_remove,
                  "unlock-check": cmd_unlock_check}
         return table[args.cmd](args)
     except BrokenPipeError:

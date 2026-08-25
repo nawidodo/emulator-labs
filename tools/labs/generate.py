@@ -308,7 +308,18 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"  {ch.name}/{e}")
         return 0
 
-    if not args.targets:
+    if args.targets == ["all"]:
+        troot = repo / "templates"
+        track = args.track or os.environ.get("TRACK", "").strip()
+        if track:
+            troot = repo / "tracks" / track / "templates"
+            if not troot.is_dir():
+                sys.exit(f"error: unknown track '{track}'")
+        args.targets = sorted(d.name for d in troot.iterdir()
+                              if d.is_dir() and d.name.startswith("ch"))
+        if not args.targets:
+            ap.error("--targets all matched no chapter directories")
+    elif not args.targets:
         ap.error("no --targets given (or use --list)")
 
     failures = 0

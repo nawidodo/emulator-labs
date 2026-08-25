@@ -33,6 +33,12 @@ jobs:
             echo "CXX=g++" >> "$GITHUB_ENV"
           fi
 
+      # Fresh checkouts carry templates only: mint the reference trees
+      # first (the glob-based build would otherwise configure an empty
+      # project and pass vacuously).
+      - name: Generate reference solution trees
+        run: python3 tools/labs/generate.py --mode solution --force --targets all
+
       # Reference implementations only: learner skeletons are expected RED.
       - name: Configure (solutions, assertions on)
         run: cmake -S . -B build-solutions -DLABS_BUILD_SOLUTIONS=On

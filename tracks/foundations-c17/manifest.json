@@ -1,0 +1,1048 @@
+{
+  "course": "foundations-c17",
+  "version": 1,
+  "language_policy": {
+    "core": "strict ISO C17",
+    "boundary": "C ABI"
+  },
+  "chapters": {
+    "c17_001": {
+      "title": "Chapter 1 \u2014 Course Contract and Repository Layout",
+      "requires": [],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_002": {
+      "title": "Chapter 2 \u2014 C17 Integer Model for Emulation",
+      "requires": [
+        "c17_001"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_003": {
+      "title": "Chapter 3 \u2014 Pointers, Arrays, Structs, and Ownership",
+      "requires": [
+        "c17_002"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_004": {
+      "title": "Chapter 4 \u2014 Build System, Assertions, and Sanitizers",
+      "requires": [
+        "c17_003"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_005": {
+      "title": "Chapter 5 \u2014 Deterministic Test Harness",
+      "requires": [
+        "c17_004"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_006": {
+      "title": "Chapter 6 \u2014 Hex Dumps, Trace Files, and First-Divergence Debugging",
+      "requires": [
+        "c17_005"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_007": {
+      "title": "Chapter 7 \u2014 Portable Core vs Host Frontend",
+      "requires": [
+        "c17_006"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_008": {
+      "title": "Chapter 8 \u2014 Stable C ABI Primer",
+      "requires": [
+        "c17_007"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_009": {
+      "title": "Chapter 9 \u2014 CHIP-8 Machine State",
+      "requires": [
+        "c17_008"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_010": {
+      "title": "Chapter 10 \u2014 ROM Loading and Address Space",
+      "requires": [
+        "c17_009"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_011": {
+      "title": "Chapter 11 \u2014 Fetch",
+      "requires": [
+        "c17_010"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_012": {
+      "title": "Chapter 12 \u2014 Decode",
+      "requires": [
+        "c17_011"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_013": {
+      "title": "Chapter 13 \u2014 Control Flow",
+      "requires": [
+        "c17_012"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_014": {
+      "title": "Chapter 14 \u2014 ALU and VF Semantics",
+      "requires": [
+        "c17_013"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_015": {
+      "title": "Chapter 15 \u2014 Index Register and Memory Transfers",
+      "requires": [
+        "c17_014"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_016": {
+      "title": "Chapter 16 \u2014 Randomness as an Injected Service",
+      "requires": [
+        "c17_015"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_017": {
+      "title": "Chapter 17 \u2014 Framebuffer and XOR Sprite Drawing",
+      "requires": [
+        "c17_016"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_018": {
+      "title": "Chapter 18 \u2014 Timers and 60 Hz Timebase",
+      "requires": [
+        "c17_017"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_019": {
+      "title": "Chapter 19 \u2014 Keypad Input",
+      "requires": [
+        "c17_018"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_020": {
+      "title": "Chapter 20 \u2014 Compatibility Quirks",
+      "requires": [
+        "c17_019"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_021": {
+      "title": "Chapter 21 \u2014 Instruction Trace and Debugger",
+      "requires": [
+        "c17_020"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_022": {
+      "title": "Chapter 22 \u2014 CHIP-8 Validation Gate",
+      "requires": [
+        "c17_021"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_023": {
+      "title": "Chapter 23 \u2014 6502 Architectural State",
+      "requires": [
+        "c17_022"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_024": {
+      "title": "Chapter 24 \u2014 6502 Bus Interface",
+      "requires": [
+        "c17_023"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_025": {
+      "title": "Chapter 25 \u2014 Opcode Table and Instruction Metadata",
+      "requires": [
+        "c17_024"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_026": {
+      "title": "Chapter 26 \u2014 Immediate and Implied Addressing",
+      "requires": [
+        "c17_025"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_027": {
+      "title": "Chapter 27 \u2014 Zero Page Addressing",
+      "requires": [
+        "c17_026"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_028": {
+      "title": "Chapter 28 \u2014 Absolute Addressing",
+      "requires": [
+        "c17_027"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_029": {
+      "title": "Chapter 29 \u2014 Indirect Addressing and the JMP Bug",
+      "requires": [
+        "c17_028"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_030": {
+      "title": "Chapter 30 \u2014 Indexed-Indirect and Indirect-Indexed",
+      "requires": [
+        "c17_029"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_031": {
+      "title": "Chapter 31 \u2014 Load and Store Instructions",
+      "requires": [
+        "c17_030"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_032": {
+      "title": "Chapter 32 \u2014 Transfer and Stack Instructions",
+      "requires": [
+        "c17_031"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_033": {
+      "title": "Chapter 33 \u2014 Arithmetic: ADC",
+      "requires": [
+        "c17_032"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_034": {
+      "title": "Chapter 34 \u2014 Arithmetic: SBC and Compare",
+      "requires": [
+        "c17_033"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_035": {
+      "title": "Chapter 35 \u2014 Logic and Bit Operations",
+      "requires": [
+        "c17_034"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_036": {
+      "title": "Chapter 36 \u2014 Branches and Relative Offsets",
+      "requires": [
+        "c17_035"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_037": {
+      "title": "Chapter 37 \u2014 Jumps, Subroutines, and Returns",
+      "requires": [
+        "c17_036"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_038": {
+      "title": "Chapter 38 \u2014 Interrupt Model: RESET, IRQ, NMI, BRK",
+      "requires": [
+        "c17_037"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_039": {
+      "title": "Chapter 39 \u2014 Cycle Accounting",
+      "requires": [
+        "c17_038"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_040": {
+      "title": "Chapter 40 \u2014 Unofficial Opcodes: Policy and Diagnostics",
+      "requires": [
+        "c17_039"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_041": {
+      "title": "Chapter 41 \u2014 6502 Trace Harness",
+      "requires": [
+        "c17_040"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_042": {
+      "title": "Chapter 42 \u2014 6502 CPU Validation Gate",
+      "requires": [
+        "c17_041"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_043": {
+      "title": "Chapter 43 \u2014 NES Hardware Overview",
+      "requires": [
+        "c17_042"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_044": {
+      "title": "Chapter 44 \u2014 CPU Memory Map",
+      "requires": [
+        "c17_043"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_045": {
+      "title": "Chapter 45 \u2014 Cartridge File Format: iNES 1.0",
+      "requires": [
+        "c17_044"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_046": {
+      "title": "Chapter 46 \u2014 PRG ROM and CHR Storage",
+      "requires": [
+        "c17_045"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_047": {
+      "title": "Chapter 47 \u2014 Mapper Interface",
+      "requires": [
+        "c17_046"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_048": {
+      "title": "Chapter 48 \u2014 Mapper 0 / NROM",
+      "requires": [
+        "c17_047"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_049": {
+      "title": "Chapter 49 \u2014 PPU Memory Map",
+      "requires": [
+        "c17_048"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_050": {
+      "title": "Chapter 50 \u2014 PPU Register Interface",
+      "requires": [
+        "c17_049"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_051": {
+      "title": "Chapter 51 \u2014 Open Bus and Unimplemented Access Diagnostics",
+      "requires": [
+        "c17_050"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_052": {
+      "title": "Chapter 52 \u2014 PPU Timing Model",
+      "requires": [
+        "c17_051"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_053": {
+      "title": "Chapter 53 \u2014 Background Tile Fetch Pipeline",
+      "requires": [
+        "c17_052"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_054": {
+      "title": "Chapter 54 \u2014 Scrolling Registers v/t/x/w",
+      "requires": [
+        "c17_053"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_055": {
+      "title": "Chapter 55 \u2014 Background Pixel Selection",
+      "requires": [
+        "c17_054"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_056": {
+      "title": "Chapter 56 \u2014 OAM and Sprite Data",
+      "requires": [
+        "c17_055"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_057": {
+      "title": "Chapter 57 \u2014 Sprite Evaluation",
+      "requires": [
+        "c17_056"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_058": {
+      "title": "Chapter 58 \u2014 Sprite Pattern Fetch and Flipping",
+      "requires": [
+        "c17_057"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_059": {
+      "title": "Chapter 59 \u2014 Sprite/Background Composition",
+      "requires": [
+        "c17_058"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_060": {
+      "title": "Chapter 60 \u2014 Sprite Zero Hit",
+      "requires": [
+        "c17_059"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_061": {
+      "title": "Chapter 61 \u2014 Palette and NES Color Output",
+      "requires": [
+        "c17_060"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_062": {
+      "title": "Chapter 62 \u2014 Frame Boundary and Video Buffer API",
+      "requires": [
+        "c17_061"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_063": {
+      "title": "Chapter 63 \u2014 PPU Validation Gate",
+      "requires": [
+        "c17_062"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_064": {
+      "title": "Chapter 64 \u2014 NES Controller Electrical/Serial Model",
+      "requires": [
+        "c17_063"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_065": {
+      "title": "Chapter 65 \u2014 Host Input Boundary",
+      "requires": [
+        "c17_064"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_066": {
+      "title": "Chapter 66 \u2014 OAM DMA",
+      "requires": [
+        "c17_065"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_067": {
+      "title": "Chapter 67 \u2014 APU Architecture Overview",
+      "requires": [
+        "c17_066"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_068": {
+      "title": "Chapter 68 \u2014 Pulse Channels",
+      "requires": [
+        "c17_067"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_069": {
+      "title": "Chapter 69 \u2014 Triangle Channel",
+      "requires": [
+        "c17_068"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_070": {
+      "title": "Chapter 70 \u2014 Noise Channel",
+      "requires": [
+        "c17_069"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_071": {
+      "title": "Chapter 71 \u2014 Frame Counter",
+      "requires": [
+        "c17_070"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_072": {
+      "title": "Chapter 72 \u2014 Basic Mixer and PCM Output",
+      "requires": [
+        "c17_071"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_073": {
+      "title": "Chapter 73 \u2014 DMC Concepts and Deferred Accuracy",
+      "requires": [
+        "c17_072"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_074": {
+      "title": "Chapter 74 \u2014 Master Scheduler",
+      "requires": [
+        "c17_073"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_075": {
+      "title": "Chapter 75 \u2014 NMI/IRQ Integration",
+      "requires": [
+        "c17_074"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_076": {
+      "title": "Chapter 76 \u2014 Audio/Video Synchronization",
+      "requires": [
+        "c17_075"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_077": {
+      "title": "Chapter 77 \u2014 Opaque NES Handle and Public C API",
+      "requires": [
+        "c17_076"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_078": {
+      "title": "Chapter 78 \u2014 Versioned Configuration Structs",
+      "requires": [
+        "c17_077"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_079": {
+      "title": "Chapter 79 \u2014 ROM Loading Boundary",
+      "requires": [
+        "c17_078"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_080": {
+      "title": "Chapter 80 \u2014 Video Frame ABI",
+      "requires": [
+        "c17_079"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_081": {
+      "title": "Chapter 81 \u2014 Audio FIFO ABI",
+      "requires": [
+        "c17_080"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_082": {
+      "title": "Chapter 82 \u2014 Input ABI",
+      "requires": [
+        "c17_081"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_083": {
+      "title": "Chapter 83 \u2014 Save-State Design",
+      "requires": [
+        "c17_082"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_084": {
+      "title": "Chapter 84 \u2014 Debugger Core",
+      "requires": [
+        "c17_083"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_085": {
+      "title": "Chapter 85 \u2014 Golden Frame and Audio Regression",
+      "requires": [
+        "c17_084"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_086": {
+      "title": "Chapter 86 \u2014 Boot a Tiny NROM Homebrew",
+      "requires": [
+        "c17_085"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_087": {
+      "title": "Chapter 87 \u2014 Boot a Simple NROM Game",
+      "requires": [
+        "c17_086"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_088": {
+      "title": "Chapter 88 \u2014 Playable Input Gate",
+      "requires": [
+        "c17_087"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_089": {
+      "title": "Chapter 89 \u2014 Video Gate",
+      "requires": [
+        "c17_088"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_090": {
+      "title": "Chapter 90 \u2014 Basic Audio Gate",
+      "requires": [
+        "c17_089"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_091": {
+      "title": "Chapter 91 \u2014 Determinism Gate",
+      "requires": [
+        "c17_090"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_092": {
+      "title": "Chapter 92 \u2014 Portable-Core Gate",
+      "requires": [
+        "c17_091"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_093": {
+      "title": "Chapter 93 \u2014 NES Final Explain Gate",
+      "requires": [
+        "c17_092"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": false
+    },
+    "c17_094": {
+      "title": "Chapter 94 \u2014 Mapper 2 / UxROM",
+      "requires": [
+        "c17_093"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_095": {
+      "title": "Chapter 95 \u2014 Mapper 3 / CNROM",
+      "requires": [
+        "c17_094"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_096": {
+      "title": "Chapter 96 \u2014 Mapper 1 / MMC1",
+      "requires": [
+        "c17_095"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_097": {
+      "title": "Chapter 97 \u2014 Mapper 4 / MMC3 Concepts",
+      "requires": [
+        "c17_096"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_098": {
+      "title": "Chapter 98 \u2014 More Accurate DMC",
+      "requires": [
+        "c17_097"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_099": {
+      "title": "Chapter 99 \u2014 Cycle-Accurate PPU Edge Cases",
+      "requires": [
+        "c17_098"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_100": {
+      "title": "Chapter 100 \u2014 Rewind and Run-Ahead",
+      "requires": [
+        "c17_099"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_101": {
+      "title": "Chapter 101 \u2014 Movie Input Recording",
+      "requires": [
+        "c17_100"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_102": {
+      "title": "Chapter 102 \u2014 Frontend Branches",
+      "requires": [
+        "c17_101"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_103": {
+      "title": "Chapter 103 \u2014 Performance Profiling",
+      "requires": [
+        "c17_102"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    },
+    "c17_104": {
+      "title": "Chapter 104 \u2014 Optional GBA/SNES Study Branch",
+      "requires": [
+        "c17_103"
+      ],
+      "track": [
+        "foundations-c17"
+      ],
+      "optional": true
+    }
+  }
+}

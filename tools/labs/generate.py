@@ -28,6 +28,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -138,13 +139,14 @@ def render(segments: list[tuple], todo: int | None,
     return "\n".join(out) + "\n"
 
 
-def resolve_target(repo: Path, target: str) -> Path:
+def resolve_target(repo: Path, target: str,
+                   templates_root: Path | None = None) -> Path:
     """Accept 'ch03_slug', 'ch03', 'ch03_slug/02_fetch' or 'ch03/02'."""
-    cand = repo / "templates" / target
+    tdir = templates_root if templates_root else repo / "templates"
+    cand = tdir / target
     if cand.is_dir():
         return cand
     parts = target.split("/")
-    tdir = repo / "templates"
     matched = None
     for p in sorted(tdir.iterdir()):
         if p.is_dir() and (p.name == parts[0] or p.name.split("_", 1)[0] == parts[0]):
@@ -209,9 +211,11 @@ def _copy(src: Path, dst: Path, manifest: dict, force: bool,
 
 
 def generate(repo: Path, target: str, todo: int | None, mode: str,
-             force: bool, out_root: Path | None) -> Path:
-    resolved = resolve_target(repo, target)
-    templates_root = repo / "templates"
+             force: bool, out_root: Path | None,
+             track_root: Path | None = None) -> Path:
+    resolved = resolve_target(repo, target, track_root)
+    templates_root = (track_root if track_root is not None
+                      else repo / "templates")
 
     # Chapter root + relative position of the generated subtree.
     rel = resolved.relative_to(templates_root)
@@ -240,8 +244,8 @@ def generate(repo: Path, target: str, todo: int | None, mode: str,
         text = src.read_text(errors="replace")
         has_markers = "@LABS-BEGIN" in text
         if has_markers and src.suffix in {
-                ".cpp", ".cc", ".cxx", ".h", ".hpp", ".py", ".mk", ".cmake",
-                ".txt", ".json", ".md"}:
+                ".c", ".cpp", ".cc", ".cxx", ".h", ".hpp", ".py", ".mk",
+                ".cmake", ".txt", ".json", ".md"}:
             # Same filter in BOTH modes so marker-bearing fixtures (data
             # files) are never flattened by --mode solution.
             # Bugged-stub exercises (90_debug, 99_coding_test) intentionally
@@ -275,6 +279,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--todo", type=int, default=None,
                     help="resume level: blocks with seq <= TODO emit solutions")
     ap.add_argument("--mode", choices=("skel", "solution"), default="skel")
+    ap.add_argument("--track", default=None,
+                    help="use tracks/<name>/templates as the source root "
+                         "(TRACK env var works too)")
     ap.add_argument("--force", action="store_true",
                     help="overwrite existing output files")
     ap.add_argument("--out", default=None, help="alternate output root")
@@ -283,8 +290,17 @@ def main(argv: list[str] | None = None) -> int:
     repo = Path(args.repo).resolve() if args.repo else \
         Path(__file__).resolve().parents[2]
 
+    track_root = None
+    track = (args.track or os.environ.get("TRACK", "")).strip() or None         if hasattr(args, "track") else os.environ.get("TRACK", "").strip() or None
+    del track
     if args.list:
-        for ch in sorted((repo / "templates").glob("ch*")):
+        list_root = repo / "templates"
+        env_track = os.environ.get("TRACK", "").strip()
+        if getattr(args, "track", None):
+            list_root = repo / "tracks" / args.track / "templates"
+        elif env_track:
+            list_root = repo / "tracks" / env_track / "templates"
+        for ch in sorted(list_root.glob("ch*")):
             exercises = sorted(p.name for p in ch.iterdir()
                                if p.is_dir() and p.name[0].isdigit())
             print(ch.name)
@@ -298,8 +314,17 @@ def main(argv: list[str] | None = None) -> int:
     failures = 0
     for target in args.targets:
         try:
+            track_root = None
+            track = args.track or os.environ.get("TRACK", "").strip() or None
+            if track:
+                candidate = repo / "tracks" / track / "templates"
+                if not candidate.is_dir():
+                    sys.exit(f"error: unknown track '{track}' "
+                             f"(missing {candidate})")
+                track_root = candidate
             generate(repo, target, args.todo, args.mode, args.force,
-                     Path(args.out).resolve() if args.out else None)
+                     Path(args.out).resolve() if args.out else None,
+                     track_root=track_root)
         except (TemplateError, SystemExit) as exc:
             print(f"error: {exc}", file=sys.stderr)
             failures += 1

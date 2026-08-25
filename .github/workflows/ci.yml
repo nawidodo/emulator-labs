@@ -52,3 +52,18 @@ jobs:
           mkdir -p build/skels
           ln -s "$(pwd)/build-solutions/solutions" build/skels
           python3 tools/labs/grade.py --repo .
+
+  windows-msvc:
+    # Best-effort portability probe (review #7). Not a merge blocker yet:
+    # MSVC-specific fixes land as they surface.
+    name: windows · msvc (best effort)
+    runs-on: windows-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure (solutions)
+        run: cmake -S . -B build-solutions -DLABS_BUILD_SOLUTIONS=On
+      - name: Build
+        run: cmake --build build-solutions --config Debug -j
+      - name: CTest
+        run: ctest --test-dir build-solutions -C Debug --output-on-failure

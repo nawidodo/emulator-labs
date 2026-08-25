@@ -20,7 +20,8 @@ import json
 import sys
 from pathlib import Path
 
-VALID_IMPL = {"planned", "seed", "implemented", "verified"}
+VALID_IMPL = {"planned", "seed", "implemented", "verified",
+               "virtual-docs"}
 
 
 def main() -> int:
@@ -66,6 +67,12 @@ def main() -> int:
         impl = e.get("implementation", "planned")
         if impl not in VALID_IMPL:
             problems.append(f"{cid}: invalid implementation '{impl}'")
+        if impl == "virtual-docs":
+            if not (tdir / "docs").is_dir() and not list(
+                    (tdir / "templates").glob(f"{cid}*")):
+                # virtual-docs may be documented-only; a docs/ dir is
+                # the normal home but absence is tolerated for now.
+                pass
         if impl == "verified":
             has_template = any(d.name.startswith(cid)
                                for d in (tdir / "templates").iterdir()

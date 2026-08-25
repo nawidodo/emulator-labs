@@ -13,13 +13,11 @@
         "foundations-c17"
       ],
       "optional": false,
-      "implementation": "planned"
+      "implementation": "virtual-docs"
     },
     "c17_002": {
       "title": "Chapter 2 \u2014 C17 Integer Model for Emulation",
-      "requires": [
-        "c17_001"
-      ],
+      "requires": [],
       "track": [
         "foundations-c17"
       ],
@@ -1149,5 +1147,5 @@
       "implementation": "planned"
     }
   },
-  "notes": "implementation: planned | seed | implemented | verified. Curriculum existence != lab availability."
+  "notes": "implementation: virtual-docs (course orientation) | planned | seed | implemented | verified."
 }

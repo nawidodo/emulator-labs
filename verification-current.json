@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-25T23:51:34",
-  "head": "56fe677",
+  "generated_at": "2026-08-26T00:02:36",
+  "head": "1335c67",
   "platform": "darwin",
   "reference_ctest": {
     "status": "green",
@@ -15,15 +15,21 @@
     "failed": 0,
     "total": 390
   },
+  "pipeline_grade": {
+    "status": "green",
+    "passed": 2,
+    "skipped": 0,
+    "failed": 0
+  },
   "grader_self_tests": {
     "status": "green",
     "ran": 12,
     "failed": 0
   },
-  "external_tracks": {
+  "external_courses": {
     "foundations-c17": {
-      "verified_nodes": 1,
-      "audit": "green"
+      "audit": "green",
+      "verified_nodes": 1
     }
   },
   "integration_reference": {

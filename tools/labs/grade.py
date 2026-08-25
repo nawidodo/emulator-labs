@@ -64,7 +64,9 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
 
     binary_raw = expand(case["binary"])
     if not binary_raw.strip():
-        if case.get("required_env"):
+        # Learner gates are HARD: a missing integration binary fails.
+        # Author/pipeline sweeps (--allow-missing-env) skip instead.
+        if case.get("required_env") and not ALLOW_MISSING_ENV:
             return False, ("required_env binary unset — the learner gate "
                            "must FAIL, not skip, when the integrated "
                            "binary is absent")
@@ -128,17 +130,33 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", default=".")
-    ap.add_argument("targets", nargs="*", help="chapter dirs under tests/hidden")
+    ap.add_argument("--pipeline", action="store_true",
+                    help="grade tests/pipeline manifests (author/CI "
+                         "self-checks) instead of learner gates")
+    ap.add_argument("--allow-missing-env", action="store_true",
+                    help="skip required_env cases whose binary is unset "
+                         "(author sweeps) instead of failing them")
+    ap.add_argument("targets", nargs="*",
+                    help="chapter dirs under tests/hidden (or pipeline)")
     args = ap.parse_args()
+    global ALLOW_MISSING_ENV
+    ALLOW_MISSING_ENV = args.allow_missing_env
     repo = Path(args.repo).resolve()
 
-    hidden_root = repo / "tests" / "hidden"
-    chapters = sorted(p for p in hidden_root.iterdir() if p.is_dir()) \
-        if not args.targets else [hidden_root / t for t in args.targets]
+    scan_root = hidden_root = repo / "tests" / "hidden"
+    if args.pipeline:
+        scan_root = repo / "tests" / "pipeline"
+        chapters_dirs = sorted(p for p in scan_root.iterdir() if p.is_dir())
+    else:
+        chapters_dirs = sorted(p for p in hidden_root.iterdir() if p.is_dir())
+    if args.targets:
+        wanted = set(args.targets)
+        base = scan_root if args.pipeline else hidden_root
+        chapters_dirs = [base / t for t in args.targets]
 
     results = []
     failed_chapters = []
-    for chdir in chapters:
+    for chdir in chapters_dirs:
         mf = chdir / "manifest.json"
         if not mf.is_file():
             continue

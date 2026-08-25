@@ -1,4 +1,5 @@
 #include "cpu.hpp"
+#include <cstdio>
 
 namespace i8080 {
 

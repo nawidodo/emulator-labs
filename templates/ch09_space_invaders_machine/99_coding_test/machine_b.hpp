@@ -4,6 +4,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 #include "cpu.hpp"
 #include "hardware.hpp"

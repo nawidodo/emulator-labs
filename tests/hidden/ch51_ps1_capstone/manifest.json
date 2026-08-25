@@ -1,12 +1,172 @@
 {
-  "description": "ch51 PS1 capstone hidden manifest. The capstone deliverable is an externally built student binary addressed via {{env:LABS_CAPSTONE_BIN}} (see templates/ch51_ps1_capstone/99_coding_test/manifest.example.json); those env-gated cases execute at final grading time. This always-on manifest carries the single out-of-the-box pipeline self-check, which must pass on any machine without any student implementation.",
+  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN",
   "cases": [
     {
-      "name": "selfcheck.pipeline_ok",
-      "binary": "tests/hidden/ch51_ps1_capstone/selfcheck/selfcheck.sh",
-      "args": ["{{tmp}}/pipeline.bin"],
+      "name": "capstone_cpu_trace",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/cpu_smoke.bin",
+        "--trace",
+        "{{tmp}}/cpu.trace",
+        "--cycles",
+        "20000",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/cpu.trace",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_dma_chain_state",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/dma_chain.bin",
+        "--cycles",
+        "100000",
+        "--headless"
+      ],
       "expect_exit": 0,
-      "expect_file_hash": {"file": "{{tmp}}/pipeline.bin", "fnv64": "A97463F5F76BA55D"}
+      "required_env": true
+    },
+    {
+      "name": "capstone_gte_vector",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/gte_vector.bin",
+        "--hash-frame",
+        "{{tmp}}/gte.bin",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/gte.bin",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_timer_irq_order",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/irq_order.bin",
+        "--hash-frame",
+        "{{tmp}}/evt.log",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/evt.log",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_cd_latency_read",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/cd_read.bin",
+        "--hash-frame",
+        "{{tmp}}/sector.bin",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/sector.bin",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_mdec_block",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/mdec_block.bin",
+        "--hash-frame",
+        "{{tmp}}/block.rgba",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/block.rgba",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_spu_stream",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/spu_stream.bin",
+        "--input-file",
+        "tests/hidden/ch51_ps1_capstone/scripts/spu.script",
+        "--frames",
+        "4000",
+        "--hash-frame",
+        "{{tmp}}/out.pcm",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/out.pcm",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_pad_transaction",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/pad_txn.bin",
+        "--input-file",
+        "tests/hidden/ch51_ps1_capstone/scripts/pad.script",
+        "--hash-frame",
+        "{{tmp}}/resp.bin",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/resp.bin",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_card_roundtrip",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/card_rt.bin",
+        "--hash-frame",
+        "{{tmp}}/card.mcr",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/card.mcr",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
+    },
+    {
+      "name": "capstone_boot_milestones",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/boot_milestones.bin",
+        "--cycles",
+        "5000000",
+        "--hash-frame",
+        "{{tmp}}/boot.log",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/boot.log",
+        "fnv64": "PINNED_AT_GRADING"
+      },
+      "required_env": true
     }
   ]
 }

@@ -10,6 +10,7 @@
 #include <cstdint>
 #include <span>
 #include <string>
+#include <cstdio>
 
 namespace chip8 {
 

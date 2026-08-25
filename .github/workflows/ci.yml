@@ -70,7 +70,8 @@ jobs:
         run: |
           rm -rf build/skels
           ln -s "$(pwd)/build-solutions/solutions" build/skels
-          python3 tools/labs/grade.py --repo .
+          python3 tools/labs/grade.py --allow-missing-env --repo .
+          python3 tools/labs/grade.py --pipeline --repo .
 
   windows-msvc:
     # Best-effort portability probe (review #7). Not a merge blocker yet:

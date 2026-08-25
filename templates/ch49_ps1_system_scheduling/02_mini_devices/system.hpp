@@ -16,6 +16,7 @@
 // Templated on the scheduler type so 90_debug can swap in its
 #include <array>
 #include <sstream>
+#include <cstdio>
 // instrumented scheduler without touching this wiring.
 #include <cstdint>
 #include <istream>

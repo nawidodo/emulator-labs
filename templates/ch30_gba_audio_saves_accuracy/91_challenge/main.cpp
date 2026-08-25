@@ -6,6 +6,7 @@
 #include "../01_psg_mix/psg.hpp"
 #include "../02_direct_sound/dsound.hpp"
 #include "labstest.hpp"
+#include <cstdio>
 
 using namespace gba;
 

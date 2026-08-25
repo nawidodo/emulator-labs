@@ -1,0 +1,11 @@
+{
+  "description": "ch52 author/CI pipeline verification",
+  "cases": [
+    {
+      "name": "selfcheck.pipeline_ok",
+      "binary": "tests/pipeline/ch52_nes_playable_gate/selfcheck/selfcheck.sh",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

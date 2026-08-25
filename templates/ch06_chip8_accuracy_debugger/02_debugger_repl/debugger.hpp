@@ -19,6 +19,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 #include "chip8.hpp"
 #include "trace.hpp"

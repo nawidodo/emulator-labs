@@ -1,11 +1,56 @@
 {
-  "description": "ch52 playable-NES gate. The capstone-style deliverable is graded externally via {{env:LABS_NES_GATE_BIN}} (see templates/ch52_nes_playable_gate/99_coding_test/manifest.example.json). This always-on manifest carries the pipeline self-check.",
+  "description": "ch52 playable-NES learner gate \u2014 requires your composed machine via LABS_NES_GATE_BIN",
   "cases": [
     {
-      "name": "selfcheck.pipeline_ok",
-      "binary": "tests/hidden/ch52_nes_playable_gate/selfcheck/selfcheck.sh",
-      "args": [],
-      "expect_exit": 0
+      "name": "gate_boot_and_video_golden",
+      "binary": "{{env:LABS_NES_GATE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/public/ch52_nes_playable_gate/roms/gate_homebrew.nes",
+        "--input-file",
+        "tests/public/ch52_nes_playable_gate/scripts/play.input",
+        "--frames",
+        "180",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "SET_BY_REFERENCE_RUN"
+      },
+      "required_env": true
+    },
+    {
+      "name": "gate_audio_segment_golden",
+      "binary": "{{env:LABS_NES_GATE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/public/ch52_nes_playable_gate/roms/gate_homebrew.nes",
+        "--input-file",
+        "tests/public/ch52_nes_playable_gate/scripts/play.input",
+        "--frames",
+        "180",
+        "--headless",
+        "--audio-out",
+        "{{tmp}}/a.pcm"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/a.pcm",
+        "fnv64": "SET_BY_REFERENCE_RUN"
+      },
+      "required_env": true
+    },
+    {
+      "name": "gate_replay_determinism",
+      "binary": "{{env:LABS_NES_GATE_BIN}}",
+      "args": [
+        "--selfcheck-replay"
+      ],
+      "expect_exit": 0,
+      "required_env": true
     }
   ]
 }

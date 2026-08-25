@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include <cstddef>
+#include <cstdio>
 
 #include <string>
 #include <vector>

@@ -27,6 +27,7 @@
 #include <functional>
 #include <string>
 #include <vector>
+#include <cstdarg>
 
 #include "../01_scheduler_core/scheduler.hpp"
 

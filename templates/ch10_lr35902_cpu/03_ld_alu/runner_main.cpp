@@ -13,6 +13,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 #include "bus.hpp"
 #include "cpu.hpp"

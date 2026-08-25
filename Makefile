@@ -8,13 +8,16 @@
 
 -include tools/labs/common.mk
 
-.PHONY: list skels build test debug sanitize grade trace-test accuracy solutions progress status clean deep-clean solution-build solution-test lint-portable audit
+.PHONY: list skels build test debug sanitize grade trace-test accuracy solutions progress status clean deep-clean solution-build solution-test lint-portable audit grade-pipeline
 
 lint-portable:
 	@$(PYTHON3) tools/labs/check_portable_core.py skels solutions
 
 audit:
 	@$(PYTHON3) tools/labs/audit_manifest.py
+
+grade-pipeline:
+	@$(PYTHON3) tools/labs/grade.py --repo . --pipeline
 list:
 	@$(PYTHON3) tools/labs/generate.py --list
 skels:

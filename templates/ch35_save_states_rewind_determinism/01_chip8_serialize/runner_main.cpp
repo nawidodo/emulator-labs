@@ -7,6 +7,7 @@
 // One frame = 10 instructions + one 60 Hz DT/ST tick.
 #include <cstdint>
 #include <cstdio>
+#include <cstring>
 // One frame = 10 instructions + one 60 Hz DT/ST tick.
 #include <fstream>
 #include <iterator>

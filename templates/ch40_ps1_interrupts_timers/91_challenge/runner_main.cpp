@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
+#include <cstring>
 
 #include "machine.hpp"
 

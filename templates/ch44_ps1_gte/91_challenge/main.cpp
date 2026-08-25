@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include <sstream>
+#include <cstdio>
 
 #include "labstest.hpp"
 #include "gte_conf.hpp"

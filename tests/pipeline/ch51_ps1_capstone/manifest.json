@@ -1,0 +1,17 @@
+{
+  "description": "ch51 author/CI pipeline verification",
+  "cases": [
+    {
+      "name": "selfcheck.pipeline_ok",
+      "binary": "tests/hidden/ch51_ps1_capstone/selfcheck/selfcheck.sh",
+      "args": [
+        "{{tmp}}/pipeline.bin"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/pipeline.bin",
+        "fnv64": "A97463F5F76BA55D"
+      }
+    }
+  ]
+}

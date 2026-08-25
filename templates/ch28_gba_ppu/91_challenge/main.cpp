@@ -4,6 +4,7 @@
 #include <vector>
 #include "labstest.hpp"
 #include "../05_compositor/ppu.hpp"
+#include <cstdio>
 
 using namespace gba;
 

@@ -32,14 +32,23 @@ produce specification → architecture → CPU → bus → devices → scheduler
 tests → debugger → working emulator without a tutorial. The Final Coding
 Test (`docs/final-challenge.md`, MiniConsole-32) is exactly that exam.
 
-## Progression model: prerequisite DAG, not a linear queue
+## Progression model: prerequisite DAG
 
-`course-manifest.json` declares each chapter's `requires`, `track`, and
-`optional` flags; `progress.py` unlocks a chapter the moment its explicit
-prerequisites pass. The default chain is linear, but the NES track may jump
-straight to PS1 (set `requires` of `ch38_ps1_r3000a_cpu` to the ch18–ch24
-gate set and mark GB/GBA/SNES chapters `optional`) — chapter numbers are
-identifiers, not positions.
+`course-manifest.json` is the source of truth. Each chapter lists DIRECT
+`requires[]`; a chapter unlocks when all of them pass. Chapter numbers are
+stable identifiers — they do not imply order or dependency.
+
+```text
+Required PS1 route:
+  foundations -> CHIP-8 -> 8080/SI -> NES (ch18-22, ch24)
+  -> playable NES gate (ch52) -> engineering (ch34-36) -> PS1 (ch38-51)
+
+Optional branches (never block PS1):
+  Game Boy (ch10-17), advanced mappers (ch23),
+  GBA (ch25-30), SNES (ch31-33), dynarec (ch37)
+```
+
+Select a route with `progress.py track ps1 | classic-depth`.
 
 ## Primary references
 

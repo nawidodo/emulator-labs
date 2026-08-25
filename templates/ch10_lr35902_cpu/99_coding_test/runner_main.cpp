@@ -13,6 +13,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <cstdio>
 
 #include "../03_ld_alu/bus.hpp"
 #include "../03_ld_alu/cpu.hpp"

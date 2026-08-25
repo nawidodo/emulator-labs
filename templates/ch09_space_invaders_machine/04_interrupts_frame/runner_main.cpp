@@ -15,6 +15,7 @@
 #include <iterator>
 #include <sstream>
 #include <string>
+#include <cstdio>
 
 #include "frame_machine.hpp"
 

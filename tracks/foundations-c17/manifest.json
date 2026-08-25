@@ -12,7 +12,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_002": {
       "title": "Chapter 2 \u2014 C17 Integer Model for Emulation",
@@ -22,7 +23,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "verified"
     },
     "c17_003": {
       "title": "Chapter 3 \u2014 Pointers, Arrays, Structs, and Ownership",
@@ -32,7 +34,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_004": {
       "title": "Chapter 4 \u2014 Build System, Assertions, and Sanitizers",
@@ -42,7 +45,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_005": {
       "title": "Chapter 5 \u2014 Deterministic Test Harness",
@@ -52,7 +56,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_006": {
       "title": "Chapter 6 \u2014 Hex Dumps, Trace Files, and First-Divergence Debugging",
@@ -62,7 +67,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_007": {
       "title": "Chapter 7 \u2014 Portable Core vs Host Frontend",
@@ -72,7 +78,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_008": {
       "title": "Chapter 8 \u2014 Stable C ABI Primer",
@@ -82,7 +89,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_009": {
       "title": "Chapter 9 \u2014 CHIP-8 Machine State",
@@ -92,7 +100,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_010": {
       "title": "Chapter 10 \u2014 ROM Loading and Address Space",
@@ -102,7 +111,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_011": {
       "title": "Chapter 11 \u2014 Fetch",
@@ -112,7 +122,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_012": {
       "title": "Chapter 12 \u2014 Decode",
@@ -122,7 +133,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_013": {
       "title": "Chapter 13 \u2014 Control Flow",
@@ -132,7 +144,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_014": {
       "title": "Chapter 14 \u2014 ALU and VF Semantics",
@@ -142,7 +155,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_015": {
       "title": "Chapter 15 \u2014 Index Register and Memory Transfers",
@@ -152,7 +166,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_016": {
       "title": "Chapter 16 \u2014 Randomness as an Injected Service",
@@ -162,7 +177,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_017": {
       "title": "Chapter 17 \u2014 Framebuffer and XOR Sprite Drawing",
@@ -172,7 +188,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_018": {
       "title": "Chapter 18 \u2014 Timers and 60 Hz Timebase",
@@ -182,7 +199,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_019": {
       "title": "Chapter 19 \u2014 Keypad Input",
@@ -192,7 +210,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_020": {
       "title": "Chapter 20 \u2014 Compatibility Quirks",
@@ -202,7 +221,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_021": {
       "title": "Chapter 21 \u2014 Instruction Trace and Debugger",
@@ -212,7 +232,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_022": {
       "title": "Chapter 22 \u2014 CHIP-8 Validation Gate",
@@ -222,7 +243,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_023": {
       "title": "Chapter 23 \u2014 6502 Architectural State",
@@ -232,7 +254,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_024": {
       "title": "Chapter 24 \u2014 6502 Bus Interface",
@@ -242,7 +265,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_025": {
       "title": "Chapter 25 \u2014 Opcode Table and Instruction Metadata",
@@ -252,7 +276,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_026": {
       "title": "Chapter 26 \u2014 Immediate and Implied Addressing",
@@ -262,7 +287,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_027": {
       "title": "Chapter 27 \u2014 Zero Page Addressing",
@@ -272,7 +298,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_028": {
       "title": "Chapter 28 \u2014 Absolute Addressing",
@@ -282,7 +309,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_029": {
       "title": "Chapter 29 \u2014 Indirect Addressing and the JMP Bug",
@@ -292,7 +320,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_030": {
       "title": "Chapter 30 \u2014 Indexed-Indirect and Indirect-Indexed",
@@ -302,7 +331,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_031": {
       "title": "Chapter 31 \u2014 Load and Store Instructions",
@@ -312,7 +342,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_032": {
       "title": "Chapter 32 \u2014 Transfer and Stack Instructions",
@@ -322,7 +353,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_033": {
       "title": "Chapter 33 \u2014 Arithmetic: ADC",
@@ -332,7 +364,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_034": {
       "title": "Chapter 34 \u2014 Arithmetic: SBC and Compare",
@@ -342,7 +375,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_035": {
       "title": "Chapter 35 \u2014 Logic and Bit Operations",
@@ -352,7 +386,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_036": {
       "title": "Chapter 36 \u2014 Branches and Relative Offsets",
@@ -362,7 +397,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_037": {
       "title": "Chapter 37 \u2014 Jumps, Subroutines, and Returns",
@@ -372,7 +408,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_038": {
       "title": "Chapter 38 \u2014 Interrupt Model: RESET, IRQ, NMI, BRK",
@@ -382,7 +419,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_039": {
       "title": "Chapter 39 \u2014 Cycle Accounting",
@@ -392,7 +430,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_040": {
       "title": "Chapter 40 \u2014 Unofficial Opcodes: Policy and Diagnostics",
@@ -402,7 +441,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_041": {
       "title": "Chapter 41 \u2014 6502 Trace Harness",
@@ -412,7 +452,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_042": {
       "title": "Chapter 42 \u2014 6502 CPU Validation Gate",
@@ -422,7 +463,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_043": {
       "title": "Chapter 43 \u2014 NES Hardware Overview",
@@ -432,7 +474,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_044": {
       "title": "Chapter 44 \u2014 CPU Memory Map",
@@ -442,7 +485,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_045": {
       "title": "Chapter 45 \u2014 Cartridge File Format: iNES 1.0",
@@ -452,7 +496,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_046": {
       "title": "Chapter 46 \u2014 PRG ROM and CHR Storage",
@@ -462,7 +507,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_047": {
       "title": "Chapter 47 \u2014 Mapper Interface",
@@ -472,7 +518,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_048": {
       "title": "Chapter 48 \u2014 Mapper 0 / NROM",
@@ -482,7 +529,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_049": {
       "title": "Chapter 49 \u2014 PPU Memory Map",
@@ -492,7 +540,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_050": {
       "title": "Chapter 50 \u2014 PPU Register Interface",
@@ -502,7 +551,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_051": {
       "title": "Chapter 51 \u2014 Open Bus and Unimplemented Access Diagnostics",
@@ -512,7 +562,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_052": {
       "title": "Chapter 52 \u2014 PPU Timing Model",
@@ -522,7 +573,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_053": {
       "title": "Chapter 53 \u2014 Background Tile Fetch Pipeline",
@@ -532,7 +584,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_054": {
       "title": "Chapter 54 \u2014 Scrolling Registers v/t/x/w",
@@ -542,7 +595,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_055": {
       "title": "Chapter 55 \u2014 Background Pixel Selection",
@@ -552,7 +606,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_056": {
       "title": "Chapter 56 \u2014 OAM and Sprite Data",
@@ -562,7 +617,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_057": {
       "title": "Chapter 57 \u2014 Sprite Evaluation",
@@ -572,7 +628,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_058": {
       "title": "Chapter 58 \u2014 Sprite Pattern Fetch and Flipping",
@@ -582,7 +639,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_059": {
       "title": "Chapter 59 \u2014 Sprite/Background Composition",
@@ -592,7 +650,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_060": {
       "title": "Chapter 60 \u2014 Sprite Zero Hit",
@@ -602,7 +661,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_061": {
       "title": "Chapter 61 \u2014 Palette and NES Color Output",
@@ -612,7 +672,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_062": {
       "title": "Chapter 62 \u2014 Frame Boundary and Video Buffer API",
@@ -622,7 +683,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_063": {
       "title": "Chapter 63 \u2014 PPU Validation Gate",
@@ -632,7 +694,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_064": {
       "title": "Chapter 64 \u2014 NES Controller Electrical/Serial Model",
@@ -642,7 +705,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_065": {
       "title": "Chapter 65 \u2014 Host Input Boundary",
@@ -652,7 +716,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_066": {
       "title": "Chapter 66 \u2014 OAM DMA",
@@ -662,7 +727,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_067": {
       "title": "Chapter 67 \u2014 APU Architecture Overview",
@@ -672,7 +738,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_068": {
       "title": "Chapter 68 \u2014 Pulse Channels",
@@ -682,7 +749,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_069": {
       "title": "Chapter 69 \u2014 Triangle Channel",
@@ -692,7 +760,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_070": {
       "title": "Chapter 70 \u2014 Noise Channel",
@@ -702,7 +771,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_071": {
       "title": "Chapter 71 \u2014 Frame Counter",
@@ -712,7 +782,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_072": {
       "title": "Chapter 72 \u2014 Basic Mixer and PCM Output",
@@ -722,7 +793,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_073": {
       "title": "Chapter 73 \u2014 DMC Concepts and Deferred Accuracy",
@@ -732,7 +804,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_074": {
       "title": "Chapter 74 \u2014 Master Scheduler",
@@ -742,7 +815,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_075": {
       "title": "Chapter 75 \u2014 NMI/IRQ Integration",
@@ -752,7 +826,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_076": {
       "title": "Chapter 76 \u2014 Audio/Video Synchronization",
@@ -762,7 +837,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_077": {
       "title": "Chapter 77 \u2014 Opaque NES Handle and Public C API",
@@ -772,7 +848,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_078": {
       "title": "Chapter 78 \u2014 Versioned Configuration Structs",
@@ -782,7 +859,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_079": {
       "title": "Chapter 79 \u2014 ROM Loading Boundary",
@@ -792,7 +870,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_080": {
       "title": "Chapter 80 \u2014 Video Frame ABI",
@@ -802,7 +881,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_081": {
       "title": "Chapter 81 \u2014 Audio FIFO ABI",
@@ -812,7 +892,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_082": {
       "title": "Chapter 82 \u2014 Input ABI",
@@ -822,7 +903,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_083": {
       "title": "Chapter 83 \u2014 Save-State Design",
@@ -832,7 +914,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_084": {
       "title": "Chapter 84 \u2014 Debugger Core",
@@ -842,7 +925,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_085": {
       "title": "Chapter 85 \u2014 Golden Frame and Audio Regression",
@@ -852,7 +936,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_086": {
       "title": "Chapter 86 \u2014 Boot a Tiny NROM Homebrew",
@@ -862,7 +947,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_087": {
       "title": "Chapter 87 \u2014 Boot a Simple NROM Game",
@@ -872,7 +958,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_088": {
       "title": "Chapter 88 \u2014 Playable Input Gate",
@@ -882,7 +969,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_089": {
       "title": "Chapter 89 \u2014 Video Gate",
@@ -892,7 +980,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_090": {
       "title": "Chapter 90 \u2014 Basic Audio Gate",
@@ -902,7 +991,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_091": {
       "title": "Chapter 91 \u2014 Determinism Gate",
@@ -912,7 +1002,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_092": {
       "title": "Chapter 92 \u2014 Portable-Core Gate",
@@ -922,7 +1013,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_093": {
       "title": "Chapter 93 \u2014 NES Final Explain Gate",
@@ -932,7 +1024,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": false
+      "optional": false,
+      "implementation": "planned"
     },
     "c17_094": {
       "title": "Chapter 94 \u2014 Mapper 2 / UxROM",
@@ -942,7 +1035,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_095": {
       "title": "Chapter 95 \u2014 Mapper 3 / CNROM",
@@ -952,7 +1046,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_096": {
       "title": "Chapter 96 \u2014 Mapper 1 / MMC1",
@@ -962,7 +1057,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_097": {
       "title": "Chapter 97 \u2014 Mapper 4 / MMC3 Concepts",
@@ -972,7 +1068,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_098": {
       "title": "Chapter 98 \u2014 More Accurate DMC",
@@ -982,7 +1079,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_099": {
       "title": "Chapter 99 \u2014 Cycle-Accurate PPU Edge Cases",
@@ -992,7 +1090,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_100": {
       "title": "Chapter 100 \u2014 Rewind and Run-Ahead",
@@ -1002,7 +1101,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_101": {
       "title": "Chapter 101 \u2014 Movie Input Recording",
@@ -1012,7 +1112,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_102": {
       "title": "Chapter 102 \u2014 Frontend Branches",
@@ -1022,7 +1123,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_103": {
       "title": "Chapter 103 \u2014 Performance Profiling",
@@ -1032,7 +1134,8 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     },
     "c17_104": {
       "title": "Chapter 104 \u2014 Optional GBA/SNES Study Branch",
@@ -1042,7 +1145,9 @@
       "track": [
         "foundations-c17"
       ],
-      "optional": true
+      "optional": true,
+      "implementation": "planned"
     }
-  }
+  },
+  "notes": "implementation: planned | seed | implemented | verified. Curriculum existence != lab availability."
 }

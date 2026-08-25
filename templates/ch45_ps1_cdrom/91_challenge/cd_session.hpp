@@ -17,6 +17,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstdio>
 
 #include "../03_read_engine/read_engine.hpp"
 

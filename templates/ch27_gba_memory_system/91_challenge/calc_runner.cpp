@@ -26,6 +26,6 @@ int main(int argc, char** argv) {
                 static_cast<int>(fastest_rom_chip(1, 2)));
     std::fprintf(out, "fastest burst16 = %d\n",
                 static_cast<int>(fastest_rom_chip(16, 2)));
-    std::fclose(out == stdout ? nullptr : out);
+    if (out != stdout) std::fclose(out);   // never fclose(nullptr)
     return 0;
 }

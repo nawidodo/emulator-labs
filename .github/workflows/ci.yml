@@ -47,6 +47,9 @@ jobs:
       - name: Portable-core lint
         run: python3 tools/labs/check_portable_core.py solutions
 
+      - name: Manifest/DAG audit
+        run: python3 tools/labs/audit_manifest.py
+
       - name: Hidden/unseen grade sweep vs solution binaries
         run: |
           mkdir -p build/skels

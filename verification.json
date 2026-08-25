@@ -17,10 +17,6 @@
     "oracle_rule": "see docs/AUTHORING.md golden metadata schema"
   },
   "chapters": {
-    "ch00_pilot": {
-      "unseen_cases": 1,
-      "status": "verified-green"
-    },
     "ch01_lab_infrastructure": {
       "unseen_cases": 7,
       "status": "verified-green"

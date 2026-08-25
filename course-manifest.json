@@ -1,18 +1,23 @@
 {
   "course": "emulator-labs",
-  "version": 1,
+  "version": 2,
   "tracks": [
+    "foundations-c17",
     "core",
+    "nes-depth",
     "classic-depth",
-    "nes-depth"
+    "ps1"
   ],
+  "notes": "requires[] holds DIRECT prerequisites only; transitive closure is implicit. display_order drives presentation.",
   "chapters": {
     "ch01_lab_infrastructure": {
       "title": "Lab infrastructure & skeleton generator",
       "requires": [],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 1
     },
     "ch02_emulator_core": {
       "title": "Fictional CPU: fetch/decode/execute",
@@ -21,1653 +26,569 @@
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 2
     },
     "ch03_chip8_architecture": {
       "title": "CHIP-8 machine architecture",
       "requires": [
-        "ch01_lab_infrastructure",
         "ch02_emulator_core"
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 3
     },
     "ch04_chip8_cpu": {
       "title": "Complete CHIP-8 CPU",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
         "ch03_chip8_architecture"
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 4
     },
     "ch05_chip8_graphics_input_timers": {
       "title": "CHIP-8 graphics, input, timers",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
         "ch04_chip8_cpu"
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 5
     },
     "ch06_chip8_accuracy_debugger": {
       "title": "CHIP-8 accuracy, quirks, debugger",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
         "ch05_chip8_graphics_input_timers"
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 6
     },
     "ch07_i8080_architecture": {
       "title": "Intel 8080 architecture",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
         "ch06_chip8_accuracy_debugger"
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 7
     },
     "ch08_i8080_control_interrupts": {
       "title": "8080 control flow, stack, interrupts",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
         "ch07_i8080_architecture"
       ],
       "track": [
         "core"
-      ]
+      ],
+      "optional": false,
+      "display_order": 8
     },
     "ch09_space_invaders_machine": {
       "title": "Space Invaders machine",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
         "ch08_i8080_control_interrupts"
       ],
       "track": [
         "core"
-      ]
-    },
-    "ch10_lr35902_cpu": {
-      "title": "LR35902 CPU architecture",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine"
       ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch11_gameboy_cpu_completion": {
-      "title": "Game Boy CPU completion",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu"
-      ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch12_gameboy_bus_memory_map": {
-      "title": "Game Boy bus and memory map",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion"
-      ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch13_gameboy_timers_interrupts": {
-      "title": "Game Boy timers and interrupts",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map"
-      ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch14_gameboy_ppu1": {
-      "title": "Game Boy PPU I",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts"
-      ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch15_gameboy_ppu2": {
-      "title": "Game Boy PPU II",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1"
-      ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch16_gameboy_cartridges_mbc": {
-      "title": "Game Boy cartridges and MBCs",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2"
-      ],
-      "track": [
-        "classic-depth"
-      ]
-    },
-    "ch17_gameboy_audio_accuracy": {
-      "title": "Game Boy audio and accuracy",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc"
-      ],
-      "track": [
-        "classic-depth"
-      ]
+      "optional": false,
+      "display_order": 9
     },
     "ch18_nes_6502_cpu": {
       "title": "NES 6502 CPU",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy"
+        "ch09_space_invaders_machine"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 10
     },
     "ch19_nes_cpu_accuracy": {
       "title": "NES CPU accuracy",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
         "ch18_nes_6502_cpu"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 11
     },
     "ch20_nes_bus_cartridges": {
       "title": "NES bus and cartridges",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
         "ch19_nes_cpu_accuracy"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 12
     },
     "ch21_nes_ppu1": {
       "title": "NES PPU I",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
         "ch20_nes_bus_cartridges"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 13
     },
     "ch22_nes_ppu2_scrolling_sprites": {
       "title": "NES PPU II: scrolling and sprites",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
         "ch21_nes_ppu1"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 14
     },
     "ch23_nes_mappers": {
       "title": "NES mappers",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
         "ch22_nes_ppu2_scrolling_sprites"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 15
     },
     "ch24_nes_apu_dma_sync": {
       "title": "NES APU, DMA, final synchronization",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
         "ch23_nes_mappers"
       ],
       "track": [
-        "nes-depth"
-      ]
+        "nes-depth",
+        "core"
+      ],
+      "optional": false,
+      "display_order": 16
     },
-    "ch25_arm7tdmi_arm_isa": {
-      "title": "ARM7TDMI ARM instruction set",
+    "ch52_nes_playable_gate": {
+      "title": "Playable NROM Gate (whole-machine, PS1 unlock)",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
         "ch24_nes_apu_dma_sync"
+      ],
+      "track": [
+        "nes-depth",
+        "core",
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 17,
+      "gate_for": "ps1"
+    },
+    "ch34_scheduler_architecture": {
+      "title": "Scheduler architecture",
+      "requires": [
+        "ch52_nes_playable_gate"
+      ],
+      "track": [
+        "core",
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 18
+    },
+    "ch35_save_states_rewind_determinism": {
+      "title": "Save states, rewind, determinism",
+      "requires": [
+        "ch34_scheduler_architecture"
+      ],
+      "track": [
+        "core",
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 19
+    },
+    "ch36_emulator_debugger_tools": {
+      "title": "Emulator debugger and dev tools",
+      "requires": [
+        "ch35_save_states_rewind_determinism"
+      ],
+      "track": [
+        "core",
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 20
+    },
+    "ch37_performance_dynarec": {
+      "title": "Performance and dynamic recompilation",
+      "requires": [
+        "ch36_emulator_debugger_tools"
+      ],
+      "track": [
+        "core",
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 21
+    },
+    "ch38_ps1_r3000a_cpu": {
+      "title": "MIPS R3000A CPU",
+      "requires": [
+        "ch37_performance_dynarec"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 22
+    },
+    "ch39_ps1_exceptions_cop0_memory": {
+      "title": "PS1 exceptions, COP0, memory",
+      "requires": [
+        "ch38_ps1_r3000a_cpu"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 23
+    },
+    "ch40_ps1_interrupts_timers": {
+      "title": "PS1 interrupts and timers",
+      "requires": [
+        "ch39_ps1_exceptions_cop0_memory"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 24
+    },
+    "ch41_ps1_gpu1_commands_vram": {
+      "title": "PS1 GPU I: commands and VRAM",
+      "requires": [
+        "ch40_ps1_interrupts_timers"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 25
+    },
+    "ch42_ps1_gpu2_texturing_raster": {
+      "title": "PS1 GPU II: texturing and rasterization",
+      "requires": [
+        "ch41_ps1_gpu1_commands_vram"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 26
+    },
+    "ch43_ps1_dma": {
+      "title": "PS1 DMA",
+      "requires": [
+        "ch42_ps1_gpu2_texturing_raster"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 27
+    },
+    "ch44_ps1_gte": {
+      "title": "Geometry Transformation Engine",
+      "requires": [
+        "ch43_ps1_dma"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 28
+    },
+    "ch45_ps1_cdrom": {
+      "title": "PS1 CD-ROM",
+      "requires": [
+        "ch44_ps1_gte"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 29
+    },
+    "ch46_ps1_mdec": {
+      "title": "MDEC video decoder",
+      "requires": [
+        "ch45_ps1_cdrom"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 30
+    },
+    "ch47_ps1_spu": {
+      "title": "PS1 SPU",
+      "requires": [
+        "ch46_ps1_mdec"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 31
+    },
+    "ch48_ps1_controllers_memcards": {
+      "title": "Controllers, memory cards, serial I/O",
+      "requires": [
+        "ch47_ps1_spu"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 32
+    },
+    "ch49_ps1_system_scheduling": {
+      "title": "Complete PS1 system scheduling",
+      "requires": [
+        "ch48_ps1_controllers_memcards"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 33
+    },
+    "ch50_ps1_accuracy_trace_testing": {
+      "title": "PS1 accuracy, trace testing, compatibility",
+      "requires": [
+        "ch49_ps1_system_scheduling"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 34
+    },
+    "ch51_ps1_capstone": {
+      "title": "PS1 full emulator capstone",
+      "requires": [
+        "ch50_ps1_accuracy_trace_testing"
+      ],
+      "track": [
+        "ps1"
+      ],
+      "optional": false,
+      "display_order": 35
+    },
+    "ch10_lr35902_cpu": {
+      "title": "LR35902 CPU architecture",
+      "requires": [],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 36
+    },
+    "ch11_gameboy_cpu_completion": {
+      "title": "Game Boy CPU completion",
+      "requires": [
+        "ch10_lr35902_cpu"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 37
+    },
+    "ch12_gameboy_bus_memory_map": {
+      "title": "Game Boy bus and memory map",
+      "requires": [
+        "ch11_gameboy_cpu_completion"
+      ],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 38
+    },
+    "ch13_gameboy_timers_interrupts": {
+      "title": "Game Boy timers and interrupts",
+      "requires": [
+        "ch12_gameboy_bus_memory_map"
+      ],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 39
+    },
+    "ch14_gameboy_ppu1": {
+      "title": "Game Boy PPU I",
+      "requires": [
+        "ch13_gameboy_timers_interrupts"
+      ],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 40
+    },
+    "ch15_gameboy_ppu2": {
+      "title": "Game Boy PPU II",
+      "requires": [
+        "ch14_gameboy_ppu1"
+      ],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 41
+    },
+    "ch16_gameboy_cartridges_mbc": {
+      "title": "Game Boy cartridges and MBCs",
+      "requires": [
+        "ch15_gameboy_ppu2"
+      ],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 42
+    },
+    "ch17_gameboy_audio_accuracy": {
+      "title": "Game Boy audio and accuracy",
+      "requires": [
+        "ch16_gameboy_cartridges_mbc"
+      ],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 43
+    },
+    "ch25_arm7tdmi_arm_isa": {
+      "title": "ARM7TDMI ARM instruction set",
+      "requires": [],
+      "track": [
+        "classic-depth"
+      ],
+      "optional": true,
+      "display_order": 44
     },
     "ch26_gba_thumb_pipeline_exceptions": {
       "title": "Thumb, pipeline, exceptions",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
         "ch25_arm7tdmi_arm_isa"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 45
     },
     "ch27_gba_memory_system": {
       "title": "GBA memory system",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
         "ch26_gba_thumb_pipeline_exceptions"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 46
     },
     "ch28_gba_ppu": {
       "title": "GBA PPU",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
         "ch27_gba_memory_system"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 47
     },
     "ch29_gba_dma_timers_irq": {
       "title": "GBA DMA, timers, IRQ",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
         "ch28_gba_ppu"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 48
     },
     "ch30_gba_audio_saves_accuracy": {
       "title": "GBA audio, saves, accuracy",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
         "ch29_gba_dma_timers_irq"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 49
     },
     "ch31_snes_65c816_cpu": {
       "title": "65C816 CPU",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
         "ch30_gba_audio_saves_accuracy"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 50
     },
     "ch32_snes_bus_ppu": {
       "title": "SNES bus and PPU",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
         "ch31_snes_65c816_cpu"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
+      "optional": true,
+      "display_order": 51
     },
     "ch33_snes_dma_hdma_audio": {
       "title": "SNES DMA, HDMA, audio",
       "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
         "ch32_snes_bus_ppu"
       ],
       "track": [
         "classic-depth"
       ],
-      "optional": true
-    },
-    "ch34_scheduler_architecture": {
-      "title": "Scheduler architecture",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch35_save_states_rewind_determinism": {
-      "title": "Save states, rewind, determinism",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch36_emulator_debugger_tools": {
-      "title": "Emulator debugger and dev tools",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch37_performance_dynarec": {
-      "title": "Performance and dynamic recompilation",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch38_ps1_r3000a_cpu": {
-      "title": "MIPS R3000A CPU",
-      "requires": [
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch52_nes_playable_gate"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch39_ps1_exceptions_cop0_memory": {
-      "title": "PS1 exceptions, COP0, memory",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch40_ps1_interrupts_timers": {
-      "title": "PS1 interrupts and timers",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch41_ps1_gpu1_commands_vram": {
-      "title": "PS1 GPU I: commands and VRAM",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch42_ps1_gpu2_texturing_raster": {
-      "title": "PS1 GPU II: texturing and rasterization",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch43_ps1_dma": {
-      "title": "PS1 DMA",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch44_ps1_gte": {
-      "title": "Geometry Transformation Engine",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch45_ps1_cdrom": {
-      "title": "PS1 CD-ROM",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch46_ps1_mdec": {
-      "title": "MDEC video decoder",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte",
-        "ch45_ps1_cdrom"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch47_ps1_spu": {
-      "title": "PS1 SPU",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte",
-        "ch45_ps1_cdrom",
-        "ch46_ps1_mdec"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch48_ps1_controllers_memcards": {
-      "title": "Controllers, memory cards, serial I/O",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte",
-        "ch45_ps1_cdrom",
-        "ch46_ps1_mdec",
-        "ch47_ps1_spu"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch49_ps1_system_scheduling": {
-      "title": "Complete PS1 system scheduling",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte",
-        "ch45_ps1_cdrom",
-        "ch46_ps1_mdec",
-        "ch47_ps1_spu",
-        "ch48_ps1_controllers_memcards"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch50_ps1_accuracy_trace_testing": {
-      "title": "PS1 accuracy, trace testing, compatibility",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte",
-        "ch45_ps1_cdrom",
-        "ch46_ps1_mdec",
-        "ch47_ps1_spu",
-        "ch48_ps1_controllers_memcards",
-        "ch49_ps1_system_scheduling"
-      ],
-      "track": [
-        "core"
-      ]
-    },
-    "ch51_ps1_capstone": {
-      "title": "PS1 full emulator capstone",
-      "requires": [
-        "ch01_lab_infrastructure",
-        "ch02_emulator_core",
-        "ch03_chip8_architecture",
-        "ch04_chip8_cpu",
-        "ch05_chip8_graphics_input_timers",
-        "ch06_chip8_accuracy_debugger",
-        "ch07_i8080_architecture",
-        "ch08_i8080_control_interrupts",
-        "ch09_space_invaders_machine",
-        "ch10_lr35902_cpu",
-        "ch11_gameboy_cpu_completion",
-        "ch12_gameboy_bus_memory_map",
-        "ch13_gameboy_timers_interrupts",
-        "ch14_gameboy_ppu1",
-        "ch15_gameboy_ppu2",
-        "ch16_gameboy_cartridges_mbc",
-        "ch17_gameboy_audio_accuracy",
-        "ch18_nes_6502_cpu",
-        "ch19_nes_cpu_accuracy",
-        "ch20_nes_bus_cartridges",
-        "ch21_nes_ppu1",
-        "ch22_nes_ppu2_scrolling_sprites",
-        "ch23_nes_mappers",
-        "ch24_nes_apu_dma_sync",
-        "ch25_arm7tdmi_arm_isa",
-        "ch26_gba_thumb_pipeline_exceptions",
-        "ch27_gba_memory_system",
-        "ch28_gba_ppu",
-        "ch29_gba_dma_timers_irq",
-        "ch30_gba_audio_saves_accuracy",
-        "ch31_snes_65c816_cpu",
-        "ch32_snes_bus_ppu",
-        "ch33_snes_dma_hdma_audio",
-        "ch34_scheduler_architecture",
-        "ch35_save_states_rewind_determinism",
-        "ch36_emulator_debugger_tools",
-        "ch37_performance_dynarec",
-        "ch38_ps1_r3000a_cpu",
-        "ch39_ps1_exceptions_cop0_memory",
-        "ch40_ps1_interrupts_timers",
-        "ch41_ps1_gpu1_commands_vram",
-        "ch42_ps1_gpu2_texturing_raster",
-        "ch43_ps1_dma",
-        "ch44_ps1_gte",
-        "ch45_ps1_cdrom",
-        "ch46_ps1_mdec",
-        "ch47_ps1_spu",
-        "ch48_ps1_controllers_memcards",
-        "ch49_ps1_system_scheduling",
-        "ch50_ps1_accuracy_trace_testing"
-      ],
-      "track": [
-        "core"
-      ]
+      "optional": true,
+      "display_order": 52
     }
   }
 }

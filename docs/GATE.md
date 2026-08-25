@@ -33,8 +33,10 @@ python3 tools/labs/progress.py mark ch01_lab_infrastructure coding_test passed
 # -> "GATE PASSED: ch01 -> ch02 ACTIVE"
 ```
 
-Anything incomplete means the next chapter remains LOCKED. Skipping ahead is
-not supported by design: each chapter's machinery assumes the previous one's.
+A chapter unlocks when **all of its explicit prerequisites** pass —
+`course-manifest.json` `requires[]` is the source of truth, not chapter
+numbers. Chapter number does not imply dependency; optional tracks (Game
+Boy / GBA / SNES on the PS1 path) never block unrelated tracks.
 
 ## Component semantics
 
@@ -45,6 +47,19 @@ not supported by design: each chapter's machinery assumes the previous one's.
 | debug | `90_debug` fixed AND bug-report.md written (bug/root cause/first divergence/fix/regression test) |
 | challenge | `91_challenge` acceptance criteria met (hashes/traces match) |
 | coding_test | `make grade GRADE_TARGETS=chNN_slug` exits 0 |
+
+## Track selection
+
+```bash
+python3 tools/labs/progress.py track ps1     # or classic-depth / nes-depth / core
+```
+
+With an active track, next-chapter suggestions defer optional chapters that
+do not belong to it. Infrastructure invariants are machine-checked:
+
+```bash
+make audit      # manifest/DAG auditor: cycles, roots, optional leakage
+```
 
 ## Resuming mid-exercise
 

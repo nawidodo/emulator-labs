@@ -49,6 +49,18 @@ Boy / GBA / SNES on the PS1 path) never block unrelated tracks.
 | challenge | `91_challenge` acceptance criteria met (hashes/traces match) |
 | coding_test | `make grade GRADE_TARGETS=chNN_slug` exits 0 |
 
+## Custom gate components
+
+Integration gates and capstones define their own component sets in
+`course-manifest.json` (`kind: integration_gate | capstone`). Mark and
+inspect them the same way:
+
+```bash
+python3 tools/labs/progress.py mark ch52_nes_playable_gate boot passed
+python3 tools/labs/progress.py mark ch52_nes_playable_gate input passed
+python3 tools/labs/progress.py show ch52_nes_playable_gate
+```
+
 ## Track selection
 
 ```bash

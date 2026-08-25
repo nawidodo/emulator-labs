@@ -181,14 +181,23 @@ with a "Verification" section recording exactly what was run and what passed.
    acceptable ONLY when the chapter README maps them explicitly to the
    gate component. The audit treats the README as source of truth.
 
-## Language policy (intentional)
+## Language policy (decided — v002 review)
 
 ```
-course implementation   → ISO C++20
-strict-C track cores    → strict ISO C17 (docs/CURRICULUM-foundations-c17.md)
-grading tooling         → C++20 / Python
-platform frontend       → anything, OUTSIDE the core
+canonical learner course      → ISO C++20 (the 52-node executable course)
+alternate strict track        → strict ISO C17 blueprint + seed
+                                (tracks/foundations-c17/, external course)
+tests / labstest              → C++20 allowed
+grader / generator / tooling  → Python
+platform frontend             → native host language, OUTSIDE the core
+public machine boundary (C17) → stable C ABI
 ```
+
+DECISION: C++20 stays canonical until a staged C17 migration proves
+parity chapter-by-chapter (vertical slices; existing C++ reference kept
+as differential oracle). Do not author NEW main-route learner chapters
+in C17 until that migration begins — the C17 track grows independently
+under tracks/foundations-c17/.
 
 Root CMake declares both standards; never let a core drift languages
 mid-chapter. Platform headers stay out of every core (`make lint-portable`).

@@ -86,6 +86,6 @@ jobs:
       - name: Configure (solutions)
         run: cmake -S . -B build-solutions -DLABS_BUILD_SOLUTIONS=On
       - name: Build
-        run: cmake --build build-solutions --config Debug -j
+        run: cmake --build build-solutions --config Debug --parallel 4
       - name: CTest
         run: ctest --test-dir build-solutions -C Debug --output-on-failure

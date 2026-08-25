@@ -139,6 +139,8 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
     if "expect_stdout_contains" in case:
         needle = case["expect_stdout_contains"]
         if needle not in proc.stdout:
+            save_failure(f"stdout missing '{needle}'",
+                         stdout=proc.stdout or "")
             return False, f"stdout missing '{needle}'"
     if "expect_file_exists" in case:
         for rel in case["expect_file_exists"]:
@@ -149,10 +151,16 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
         spec = case["expect_file_hash"]
         path = Path(expand(spec["file"]))
         if not path.exists():
-            return False, f"expected file not produced: {spec['file']}"
+            msg = f"expected file not produced: {spec['file']}"
+            save_failure(msg)
+            return False, msg
         digest = fnv1a(path.read_bytes())
         if digest.upper() != spec["fnv64"].upper():
-            return False, f"hash mismatch: got FNV64 {digest}"
+            msg = f"hash mismatch: got FNV64 {digest}"
+            save_failure(msg + "\nproduced file: " + str(path),
+                         extra_files={"produced.bin": path.read_bytes()
+                                      if path.exists() else b""})
+            return False, msg
     if proc.returncode < 0:
         return False, "crashed (signal)"
     return True, "ok"

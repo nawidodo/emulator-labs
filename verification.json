@@ -1,10 +1,10 @@
 {
   "schema": 1,
-  "known_good_commit": "bfefefd",
+  "known_good_commit": "8d517c8",
   "reference": {
     "build": "GREEN",
     "ctest": "414/414 GREEN (build-solutions)",
-    "language": "C++20"
+    "language": "C++20 (canonical executable route)"
   },
   "grade_sweep": {
     "cases": 379,
@@ -220,14 +220,34 @@
     "ch51_ps1_capstone": {
       "unseen_cases": 1,
       "status": "pipeline-green",
-      "integration_reference": "not-run-in-ci",
-      "note": "self-check only; learner-integrated binary required for the real gate"
+      "integration_reference": {
+        "status": "pending",
+        "learner_cases": 10,
+        "env_gated_cases": 10
+      },
+      "note": "self-check only; learner-integrated binary required for the real gate",
+      "pipeline": {
+        "status": "green",
+        "cases": 1
+      }
     },
     "ch52_nes_playable_gate": {
       "unseen_cases": 1,
       "status": "pipeline-green",
-      "integration_reference": "not-run-in-ci",
-      "note": "self-check only; learner-integrated binary required for the real gate"
+      "integration_reference": {
+        "status": "pending",
+        "learner_cases": 3,
+        "env_gated_cases": 3
+      },
+      "note": "self-check only; learner-integrated binary required for the real gate",
+      "pipeline": {
+        "status": "green",
+        "cases": 1
+      }
     }
+  },
+  "language_policy": {
+    "canonical_learner_language": "ISO C++20 (current executable course)",
+    "strict_c17": "alternate track; recommended long-term direction \u2014 migration not started"
   }
 }

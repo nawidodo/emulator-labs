@@ -19,10 +19,10 @@ ALT TRACK:              strict-C17 foundations (blueprint + seed lab)
 | II CHIP-8 | 3-6 | ISA fields, framebuffer, timers, quirks, debugger | finish your first complete emulator |
 | III First real CPU | 7-9 | real ISA (8080), interrupts, I/O ports, machine bus | emulate a full arcade board |
 | IV Game Boy *(optional depth)* | 10-17 | bus/memory map, scanline PPU, MBC banking, PSG audio | complete console emulation |
-| V NES *(required PS1 route)* | 18-24 | concurrent CPU/PPU clocks, mappers, mapper IRQ, OAM DMA | multi-clock synchronization |
+| V NES *(required PS1 route)* | 18-22, 24 required · 23 optional | concurrent CPU/PPU clocks, mappers, mapper IRQ, OAM DMA | multi-clock synchronization |
 | VI GBA *(optional depth)* | 25-30 | ARM7TDMI + Thumb, pipelines, DMA fabric, wait states | 32-bit RISC system emulation |
 | VII SNES *(optional depth)* | 31-33 | 65C816 widths/banks, Mode 7, HDMA, SPC700 domain | multi-processor machines |
-| VIII Engineering | 34-37 | event schedulers, save states/rewind, tooling, IR/dynarec | emulator *engineering* beyond one machine |
+| VIII Engineering *(required PS1 route)* | 34-36 required · 37 optional | event schedulers, save states/rewind, tooling, IR/dynarec | emulator *engineering* beyond one machine |
 | IX PS1 | 38-51 | R3000A delay slots, COP0/GTE, GPU raster, DMA fabric, CD-ROM, MDEC, SPU, system scheduling | PS1-class emulator + capstone |
 
 ## Graduation standard

@@ -206,6 +206,20 @@ def main() -> int:
                     frontier.append(d)
         return target in seen_set
 
+    # Route-closure invariant (v002 #38): every prerequisite of an
+    # allowed-route chapter must itself be allowed. Filtering forbidden
+    # deps away can mask a wrong dependency — fail loudly instead.
+    route_tracks = {"core", "nes-depth", "ps1"}
+    allowed = {c for c, e in chapters.items()
+               if set(e.get("track", [])) & route_tracks}
+    for cid in sorted(allowed):
+        for pre in chapters[cid].get("requires", []):
+            pre_tracks = set(chapters.get(pre, {}).get("track", []))
+            if pre_tracks and not (pre_tracks & route_tracks):
+                problems.append(
+                    f"{cid}: requires '{pre}' outside the PS1 route "
+                    f"tracks {sorted(route_tracks)}")
+
     core_roots = [c for c, e in chapters.items()
                   if not e.get("requires", [])]
     ps1_cap = "ch51_ps1_capstone"

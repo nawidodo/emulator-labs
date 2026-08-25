@@ -2,7 +2,6 @@
   "course": "emulator-labs",
   "version": 2,
   "tracks": [
-    "foundations-c17",
     "core",
     "nes-depth",
     "classic-depth",
@@ -1013,9 +1012,17 @@
   "schema_version": 3,
   "tracks_meta": {
     "foundations-c17": {
-      "kind": "blueprint-executable-seed",
+      "kind": "external-course-blueprint-seed",
       "manifest": "tracks/foundations-c17/manifest.json",
-      "seed_lab": "tracks/foundations-c17/templates/ch02_integer_model"
+      "seed_lab": "tracks/foundations-c17/templates/c17_002_integer_model"
+    }
+  },
+  "external_courses": {
+    "foundations-c17": {
+      "manifest": "tracks/foundations-c17/manifest.json",
+      "templates": "tracks/foundations-c17/templates",
+      "implementation": "seed",
+      "usage": "TRACK=foundations-c17 make list | LABS=<chapter> make skels"
     }
   }
 }

@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "known_good_commit": "cd2fa73",
+  "reference": {
+    "build": "GREEN",
+    "ctest": "414/414 GREEN (build-solutions)",
+    "language": "C++20"
+  },
+  "grade_sweep": {
+    "cases": 379,
+    "passed": 339,
+    "skipped_requires_rom_or_env": 40,
+    "failed": 0
+  },
+  "golden_policy": {
+    "determinism": "reference run twice, byte-identical",
+    "oracle_rule": "see docs/AUTHORING.md golden metadata schema"
+  },
+  "chapters": {
+    "ch00_pilot": {
+      "unseen_cases": 1,
+      "status": "verified-green"
+    },
+    "ch01_lab_infrastructure": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch02_emulator_core": {
+      "unseen_cases": 11,
+      "status": "verified-green"
+    },
+    "ch03_chip8_architecture": {
+      "unseen_cases": 11,
+      "status": "verified-green"
+    },
+    "ch04_chip8_cpu": {
+      "unseen_cases": 14,
+      "status": "verified-green"
+    },
+    "ch05_chip8_graphics_input_timers": {
+      "unseen_cases": 10,
+      "status": "verified-green"
+    },
+    "ch06_chip8_accuracy_debugger": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch07_i8080_architecture": {
+      "unseen_cases": 13,
+      "status": "verified-green"
+    },
+    "ch08_i8080_control_interrupts": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch09_space_invaders_machine": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch10_lr35902_cpu": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch11_gameboy_cpu_completion": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch12_gameboy_bus_memory_map": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch13_gameboy_timers_interrupts": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch14_gameboy_ppu1": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch15_gameboy_ppu2": {
+      "unseen_cases": 5,
+      "status": "verified-green"
+    },
+    "ch16_gameboy_cartridges_mbc": {
+      "unseen_cases": 5,
+      "status": "verified-green"
+    },
+    "ch17_gameboy_audio_accuracy": {
+      "unseen_cases": 5,
+      "status": "verified-green"
+    },
+    "ch18_nes_6502_cpu": {
+      "unseen_cases": 4,
+      "status": "verified-green"
+    },
+    "ch19_nes_cpu_accuracy": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch20_nes_bus_cartridges": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch21_nes_ppu1": {
+      "unseen_cases": 5,
+      "status": "verified-green"
+    },
+    "ch22_nes_ppu2_scrolling_sprites": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch23_nes_mappers": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch24_nes_apu_dma_sync": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch25_arm7tdmi_arm_isa": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch26_gba_thumb_pipeline_exceptions": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch27_gba_memory_system": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch28_gba_ppu": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch29_gba_dma_timers_irq": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch30_gba_audio_saves_accuracy": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch31_snes_65c816_cpu": {
+      "unseen_cases": 3,
+      "status": "verified-green"
+    },
+    "ch32_snes_bus_ppu": {
+      "unseen_cases": 5,
+      "status": "verified-green"
+    },
+    "ch33_snes_dma_hdma_audio": {
+      "unseen_cases": 3,
+      "status": "verified-green"
+    },
+    "ch34_scheduler_architecture": {
+      "unseen_cases": 5,
+      "status": "verified-green"
+    },
+    "ch35_save_states_rewind_determinism": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch36_emulator_debugger_tools": {
+      "unseen_cases": 6,
+      "status": "verified-green"
+    },
+    "ch37_performance_dynarec": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch38_ps1_r3000a_cpu": {
+      "unseen_cases": 4,
+      "status": "verified-green"
+    },
+    "ch39_ps1_exceptions_cop0_memory": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch40_ps1_interrupts_timers": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch41_ps1_gpu1_commands_vram": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch42_ps1_gpu2_texturing_raster": {
+      "unseen_cases": 8,
+      "status": "verified-green"
+    },
+    "ch43_ps1_dma": {
+      "unseen_cases": 12,
+      "status": "verified-green"
+    },
+    "ch44_ps1_gte": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch45_ps1_cdrom": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch46_ps1_mdec": {
+      "unseen_cases": 7,
+      "status": "verified-green"
+    },
+    "ch47_ps1_spu": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch48_ps1_controllers_memcards": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch49_ps1_system_scheduling": {
+      "unseen_cases": 9,
+      "status": "verified-green"
+    },
+    "ch50_ps1_accuracy_trace_testing": {
+      "unseen_cases": 16,
+      "status": "verified-green"
+    },
+    "ch51_ps1_capstone": {
+      "unseen_cases": 1,
+      "status": "verified-green"
+    },
+    "ch52_nes_playable_gate": {
+      "unseen_cases": 1,
+      "status": "verified-green"
+    }
+  }
+}

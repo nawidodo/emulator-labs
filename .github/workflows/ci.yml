@@ -59,6 +59,9 @@ jobs:
       - name: External-track audit (foundations-c17)
         run: python3 tools/labs/audit_track.py foundations-c17
 
+      - name: Grader self-tests (negative paths)
+        run: python3 -m unittest discover -s tools/labs/tests -v
+
       - name: C17 track pedantic compile probe
         run: |
           python3 tools/labs/generate.py --track foundations-c17 --force \

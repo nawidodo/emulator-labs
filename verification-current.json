@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-08-25T23:35:05",
+  "head": "c71f99c",
+  "ctest": {
+    "ran": 0,
+    "passed": 0,
+    "failed": 0
+  },
+  "unseen_grade": {
+    "passed": "343",
+    "skipped": "47",
+    "failed": "0",
+    "of": "390"
+  },
+  "integration_reference": {
+    "ch52": "pending",
+    "ch51": "pending"
+  },
+  "c17_verified_nodes": 1,
+  "platform": "darwin"
+}

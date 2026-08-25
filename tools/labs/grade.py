@@ -64,6 +64,10 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
 
     binary_raw = expand(case["binary"])
     if not binary_raw.strip():
+        if case.get("required_env"):
+            return False, ("required_env binary unset — the learner gate "
+                           "must FAIL, not skip, when the integrated "
+                           "binary is absent")
         return True, ("SKIPPED ({{env:...}} in manifest 'binary' is unset — "
                       "set it to your integrated binary path)")
     binary = Path(binary_raw)
@@ -83,11 +87,12 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
                       f"{case['requires_rom']})")
 
     args = [expand(str(a)) for a in case.get("args", [])]
+    timeout = case.get("timeout", 30)
     try:
         proc = subprocess.run([str(binary)] + args, cwd=str(repo),
-                              capture_output=True, text=True, timeout=30)
+                              capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
-        return False, "timed out after 30s (skeleton loop not terminating?)"
+        return False, f"timed out after {timeout}s"
 
     if "expect_exit" in case and proc.returncode != case["expect_exit"]:
         tail = (proc.stdout or proc.stderr or "").strip().splitlines()
@@ -142,7 +147,8 @@ def main() -> int:
                 ch_failed = True
             print(f"  [{status:>4}] {case['name']}: {msg}")
             results.append({"chapter": chdir.name, "case": case["name"],
-                            "pass": ok, "note": msg})
+                            "pass": ok, "note": msg,
+                            "skipped": msg.startswith("SKIPPED")})
         if ch_failed:
             failed_chapters.append(chdir.name)
 
@@ -150,8 +156,11 @@ def main() -> int:
     out.parent.mkdir(exist_ok=True)
     out.write_text(json.dumps({"results": results}, indent=2))
 
-    total = sum(r["pass"] for r in results)
-    print(f"\n== grade summary: {total}/{len(results)} cases passed ==")
+    passed = sum(1 for r in results if r["pass"] and not r.get("skipped"))
+    skipped = sum(1 for r in results if r.get("skipped"))
+    failed = sum(1 for r in results if not r["pass"])
+    print(f"\n== grade summary: {passed} passed / {skipped} skipped / "
+          f"{failed} failed (of {len(results)}) ==")
     if failed_chapters:
         print(f"failing chapters: {', '.join(failed_chapters)}")
     return 1 if failed_chapters else 0

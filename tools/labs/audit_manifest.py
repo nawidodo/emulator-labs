@@ -24,6 +24,12 @@ import sys
 from pathlib import Path
 
 
+GATE_COMPONENTS = ["boot", "input", "video", "audio",
+                  "determinism", "integration_test"]
+DEFAULT_COMPONENTS = ["exercises", "starter", "debug", "challenge",
+                      "coding_test"]
+
+
 def main() -> int:
     repo = Path(__file__).resolve().parents[2]
     mf_path = repo / "course-manifest.json"
@@ -112,25 +118,64 @@ def main() -> int:
         dupes = sorted(o for o in orders if orders.count(o) > 1)
         problems.append(f"display_order duplicates: {dupes}")
 
+    # 8b. Schema v3 checks (comprehensive review #12)
+    declared_tracks = set(m.get("tracks", []))
+    for cid, e in chapters.items():
+        for t in e.get("track", []):
+            if t not in declared_tracks:
+                problems.append(f"{cid}: track '{t}' not declared in "
+                                f"manifest.tracks")
+        gf = e.get("gate_for")
+        if gf and gf not in declared_tracks:
+            problems.append(f"{cid}: gate_for '{gf}' not a declared track")
+        kind = e.get("kind", "lab")
+        if kind not in ("lab", "integration_gate", "capstone"):
+            problems.append(f"{cid}: unknown kind '{kind}'")
+        comps = e.get("components")
+        if kind == "integration_gate" and comps != GATE_COMPONENTS:
+            problems.append(f"{cid}: integration_gate must use its gate "
+                            f"components")
+    used_tracks = {t for e in chapters.values() for t in e.get("track", [])}
+    meta = m.get("tracks_meta", {})
+    for t in declared_tracks:
+        if t not in used_tracks and t not in meta:
+            print(f"[audit] WARNING: declared track '{t}' has no chapters "
+                  f"and no tracks_meta entry")
+
+    # 8c. kind-artifact contract (review #12.4): integration gates need
+    #     an integration acceptance manifest; labs need a hidden manifest.
+    for cid, e in chapters.items():
+        kind = e.get("kind", "lab")
+        hdir = repo / "tests" / "hidden" / cid
+        if kind == "integration_gate":
+            if not (hdir / "manifest.json").is_file():
+                problems.append(f"{cid}: integration_gate missing hidden "
+                                f"manifest")
+        elif kind == "lab":
+            if not (hdir / "manifest.json").is_file():
+                problems.append(f"{cid}: lab missing hidden manifest")
+
     # 9. Redundant-edge WARNINGS (fresh-review #14): an edge A->B is
     #    redundant when B stays reachable from A's other prerequisites.
     #    Warning-only: the graph may carry these while being simplified.
+    def ancestors(chid):
+        out = set()
+        stack = list(chapters.get(chid, {}).get("requires", []))
+        while stack:
+            x = stack.pop()
+            if x in out or x not in chapters:
+                continue
+            out.add(x)
+            stack.extend(chapters[x].get("requires", []))
+        return out
+
     for cid, e in chapters.items():
-        for pre in list(e.get("requires", [])):
-            reduced = [r for r in e.get("requires", []) if r != pre]
-            frontier = list(reduced)
-            seen_set = set(frontier)
-            while frontier:
-                c = frontier.pop()
-                for d in dependents.get(c, []):
-                    if d == cid:
-                        continue
-                    if d not in seen_set:
-                        seen_set.add(d)
-                        frontier.append(d)
-            if pre in seen_set:
+        reqs = list(e.get("requires", []))
+        for pre in reqs:
+            others = [x for x in reqs if x != pre]
+            if any(pre == other or pre in ancestors(other) for other in others):
                 print(f"[audit] WARNING: redundant edge {cid} -> {pre} "
-                      f"(reachable via other prerequisites)")
+                      f"(already reachable through another prerequisite)")
 
     # 10. Track-reachability policy tests (fresh-review #15).
     def reachable_from(target, roots):

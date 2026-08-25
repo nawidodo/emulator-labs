@@ -23,6 +23,25 @@ Full workflow, gates, hints: [docs/GATE.md](docs/GATE.md),
 [docs/TESTING.md](docs/TESTING.md). Phase map:
 [docs/ROADMAP.md](docs/ROADMAP.md).
 
+## Choose your route
+
+**Executable default (C++20):** CHIP-8 → 8080/Space Invaders → NES →
+Playable NES gate → engineering (scheduler/save-states/debugger) → PS1.
+Game Boy / GBA / SNES are optional depth branches and never block PS1.
+Advanced NES mappers and dynarec are optional side-quests.
+
+**Strict-C17 route (blueprint + seed):** `tracks/foundations-c17/` —
+a separate executable track (CHIP-8 → 6502 → NES) with its own manifest;
+today it carries the integer-model seed lab and the full curriculum
+document as `docs/CURRICULUM-foundations-c17.md`.
+
+Pick one answer to "what do I do first?":
+
+```bash
+python3 tools/labs/progress.py track ps1        # default PS1 route
+python3 tools/labs/progress.py track classic-depth   # console depth
+```
+
 ## The loop you will live in
 
 ```text

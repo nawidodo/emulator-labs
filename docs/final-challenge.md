@@ -6,7 +6,7 @@ APU and test-harness libraries, and the public test programs shipped with this c
 (`tests/public/final_challenge/`). Nothing about the machine is implemented for you.
 
 Your task: make the machine reach the defined milestones in §10. After that, grading runs
-**hidden cartridge ROMs** against your emulator. The hidden ROMs test whether you learned
+**unseen cartridge ROMs** against your emulator. The unseen ROMs test whether you learned
 **emulator engineering** — specification reading, architecture, cycle accounting,
 differential testing — not memorized PS1 code.
 
@@ -735,7 +735,7 @@ Deterministic   no wall-clock time, no RNG (or a hard-fixed seed), no threading 
                 affects observable results, no uninitialized-memory reads. Running the
                 same ROM twice must produce byte-identical traces and hashes.
 Self-contained  no network, no host-specific paths beyond the CLI arguments.
-Spec-faithful   hidden ROMs only use what THIS document defines; they will exercise
+Spec-faithful   unseen ROMs only use what THIS document defines; they will exercise
                 edge cases the spec pins down (delay slots, wrap-around scrolls,
                 degenerate triangles, IRQ nesting rules, DMA stalls).
 Honest          a mismatch must fail loudly, not papered over with special cases.
@@ -774,7 +774,7 @@ How graders invoke you: the capstone grading manifest references your binary thr
 environment-variable placeholder —
 
 ```json
-{"name": "hidden_case_01",
+{"name": "unseen_case_01",
  "binary": "{{env:LABS_CAPSTONE_BIN}}",
  "args": ["--rom", "{{tmp}}/hidden_01.mc32", "--frames", "5",
           "--hash-frame", "{{tmp}}/f.txt"],

@@ -27,6 +27,12 @@ from pathlib import Path
 
 COMPONENTS = ["exercises", "starter", "debug", "challenge", "coding_test"]
 GATE_MARK = "passed"
+
+def components_for(ch: str) -> list[str]:
+    """Gate components for one chapter: manifest `components` wins over
+    the default five (integration gates/capstones differ)."""
+    e = manifest_entry(ch)
+    return list(e.get("components", COMPONENTS)) or COMPONENTS
 LEARNER_DIR = ".emulator-labs"
 
 
@@ -48,7 +54,7 @@ def initial_state_from_manifest() -> dict:
         for cid, e in mch.items():
             data["chapters"][cid] = {
                 "title": e.get("title", cid),
-                "components": {c: "" for c in COMPONENTS},
+                "components": {c: "" for c in components_for(cid)},
                 "status": "LOCKED",
             }
     open_chapters = [c for c in chapters_in_order(data)
@@ -80,10 +86,13 @@ def load() -> dict:
             if cid not in data["chapters"]:
                 data["chapters"][cid] = {
                     "title": e.get("title", cid),
-                    "components": {c: "" for c in COMPONENTS},
+                    "components": {c: "" for c in components_for(cid)},
                     "status": "LOCKED"}
             else:
                 data["chapters"][cid]["title"] = e.get("title", cid)
+                # merge newly-introduced manifest components into state
+                for c in components_for(cid):
+                    data["chapters"][cid]["components"].setdefault(c, "")
         for cid in list(data["chapters"]):
             if cid not in mch:
                 del data["chapters"][cid]
@@ -136,7 +145,7 @@ def manifest_display_order() -> dict:
 
 
 def gate_passed(st: dict) -> bool:
-    return all(st["components"][c] == GATE_MARK for c in COMPONENTS)
+    return all(v == GATE_MARK for v in st["components"].values())
 
 
 def is_unlocked(data: dict, ch: str) -> bool:
@@ -211,6 +220,34 @@ def selected_tracks(data: dict) -> set[str]:
     return set(sel)
 
 
+def valid_tracks() -> list[str]:
+    mf = repo() / "course-manifest.json"
+    if mf.is_file():
+        return json.loads(mf.read_text()).get("tracks", [])
+    return []
+
+
+def cmd_why(ns: argparse.Namespace) -> int:
+    data = load()
+    ch = ns.chapter
+    if ch not in data["chapters"]:
+        sys.exit(f"error: unknown chapter '{ch}'")
+    if is_unlocked(data, ch):
+        print(f"{ch}: UNLOCKED")
+        return 0
+    print(f"{ch}: LOCKED")
+    for pre in requires_for(ch):
+        st = data["chapters"].get(pre)
+        if st is None:
+            print(f"  - {pre}: (no learner state)")
+        elif gate_passed(st):
+            print(f"  - {pre}: PASSED")
+        else:
+            missing = [c for c, v in st["components"].items() if v != "passed"]
+            print(f"  - {pre}: NOT PASSED (pending: {', '.join(missing)})")
+    return 2
+
+
 def cmd_tracks(ns: argparse.Namespace) -> int:
     data = load()
     mf = repo() / "course-manifest.json"
@@ -224,9 +261,7 @@ def cmd_tracks(ns: argparse.Namespace) -> int:
 
 def cmd_track_add(ns: argparse.Namespace) -> int:
     data = load()
-    mf = repo() / "course-manifest.json"
-    valid = json.loads(mf.read_text()).get("tracks", []) if mf.is_file() \
-        else []
+    valid = valid_tracks()
     if ns.track_name not in valid:
         sys.exit(f"error: unknown track '{ns.track_name}' (valid: {valid})")
     st = data.setdefault("student", {})
@@ -274,6 +309,9 @@ def next_open_chapter(data: dict) -> str:
 
 def cmd_track(ns: argparse.Namespace) -> int:
     """Compatibility wrapper: 'track X' == select track X alone."""
+    if ns.track_name and ns.track_name not in valid_tracks():
+        sys.exit(f"error: unknown track '{ns.track_name}' "
+                 f"(valid: {valid_tracks()})")
     data = load()
     st = data.setdefault("student", {})
     st["selected_tracks"] = [ns.track_name] if ns.track_name else []
@@ -301,6 +339,8 @@ def main() -> int:
     m.add_argument("state", choices=["passed", "failed", "active", ""])
     u = sub.add_parser("unlock-check")
     u.add_argument("chapter")
+    w = sub.add_parser("why")
+    w.add_argument("chapter")
     t = sub.add_parser("track")
     t.add_argument("track_name", nargs="?", default="",
                    help="select one track (alias for track-add)")
@@ -315,7 +355,8 @@ def main() -> int:
                  "track": cmd_track, "tracks": cmd_tracks,
                  "track-add": cmd_track_add,
                  "track-remove": cmd_track_remove,
-                 "unlock-check": cmd_unlock_check}
+                 "unlock-check": cmd_unlock_check,
+                 "why": cmd_why}
         return table[args.cmd](args)
     except BrokenPipeError:
         return 0

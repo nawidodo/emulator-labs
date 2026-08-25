@@ -1,6 +1,6 @@
 # Roadmap & Milestones
 
-Nine phases, 51 chapters, one graduation exam.
+One executable default route plus optional depth branches, one graduation exam. The manifest is the source of truth (course-manifest.json): 52 nodes, explicit requires[], display_order for presentation.
 
 | Phase | Chapters | New concepts | Milestone: you can... |
 |---|---|---|---|

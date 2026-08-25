@@ -6,7 +6,8 @@
     "core",
     "nes-depth",
     "classic-depth",
-    "ps1"
+    "ps1",
+    "performance"
   ],
   "notes": "requires[] holds DIRECT prerequisites only; transitive closure is implicit. display_order drives presentation.",
   "chapters": {
@@ -17,7 +18,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 1
+      "display_order": 1,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch02_emulator_core": {
       "title": "Fictional CPU: fetch/decode/execute",
@@ -28,7 +37,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 2
+      "display_order": 2,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch03_chip8_architecture": {
       "title": "CHIP-8 machine architecture",
@@ -39,7 +56,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 3
+      "display_order": 3,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch04_chip8_cpu": {
       "title": "Complete CHIP-8 CPU",
@@ -50,7 +75,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 4
+      "display_order": 4,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch05_chip8_graphics_input_timers": {
       "title": "CHIP-8 graphics, input, timers",
@@ -61,7 +94,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 5
+      "display_order": 5,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch06_chip8_accuracy_debugger": {
       "title": "CHIP-8 accuracy, quirks, debugger",
@@ -72,7 +113,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 6
+      "display_order": 6,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch07_i8080_architecture": {
       "title": "Intel 8080 architecture",
@@ -83,7 +132,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 7
+      "display_order": 7,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch08_i8080_control_interrupts": {
       "title": "8080 control flow, stack, interrupts",
@@ -94,7 +151,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 8
+      "display_order": 8,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch09_space_invaders_machine": {
       "title": "Space Invaders machine",
@@ -105,7 +170,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 9
+      "display_order": 9,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch18_nes_6502_cpu": {
       "title": "NES 6502 CPU",
@@ -117,7 +190,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 10
+      "display_order": 10,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch19_nes_cpu_accuracy": {
       "title": "NES CPU accuracy",
@@ -129,7 +210,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 11
+      "display_order": 11,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch20_nes_bus_cartridges": {
       "title": "NES bus and cartridges",
@@ -141,7 +230,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 12
+      "display_order": 12,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch21_nes_ppu1": {
       "title": "NES PPU I",
@@ -153,7 +250,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 13
+      "display_order": 13,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch22_nes_ppu2_scrolling_sprites": {
       "title": "NES PPU II: scrolling and sprites",
@@ -165,7 +270,15 @@
         "core"
       ],
       "optional": false,
-      "display_order": 14
+      "display_order": 14,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch23_nes_mappers": {
       "title": "NES mappers",
@@ -173,23 +286,38 @@
         "ch22_nes_ppu2_scrolling_sprites"
       ],
       "track": [
-        "nes-depth",
-        "core"
+        "nes-depth"
       ],
-      "optional": false,
-      "display_order": 15
+      "optional": true,
+      "display_order": 15,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch24_nes_apu_dma_sync": {
       "title": "NES APU, DMA, final synchronization",
       "requires": [
-        "ch23_nes_mappers"
+        "ch22_nes_ppu2_scrolling_sprites"
       ],
       "track": [
-        "nes-depth",
-        "core"
+        "core",
+        "ps1"
       ],
       "optional": false,
-      "display_order": 16
+      "display_order": 16,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch52_nes_playable_gate": {
       "title": "Playable NROM Gate (whole-machine, PS1 unlock)",
@@ -203,7 +331,16 @@
       ],
       "optional": false,
       "display_order": 17,
-      "gate_for": "ps1"
+      "gate_for": "ps1",
+      "kind": "integration_gate",
+      "components": [
+        "boot",
+        "input",
+        "video",
+        "audio",
+        "determinism",
+        "integration_test"
+      ]
     },
     "ch34_scheduler_architecture": {
       "title": "Scheduler architecture",
@@ -215,7 +352,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 18
+      "display_order": 18,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch35_save_states_rewind_determinism": {
       "title": "Save states, rewind, determinism",
@@ -227,7 +372,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 19
+      "display_order": 19,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch36_emulator_debugger_tools": {
       "title": "Emulator debugger and dev tools",
@@ -239,7 +392,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 20
+      "display_order": 20,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch37_performance_dynarec": {
       "title": "Performance and dynamic recompilation",
@@ -248,21 +409,38 @@
       ],
       "track": [
         "core",
-        "ps1"
+        "ps1",
+        "performance"
       ],
-      "optional": false,
-      "display_order": 21
+      "optional": true,
+      "display_order": 21,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch38_ps1_r3000a_cpu": {
       "title": "MIPS R3000A CPU",
       "requires": [
-        "ch37_performance_dynarec"
+        "ch36_emulator_debugger_tools"
       ],
       "track": [
         "ps1"
       ],
       "optional": false,
-      "display_order": 22
+      "display_order": 22,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch39_ps1_exceptions_cop0_memory": {
       "title": "PS1 exceptions, COP0, memory",
@@ -273,7 +451,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 23
+      "display_order": 23,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch40_ps1_interrupts_timers": {
       "title": "PS1 interrupts and timers",
@@ -284,7 +470,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 24
+      "display_order": 24,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch41_ps1_gpu1_commands_vram": {
       "title": "PS1 GPU I: commands and VRAM",
@@ -295,7 +489,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 25
+      "display_order": 25,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch42_ps1_gpu2_texturing_raster": {
       "title": "PS1 GPU II: texturing and rasterization",
@@ -306,7 +508,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 26
+      "display_order": 26,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch43_ps1_dma": {
       "title": "PS1 DMA",
@@ -317,7 +527,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 27
+      "display_order": 27,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch44_ps1_gte": {
       "title": "Geometry Transformation Engine",
@@ -328,7 +546,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 28
+      "display_order": 28,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch45_ps1_cdrom": {
       "title": "PS1 CD-ROM",
@@ -339,7 +565,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 29
+      "display_order": 29,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch46_ps1_mdec": {
       "title": "MDEC video decoder",
@@ -350,7 +584,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 30
+      "display_order": 30,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch47_ps1_spu": {
       "title": "PS1 SPU",
@@ -361,7 +603,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 31
+      "display_order": 31,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch48_ps1_controllers_memcards": {
       "title": "Controllers, memory cards, serial I/O",
@@ -372,7 +622,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 32
+      "display_order": 32,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch49_ps1_system_scheduling": {
       "title": "Complete PS1 system scheduling",
@@ -383,7 +641,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 33
+      "display_order": 33,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch50_ps1_accuracy_trace_testing": {
       "title": "PS1 accuracy, trace testing, compatibility",
@@ -394,7 +660,15 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 34
+      "display_order": 34,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch51_ps1_capstone": {
       "title": "PS1 full emulator capstone",
@@ -405,7 +679,16 @@
         "ps1"
       ],
       "optional": false,
-      "display_order": 35
+      "display_order": 35,
+      "kind": "capstone",
+      "components": [
+        "integration",
+        "save_state",
+        "debugger",
+        "accuracy",
+        "capstone_test",
+        "explain_gate"
+      ]
     },
     "ch10_lr35902_cpu": {
       "title": "LR35902 CPU architecture",
@@ -414,7 +697,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 36
+      "display_order": 36,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch11_gameboy_cpu_completion": {
       "title": "Game Boy CPU completion",
@@ -425,7 +716,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 37
+      "display_order": 37,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch12_gameboy_bus_memory_map": {
       "title": "Game Boy bus and memory map",
@@ -436,7 +735,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 38
+      "display_order": 38,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch13_gameboy_timers_interrupts": {
       "title": "Game Boy timers and interrupts",
@@ -447,7 +754,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 39
+      "display_order": 39,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch14_gameboy_ppu1": {
       "title": "Game Boy PPU I",
@@ -458,7 +773,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 40
+      "display_order": 40,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch15_gameboy_ppu2": {
       "title": "Game Boy PPU II",
@@ -469,7 +792,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 41
+      "display_order": 41,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch16_gameboy_cartridges_mbc": {
       "title": "Game Boy cartridges and MBCs",
@@ -480,7 +811,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 42
+      "display_order": 42,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch17_gameboy_audio_accuracy": {
       "title": "Game Boy audio and accuracy",
@@ -491,7 +830,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 43
+      "display_order": 43,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch25_arm7tdmi_arm_isa": {
       "title": "ARM7TDMI ARM instruction set",
@@ -500,7 +847,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 44
+      "display_order": 44,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch26_gba_thumb_pipeline_exceptions": {
       "title": "Thumb, pipeline, exceptions",
@@ -511,7 +866,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 45
+      "display_order": 45,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch27_gba_memory_system": {
       "title": "GBA memory system",
@@ -522,7 +885,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 46
+      "display_order": 46,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch28_gba_ppu": {
       "title": "GBA PPU",
@@ -533,7 +904,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 47
+      "display_order": 47,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch29_gba_dma_timers_irq": {
       "title": "GBA DMA, timers, IRQ",
@@ -544,7 +923,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 48
+      "display_order": 48,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch30_gba_audio_saves_accuracy": {
       "title": "GBA audio, saves, accuracy",
@@ -555,7 +942,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 49
+      "display_order": 49,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch31_snes_65c816_cpu": {
       "title": "65C816 CPU",
@@ -566,7 +961,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 50
+      "display_order": 50,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch32_snes_bus_ppu": {
       "title": "SNES bus and PPU",
@@ -577,7 +980,15 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 51
+      "display_order": 51,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
     },
     "ch33_snes_dma_hdma_audio": {
       "title": "SNES DMA, HDMA, audio",
@@ -588,7 +999,23 @@
         "classic-depth"
       ],
       "optional": true,
-      "display_order": 52
+      "display_order": 52,
+      "kind": "lab",
+      "components": [
+        "exercises",
+        "starter",
+        "debug",
+        "challenge",
+        "coding_test"
+      ]
+    }
+  },
+  "schema_version": 3,
+  "tracks_meta": {
+    "foundations-c17": {
+      "kind": "blueprint-executable-seed",
+      "manifest": "tracks/foundations-c17/manifest.json",
+      "seed_lab": "tracks/foundations-c17/templates/ch02_integer_model"
     }
   }
 }

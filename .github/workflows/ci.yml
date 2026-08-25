@@ -70,6 +70,8 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/checkout@v4
+      - name: Generate reference solution trees
+        run: python tools/labs/generate.py --mode solution --force --targets all
       - name: Configure (solutions)
         run: cmake -S . -B build-solutions -DLABS_BUILD_SOLUTIONS=On
       - name: Build

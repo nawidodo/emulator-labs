@@ -6,6 +6,7 @@
 #include "../03_card_image/card_image.hpp"
 #include "../03_card_image/sio_bus.hpp"
 #include "../shared/fnv.hpp"
+#include <cstddef>
 
 #include <array>
 #include <vector>

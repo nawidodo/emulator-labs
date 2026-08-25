@@ -2,6 +2,7 @@
 // Signatures are already declared in unseen_mapper.hpp; fill in the
 // three @LABS bodies. The constructor is provided.
 #include "unseen_mapper.hpp"
+#include <cstddef>
 
 namespace mbcx {
 

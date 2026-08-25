@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "keypad.hpp"
+#include <cstddef>
 
 TEST(keypad, press_release_roundtrip) {
     chip8::Keypad kp;

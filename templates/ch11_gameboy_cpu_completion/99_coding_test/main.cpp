@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <cstddef>
 
 #include "../01_daa_rotates/bus.hpp"
 #include "../01_daa_rotates/core.hpp"

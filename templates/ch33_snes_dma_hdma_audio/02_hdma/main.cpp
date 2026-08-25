@@ -1,5 +1,6 @@
 // Unit tests for the 02_hdma scanline effect engine.
 #include "hdma.hpp"
+#include <cstddef>
 
 #define LABSTEST_MAIN
 #include "labstest.hpp"

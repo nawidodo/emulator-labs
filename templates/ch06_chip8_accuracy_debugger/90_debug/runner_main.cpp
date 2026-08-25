@@ -17,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <cstddef>
 
 #include "chip8.hpp"
 #include "trace.hpp"

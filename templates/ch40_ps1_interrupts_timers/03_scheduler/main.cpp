@@ -3,6 +3,7 @@
 #include <string>
 #include "machine.hpp"
 #include "scheduler.hpp"
+#include <cstddef>
 
 using ps1::sysdev::Machine;
 using ps1::sysdev::Scheduler;

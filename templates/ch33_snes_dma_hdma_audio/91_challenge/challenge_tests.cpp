@@ -4,6 +4,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "challenge.hpp"
+#include <cstddef>
 
 #include <array>
 

@@ -3,6 +3,7 @@
 // hidden grader runs this same binary filtered to the VariantSpec suite.
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <cstddef>
 
 #include "coding.hpp"
 

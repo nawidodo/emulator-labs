@@ -17,6 +17,7 @@
 #include <span>
 #include <string>
 #include <vector>
+#include <cstddef>
 
 #include "boot_mini.hpp"
 #include "fnv.hpp"

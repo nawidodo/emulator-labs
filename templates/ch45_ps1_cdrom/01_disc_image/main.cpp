@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "disc.hpp"
+#include <cstddef>
 
 #include <sstream>
 

@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "timers.hpp"
+#include <cstddef>
 
 TEST(timers, start_at_zero_and_stay_there) {
     chip8::Timers t;

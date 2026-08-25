@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "chip8.hpp"
+#include <cstddef>
 
 #include <vector>
 

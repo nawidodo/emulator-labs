@@ -30,6 +30,7 @@
 // Shared screen/VRAM/color model comes from exercise 03 so that the
 // challenge runner can drive both renderers from one memory image.
 #include "../03_bg_render/render.hpp"
+#include <cstddef>
 
 namespace snesbus {
 

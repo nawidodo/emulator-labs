@@ -4,6 +4,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "dma.hpp"
+#include <cstddef>
 
 #include <array>
 

@@ -22,6 +22,7 @@
 #include "hdma_core.hpp"
 #include <array>
 #include <cstdlib>
+#include <cstddef>
 
 #include <cstdio>
 #include <cstring>

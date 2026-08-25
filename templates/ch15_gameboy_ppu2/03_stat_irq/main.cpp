@@ -1,6 +1,7 @@
 // Tests for exercise 03: STAT interrupt sources and edge detection.
 #define LABSTEST_MAIN
 #include <vector>
+#include <cstddef>
 
 #include "labstest.hpp"
 #include "stat.hpp"

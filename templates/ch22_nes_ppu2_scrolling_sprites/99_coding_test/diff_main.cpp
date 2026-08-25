@@ -5,6 +5,7 @@
 // Prints the diagnostic report (grammar in frame_diff.hpp) to stdout.
 #include <cstdio>
 #include <string>
+#include <cstddef>
 
 #include "frame_diff.hpp"
 

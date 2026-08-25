@@ -1,6 +1,7 @@
 // Tests for exercise 04: the complete scanline renderer.
 #define LABSTEST_MAIN
 #include <cstring>
+#include <cstddef>
 
 #include "labstest.hpp"
 #include "ppu.hpp"

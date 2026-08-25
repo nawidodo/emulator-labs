@@ -1,6 +1,7 @@
 #pragma once
 #include "machine.hpp"
 #include "fnv.hpp"
+#include <cstddef>
 
 #include <cstdio>
 #include <string>

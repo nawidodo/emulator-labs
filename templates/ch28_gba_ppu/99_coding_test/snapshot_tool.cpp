@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "snapshot.hpp"
+#include <cstddef>
 using namespace gba;
 
 int main(int argc, char** argv) {

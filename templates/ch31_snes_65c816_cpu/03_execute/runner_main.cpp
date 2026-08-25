@@ -7,6 +7,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <cstddef>
 
 #include "exec.hpp"
 

@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include <array>
 #include <span>
+#include <cstddef>
 
 #include "labstest.hpp"
 #include "../01_daa_rotates/bus.hpp"

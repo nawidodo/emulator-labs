@@ -2,6 +2,7 @@
 #include <vector>
 #include "labstest.hpp"
 #include "eeprom.hpp"
+#include <cstddef>
 
 using namespace gba;
 

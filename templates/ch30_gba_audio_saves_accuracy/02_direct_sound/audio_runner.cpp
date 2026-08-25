@@ -6,6 +6,7 @@
 #include <cstring>
 #include <string>
 #include "dsound.hpp"
+#include <cstddef>
 
 using namespace gba;
 

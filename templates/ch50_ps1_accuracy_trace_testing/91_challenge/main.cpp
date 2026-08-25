@@ -4,6 +4,7 @@
 #include "../01_suite_runner/suite.hpp"
 #include "../shared/fnv.hpp"
 #include "../shared/goldens.hpp"
+#include <cstddef>
 
 // Challenge: the whole accuracy gate in one process.
 //

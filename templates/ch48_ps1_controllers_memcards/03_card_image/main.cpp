@@ -3,6 +3,7 @@
 #include "card_image.hpp"
 #include "sio_bus.hpp"
 #include "../shared/fnv.hpp"
+#include <cstddef>
 
 #include <algorithm>
 #include <array>

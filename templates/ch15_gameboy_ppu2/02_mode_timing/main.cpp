@@ -1,6 +1,7 @@
 // Tests for exercise 02: dot-driven mode timing.
 #define LABSTEST_MAIN
 #include <string>
+#include <cstddef>
 
 #include "labstest.hpp"
 #include "timing.hpp"

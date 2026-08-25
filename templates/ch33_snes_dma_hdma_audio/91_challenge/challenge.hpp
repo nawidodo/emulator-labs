@@ -4,6 +4,7 @@
 // buffer that --hash-frame emits.
 #include "bundle.hpp"
 #include "hdma_core.hpp"
+#include <cstddef>
 
 #include <span>
 #include <vector>

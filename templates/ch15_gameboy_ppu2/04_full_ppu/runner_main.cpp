@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <cstddef>
 
 #include "ppu.hpp"
 

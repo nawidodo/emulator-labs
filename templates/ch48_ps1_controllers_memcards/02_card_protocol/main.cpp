@@ -4,6 +4,7 @@
 #include <vector>
 #include "labstest.hpp"
 #include "memcard.hpp"
+#include <cstddef>
 
 using namespace sio;
 

@@ -9,6 +9,7 @@
 #include <cstring>
 #include <string>
 #include "system.hpp"
+#include <cstddef>
 using namespace gba;
 
 namespace {

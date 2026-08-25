@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <cstddef>
 
 #include "shift_register.hpp"
 #include "video.hpp"

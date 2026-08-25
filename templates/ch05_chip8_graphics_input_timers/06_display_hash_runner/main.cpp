@@ -2,6 +2,7 @@
 #include "labstest.hpp"
 #include "machine.hpp"
 #include "frame_io.hpp"
+#include <cstddef>
 
 #include <array>
 #include <string>

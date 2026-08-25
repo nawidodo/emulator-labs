@@ -11,6 +11,7 @@
 #include <iterator>
 #include <string>
 #include <vector>
+#include <cstddef>
 
 #include "chip8.hpp"
 

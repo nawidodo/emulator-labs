@@ -2,6 +2,7 @@
 #include "labstest.hpp"
 #include "spu.hpp"
 #include "../shared/fnv.hpp"
+#include <cstddef>
 
 using namespace spu;
 

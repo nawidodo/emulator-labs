@@ -6,6 +6,7 @@
 #include <vector>
 #include "labstest.hpp"
 #include "../05_scheduler/system.hpp"
+#include <cstddef>
 
 using namespace gba;
 

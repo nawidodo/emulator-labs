@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <cstddef>
 
 #include "labstest.hpp"
 #include "chain_inspect.hpp"

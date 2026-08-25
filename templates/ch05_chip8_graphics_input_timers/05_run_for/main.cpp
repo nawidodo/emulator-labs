@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "machine.hpp"
+#include <cstddef>
 
 #include <array>
 

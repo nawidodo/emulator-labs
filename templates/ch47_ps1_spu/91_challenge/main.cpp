@@ -4,6 +4,7 @@
 #include "golden.hpp"
 #include "../05_mix/spu.hpp"
 #include "../shared/fnv.hpp"
+#include <cstddef>
 
 using namespace spu;
 

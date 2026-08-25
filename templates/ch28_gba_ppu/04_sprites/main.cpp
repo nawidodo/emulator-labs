@@ -2,6 +2,7 @@
 #include <vector>
 #include "labstest.hpp"
 #include "sprites.hpp"
+#include <cstddef>
 
 using namespace gba;
 

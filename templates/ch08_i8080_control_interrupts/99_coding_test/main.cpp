@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <cstddef>
 
 #include "diverge.hpp"
 #include "labstest.hpp"

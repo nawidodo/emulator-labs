@@ -7,6 +7,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <cstddef>
 #define LABSTEST_NO_MAIN_GUARD
 #include "../01_psg_mix/psg.hpp"
 #include "../02_direct_sound/dsound.hpp"

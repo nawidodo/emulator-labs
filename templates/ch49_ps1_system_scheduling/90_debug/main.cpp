@@ -2,6 +2,7 @@
 #include "labstest.hpp"
 #include "../02_mini_devices/system.hpp"
 #include "debug_scheduler.hpp"
+#include <cstddef>
 
 #include <string>
 #include <vector>

@@ -8,6 +8,7 @@
 #include "../02_direct_sound/dsound.hpp"
 #include "../03_save_flash/save.hpp"
 #include "../04_eeprom_dmac/eeprom.hpp"
+#include <cstddef>
 
 using namespace gba;
 

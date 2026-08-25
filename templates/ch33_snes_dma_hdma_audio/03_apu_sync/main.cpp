@@ -3,6 +3,7 @@
 // ordering.
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <cstddef>
 
 #include "apu.hpp"
 #include "clock.hpp"

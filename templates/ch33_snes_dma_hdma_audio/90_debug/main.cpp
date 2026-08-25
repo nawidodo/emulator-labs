@@ -3,6 +3,7 @@
 // see golden/provenance.md): line n carries brightness ramp(n).
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <cstddef>
 
 #include "hdma_line.hpp"
 

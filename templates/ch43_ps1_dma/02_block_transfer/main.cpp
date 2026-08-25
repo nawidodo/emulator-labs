@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "transfer.hpp"
+#include <cstddef>
 
 using ps1::ChannelRegs;
 using ps1::Ram;

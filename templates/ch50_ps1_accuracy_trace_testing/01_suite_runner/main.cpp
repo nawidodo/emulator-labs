@@ -2,6 +2,7 @@
 #include "labstest.hpp"
 #include "checks.hpp"
 #include "suite.hpp"
+#include <cstddef>
 
 using namespace psxsuite;
 

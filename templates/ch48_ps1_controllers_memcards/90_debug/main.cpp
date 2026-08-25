@@ -2,6 +2,7 @@
 #include "labstest.hpp"
 #include "debug_memcard.hpp"
 #include "debug_pad.hpp"
+#include <cstddef>
 
 #include <array>
 #include <vector>

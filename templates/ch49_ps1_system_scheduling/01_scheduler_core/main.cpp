@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "scheduler.hpp"
+#include <cstddef>
 
 #include <string>
 #include <vector>

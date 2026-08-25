@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "challenge.hpp"
+#include <cstddef>
 
 using ps1::Ram;
 using ps1chal::Vram;

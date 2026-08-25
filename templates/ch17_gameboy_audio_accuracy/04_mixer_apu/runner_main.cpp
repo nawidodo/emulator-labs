@@ -17,6 +17,7 @@
 #include <cstring>
 #include <string>
 #include <vector>
+#include <cstddef>
 
 #include "apu.hpp"
 #include "audio_ring.hpp"

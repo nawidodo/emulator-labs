@@ -1,6 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include "../02_mini_devices/system.hpp"
+#include <cstddef>
 
 #include <sstream>
 #include <string>

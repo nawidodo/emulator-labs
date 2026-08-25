@@ -8,9 +8,10 @@
 //   prd <hexaddr>           PPU read;  logs "prd <addr>=<hh>"
 //   snap                    logs "mfx r0=<hh> r1=<hh> r2=<hh> r3=<hh>
 //                                wc=<d> irq=<d>" (one line, lowercase)
+#include <algorithm>
 #include <cstdint>
 #include <cstdio>
-#include <algorithm>
+#include <cstring>
 #include <string>
 #include <vector>
 

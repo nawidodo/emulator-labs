@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstring>
 #include <vector>
+#include <cstddef>
 
 #include "labstest.hpp"
 #include "apu.hpp"

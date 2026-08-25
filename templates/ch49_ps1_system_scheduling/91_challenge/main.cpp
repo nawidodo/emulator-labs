@@ -5,6 +5,7 @@
 #include "../shared/fnv.hpp"
 #include "fixture.hpp"
 #include "golden.hpp"
+#include <cstddef>
 
 #include <string>
 #include <vector>

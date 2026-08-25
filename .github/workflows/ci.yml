@@ -58,7 +58,7 @@ jobs:
 
       - name: Hidden/unseen grade sweep vs solution binaries
         run: |
-          mkdir -p build/skels
+          rm -rf build/skels
           ln -s "$(pwd)/build-solutions/solutions" build/skels
           python3 tools/labs/grade.py --repo .
 

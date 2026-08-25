@@ -20,6 +20,7 @@ Exit 0 iff all invariants hold.
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -154,6 +155,23 @@ def main() -> int:
         elif kind == "lab":
             if not (hdir / "manifest.json").is_file():
                 problems.append(f"{cid}: lab missing hidden manifest")
+
+    # 8d. verification.json commit-drift WARNING (comprehensive review
+    #     #30): a known_good_commit older than HEAD may describe stale
+    #     verification state. Warning-only; release tooling should pin.
+    vj = repo / "verification.json"
+    if vj.is_file():
+        try:
+            head = subprocess.run(
+                ["git", "rev-parse", "--short", "HEAD"], cwd=repo,
+                capture_output=True, text=True).stdout.strip()
+            v = json.loads(vj.read_text())
+            kg = str(v.get("known_good_commit", "")).strip()
+            if head and kg and not head.startswith(kg[:7]):
+                print(f"[audit] WARNING: verification.json "
+                      f"known_good_commit={kg} != HEAD {head}")
+        except Exception:
+            pass
 
     # 9. Redundant-edge WARNINGS (fresh-review #14): an edge A->B is
     #    redundant when B stays reachable from A's other prerequisites.

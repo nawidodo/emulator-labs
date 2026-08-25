@@ -56,6 +56,16 @@ jobs:
       - name: Manifest/DAG audit
         run: python3 tools/labs/audit_manifest.py
 
+      - name: C17 track pedantic compile probe
+        run: |
+          python3 tools/labs/generate.py --track foundations-c17 --force \
+            --todo 9999 --targets all --out /tmp/c17/gen-tree
+          cmake -S tracks/foundations-c17 -B /tmp/c17/build \
+            -DLABS_TEMPLATES_ROOT=/tmp/c17/gen-tree \
+            -DCMAKE_C_FLAGS="-std=c17 -pedantic-errors"
+          cmake --build /tmp/c17/build -j
+          ctest --test-dir /tmp/c17/build --output-on-failure
+
       - name: Hidden/unseen grade sweep vs solution binaries
         run: |
           rm -rf build/skels

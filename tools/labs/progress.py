@@ -171,16 +171,28 @@ def cmd_status(_: argparse.Namespace) -> int:
            + " | ".join(f"{c[:9]:>9}" for c in COMPONENTS) + " | Status  |")
     print(hdr)
     print("|" + "-" * (len(hdr) - 2) + "|")
+    shown = 0
     for ch in chapters_in_order(data):
+        if getattr(ns, "track", None):
+            tracks = set(manifest_entry(ch).get("track", []))
+            if ns.track not in tracks:
+                continue
+        if getattr(ns, "unlocked", False) and not is_unlocked(data, ch):
+            continue
         st = data["chapters"][ch]
         cells = [({"passed": "     ✓   ", "failed": "   ✗    ",
-                   "active": "  ~     "}.get(st["components"][c], "    -    "))
+                   "active": "  ~     "}.get(st["components"].get(c, ""),
+                                              "    -    "))
                  for c in COMPONENTS]
-        all_pass = gate_passed(st)
+        all_pass = (st["components"]
+                    and all(v == GATE_MARK
+                            for v in st["components"].values()))
         state = ("PASSED" if all_pass else
                  ("ACTIVE" if ch == cur else
                   ("unlocked" if is_unlocked(data, ch) else "🔒 LOCKED")))
         print(f"| {ch:<38} | " + " | ".join(cells) + f" | {state} |")
+        shown += 1
+    print(f"\n({shown} chapters shown)")
     return 0
 
 
@@ -332,7 +344,11 @@ def cmd_unlock_check(ns: argparse.Namespace) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("status")
+    st_ = sub.add_parser("status")
+    st_.add_argument("--track", default=None,
+                     help="show only chapters on this track")
+    st_.add_argument("--unlocked", action="store_true",
+                     help="show only unlocked chapters")
     m = sub.add_parser("mark")
     m.add_argument("chapter")
     m.add_argument("component", choices=COMPONENTS)

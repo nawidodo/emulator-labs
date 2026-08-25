@@ -112,6 +112,30 @@ times; if it fails, the grading environment — not a student — is broken.
 - [ ] self-check: `python3 tools/labs/grade.py --repo . ch51_ps1_capstone`
       passes its pipeline self-check case on any machine
 
+## Boot milestones (comprehensive review #25)
+
+The integrated machine must demonstrate, in order:
+
+```text
+reset PC / BIOS mapping  ->  synthetic BIOS stub runs
+      ->  initialized machine  ->  PS-X EXE / homebrew executes
+      ->  (stretch) synthetic disc boot path
+```
+
+Course-original BIOS stub and homebrew disc only — no Sony BIOS, no
+commercial games.
+
+## Accuracy integration (review #24)
+
+Layer B: apply an accuracy-suite contract to YOUR integrated binary.
+Point the environment variable at it and run the suite filters against
+your build (the psx-mini contract in ch50 defines the register-level
+interface your binary must expose):
+
+```bash
+LABS_PS1_BIN=/path/to/your/psx make grade GRADE_TARGETS=ch50_ps1_accuracy_trace_testing
+```
+
 ## Final explain gate (from the C17 foundations track)
 
 Before calling the capstone done, write out — from memory, no notes — the

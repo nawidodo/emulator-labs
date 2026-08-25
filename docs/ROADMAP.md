@@ -2,6 +2,17 @@
 
 One executable default route plus optional depth branches, one graduation exam. The manifest is the source of truth (course-manifest.json): 52 nodes, explicit requires[], display_order for presentation.
 
+### Routes
+
+```text
+PS1 ROUTE (required):   foundations -> CHIP-8 -> 8080 -> NES
+                        -> playable NES gate -> engineering -> PS1 -> capstone
+
+DEPTH BRANCHES (opt):   Game Boy / GBA / SNES   (never blocks PS1)
+SIDE QUESTS (opt):      advanced mappers, dynarec/JIT, rewind
+ALT TRACK:              strict-C17 foundations (blueprint + seed lab)
+```
+
 | Phase | Chapters | New concepts | Milestone: you can... |
 |---|---|---|---|
 | I Foundations | 1-2 | lab workflow, fetch/decode/execute | build a fictional CPU from spec |

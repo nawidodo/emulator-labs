@@ -23,6 +23,16 @@ FORBIDDEN = [
 ]
 
 PATTERN = re.compile("|".join(FORBIDDEN), re.IGNORECASE)
+
+# Portable-core invariants beyond headers (comprehensive review #26):
+# no host wall-clock inside machine state, no raw pointer serialization.
+RUNTIME_PATTERNS = [
+    (re.compile(r"\btime\s*\(\s*(?:nullptr|0|NULL)\s*\)"),
+     "host wall-clock time()"),
+    (re.compile(r"chrono::system_clock"), "host system clock"),
+    (re.compile(r"reinterpret_cast<[^>]*char\s*\*>[^;]*memcpy"),
+     "raw pointer serialization"),
+]
 EXTS = {".c", ".h", ".cc", ".cpp", ".hpp"}
 
 
@@ -47,6 +57,12 @@ def main() -> int:
                     bad.append((f, lineno))
                     print(f"{f}:{lineno}: forbidden platform/UI header "
                           f"-> {line.strip()}")
+                elif f.suffix.lower() != ".h":
+                    for pat, what in RUNTIME_PATTERNS:
+                        if pat.search(line):
+                            print(f"{f}:{lineno}: portability: {what} "
+                                  f"-> {line.strip()}")
+                            break
     print(f"[lint-portable] scanned {scanned} files under {roots}; "
           f"{len(bad)} violations")
     return 1 if bad else 0

@@ -94,9 +94,18 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
     except subprocess.TimeoutExpired:
         return False, f"timed out after {timeout}s"
 
+    def save_failure(kind: str, detail: str) -> None:
+        """Preserve failing-case output under .labs/failures/ (review
+        #29.3) so debugging does not depend on terminal scrollback."""
+        fdir = repo / ".labs" / "failures" / case.get("name", "case")
+        fdir.mkdir(parents=True, exist_ok=True)
+        (fdir / kind).write_text(detail)
+
     if "expect_exit" in case and proc.returncode != case["expect_exit"]:
         tail = (proc.stdout or proc.stderr or "").strip().splitlines()
         detail = tail[-1] if tail else ""
+        save_failure("output.txt",
+                     f"exit={proc.returncode}\n\n{proc.stdout}\n\n{proc.stderr}")
         return False, (f"exit {proc.returncode} != {case['expect_exit']} "
                        f"{detail[:120]}")
     if "expect_stdout_contains" in case:

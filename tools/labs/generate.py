@@ -295,18 +295,48 @@ def main(argv: list[str] | None = None) -> int:
     del track
     if args.list:
         list_root = repo / "templates"
-        env_track = os.environ.get("TRACK", "").strip()
-        if getattr(args, "track", None):
-            list_root = repo / "tracks" / args.track / "templates"
-        elif env_track:
-            list_root = repo / "tracks" / env_track / "templates"
-        for ch in sorted(list_root.glob("ch*")):
+        track_name = getattr(args, "track", None) \
+            or os.environ.get("TRACK", "").strip() or None
+        track_manifest = {}
+        if track_name:
+            list_root = repo / "tracks" / track_name / "templates"
+            mf = repo / "tracks" / track_name / "manifest.json"
+            if mf.is_file():
+                track_manifest = json.loads(mf.read_text()).get(
+                    "chapters", {})
+        for ch in sorted(list_root.glob("*")):
+            if not ch.is_dir():
+                continue
+            # Manifest ids may be shorter than dir names
+            # (c17_002 vs c17_002_integer_model): match by id prefix.
+            impl = ""
+            for cid, e in track_manifest.items():
+                if ch.name == cid or ch.name.startswith(cid + "_"):
+                    impl = e.get("implementation", "")
+                    break
+            tag = f"[{impl.upper():<9}] " if impl else ""
+            print(f"{tag}{ch.name}")
             exercises = sorted(p.name for p in ch.iterdir()
                                if p.is_dir() and p.name[0].isdigit())
-            print(ch.name)
             for e in exercises:
                 print(f"  {ch.name}/{e}")
         return 0
+
+    # Planned (non-executable) track chapters must not generate.
+    track_name = getattr(args, "track", None) \
+        or os.environ.get("TRACK", "").strip() or None
+    if track_name and args.mode != "solution":
+        tmf = repo / "tracks" / track_name / "manifest.json"
+        if tmf.is_file():
+            tchapters = json.loads(tmf.read_text()).get("chapters", {})
+            for target in args.targets:
+                cid = target.split("/")[0]
+                impl = tchapters.get(cid, {}).get("implementation")
+                if impl and impl != "verified":
+                    sys.exit(
+                        f"error: '{cid}' is a [{impl}] chapter on the "
+                        f"{track_name} track — its labs are not authored "
+                        f"yet. Only [VERIFIED] chapters generate.")
 
     if args.targets == ["all"]:
         troot = repo / "templates"
@@ -316,11 +346,27 @@ def main(argv: list[str] | None = None) -> int:
             if not troot.is_dir():
                 sys.exit(f"error: unknown track '{track}'")
         args.targets = sorted(d.name for d in troot.iterdir()
-                              if d.is_dir() and d.name.startswith("ch"))
+                              if d.is_dir() and not d.name.startswith("."))
         if not args.targets:
             ap.error("--targets all matched no chapter directories")
     elif not args.targets:
         ap.error("no --targets given (or use --list)")
+
+    # Planned (non-executable) track chapters must not generate.
+    track_name = getattr(args, "track", None) \
+        or os.environ.get("TRACK", "").strip() or None
+    if track_name and args.mode != "solution":
+        tmf = repo / "tracks" / track_name / "manifest.json"
+        if tmf.is_file():
+            tchapters = json.loads(tmf.read_text()).get("chapters", {})
+            for target in args.targets:
+                cid = target.split("/")[0]
+                impl = tchapters.get(cid, {}).get("implementation")
+                if impl and impl != "verified":
+                    sys.exit(
+                        f"error: '{cid}' is a [{impl}] chapter on the "
+                        f"{track_name} track — its labs are not authored "
+                        f"yet. Only [VERIFIED] chapters generate.")
 
     failures = 0
     for target in args.targets:

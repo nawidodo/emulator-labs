@@ -4,7 +4,10 @@ PYTHON3   ?= python3
 COMMA     := ,
 BUILD_DIR ?= build
 BUILD_TYPE ?= Release
-NPROC     := $(shell sysctl -n hw.ncpu 2>/dev/null || nproc 2>/dev/null || echo 4)
+# Conservative default (comprehensive-review-2055 #28/29): hundreds of
+# generated targets can exhaust process slots at full parallelism.
+JOBS      ?= 4
+NPROC     := $(JOBS)
 CMAKE_EXTRA ?=
 CTEST_EXTRA ?=
 GRADE_TARGETS ?=

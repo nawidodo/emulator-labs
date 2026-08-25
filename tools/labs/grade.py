@@ -49,6 +49,25 @@ def fnv1a(data: bytes) -> str:
     return f"{h:016X}"
 
 
+CURRENT = {"chapter": "", "case": ""}
+
+
+def save_failure(reason: str, detail: str = "",
+                 extra_files: dict | None = None) -> None:
+    """Persist diagnostics under .labs/failures/<chapter>/<case>/
+    (latest review #38/#14). Best-effort: never raises."""
+    try:
+        d = Path(".labs") / "failures" / CURRENT.get("chapter", "_") \
+            / CURRENT.get("case", "_")
+        d.mkdir(parents=True, exist_ok=True)
+        (d / "reason.txt").write_text(reason + "\n" + detail)
+        for name, content in (extra_files or {}).items():
+            if content is not None:
+                (d / name).write_text(content)
+    except OSError:
+        pass
+
+
 def run_case(repo: Path, case: dict) -> tuple[bool, str]:
     import os
     tmp = Path(tempfile.mkdtemp(prefix="labs-grade-"))
@@ -67,9 +86,11 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
         # Learner gates are HARD: a missing integration binary fails.
         # Author/pipeline sweeps (--allow-missing-env) skip instead.
         if case.get("required_env") and not ALLOW_MISSING_ENV:
-            return False, ("required_env binary unset — the learner gate "
-                           "must FAIL, not skip, when the integrated "
-                           "binary is absent")
+            msg = ("required_env binary unset — the learner gate "
+                   "must FAIL, not skip, when the integrated "
+                   "binary is absent")
+            save_failure(msg)
+            return False, msg
         return True, ("SKIPPED ({{env:...}} in manifest 'binary' is unset — "
                       "set it to your integrated binary path)")
     binary = Path(binary_raw)
@@ -82,7 +103,9 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
         if case.get("requires_rom") and case.get("optional"):
             return True, (f"SKIPPED (student-supplied ROM absent: "
                           f"{case['requires_rom']})")
-        return False, f"binary missing: {case['binary']} (run make build)"
+        msg = f"binary missing: {case['binary']} (run make build)"
+        save_failure(msg)
+        return False, msg
     if "requires_rom" in case and not \
             (repo / expand(case["requires_rom"])).exists():
         return True, ("SKIPPED (student-supplied ROM absent: "
@@ -93,7 +116,10 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
     try:
         proc = subprocess.run([str(binary)] + args, cwd=str(repo),
                               capture_output=True, text=True, timeout=timeout)
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as exc:
+        save_failure(f"timed out after {timeout}s",
+                     stdout=getattr(exc, "stdout", "") or "",
+                     stderr=getattr(exc, "stderr", "") or "")
         return False, f"timed out after {timeout}s"
 
     def save_failure(kind: str, detail: str) -> None:
@@ -114,6 +140,11 @@ def run_case(repo: Path, case: dict) -> tuple[bool, str]:
         needle = case["expect_stdout_contains"]
         if needle not in proc.stdout:
             return False, f"stdout missing '{needle}'"
+    if "expect_file_exists" in case:
+        for rel in case["expect_file_exists"]:
+            path = Path(expand(rel))
+            if not path.exists():
+                return False, f"expected file not produced: {rel}"
     if "expect_file_hash" in case:
         spec = case["expect_file_hash"]
         path = Path(expand(spec["file"]))
@@ -157,6 +188,7 @@ def main() -> int:
     results = []
     failed_chapters = []
     for chdir in chapters_dirs:
+        CURRENT["chapter"] = chdir.name
         mf = chdir / "manifest.json"
         if not mf.is_file():
             continue
@@ -164,6 +196,7 @@ def main() -> int:
         print(f"\n=== grade {chdir.name}: {spec.get('description', '')} ===")
         ch_failed = False
         for case in spec.get("cases", []):
+            CURRENT["case"] = case.get("name", "case")
             ok, msg = run_case(repo, case)
             status = "PASS" if ok else "FAIL"
             if msg.startswith("SKIPPED"):

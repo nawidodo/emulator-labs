@@ -45,7 +45,7 @@ jobs:
              -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build
-        run: cmake --build build-solutions -j
+        run: cmake --build build-solutions --parallel 4
 
       - name: CTest (all chapters must be GREEN in solutions mode)
         run: ctest --test-dir build-solutions --output-on-failure --timeout 120
@@ -63,7 +63,7 @@ jobs:
           cmake -S tracks/foundations-c17 -B /tmp/c17/build \
             -DLABS_TEMPLATES_ROOT=/tmp/c17/gen-tree \
             -DCMAKE_C_FLAGS="-std=c17 -pedantic-errors"
-          cmake --build /tmp/c17/build -j
+          cmake --build /tmp/c17/build --parallel 2
           ctest --test-dir /tmp/c17/build --output-on-failure
 
       - name: Hidden/unseen grade sweep vs solution binaries

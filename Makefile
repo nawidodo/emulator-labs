@@ -31,7 +31,7 @@ endif
 
 build:
 	@cmake -S . -B $(BUILD_DIR) -DCMAKE_BUILD_TYPE=$(BUILD_TYPE) $(CMAKE_EXTRA)
-	@cmake --build $(BUILD_DIR) -j $(NPROC)
+	@cmake --build $(BUILD_DIR) --parallel $(JOBS)
 
 test: build
 	@ctest --test-dir $(BUILD_DIR) --output-on-failure $(CTEST_EXTRA)
@@ -68,7 +68,7 @@ deep-clean: clean
 
 solution-build:
 	@cmake -S . -B $(BUILD_DIR)-solutions -DLABS_BUILD_SOLUTIONS=On -DCMAKE_BUILD_TYPE=$(BUILD_TYPE)
-	@cmake --build $(BUILD_DIR)-solutions -j $(NPROC)
+	@cmake --build $(BUILD_DIR)-solutions --parallel $(JOBS)
 
 solution-test: solution-build
 	@ctest --test-dir $(BUILD_DIR)-solutions --output-on-failure $(CTEST_EXTRA)

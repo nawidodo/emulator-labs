@@ -50,7 +50,7 @@ LECTURE -> SPEC -> EXERCISES -> STARTER -> DEBUGGING -> CHALLENGE
 ```
 
 No theory compensates for broken code; the next chapter stays LOCKED until the
-current gate passes all five components.
+current gate passes every component it defines (manifest `components`; ordinary labs use five).
 
 ## Layout
 
@@ -82,6 +82,16 @@ third_party/ labstest.hpp minimal deterministic C++20 test framework
 | `make solutions` | regenerate full solution trees |
 | `make solution-build` / `solution-test` | build & run the reference trees |
 | `make progress` | render the chapter gate table |
+
+## Build troubleshooting
+
+Builds default to 4 parallel jobs. On constrained machines:
+
+```bash
+make build JOBS=2          # fewer compiler processes
+make build JOBS=1          # serial
+CMAKE_BUILD_PARALLEL_LEVEL=2 make build
+```
 
 ## Rules of the house
 

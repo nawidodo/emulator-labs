@@ -90,9 +90,15 @@ def load() -> dict:
                     "status": "LOCKED"}
             else:
                 data["chapters"][cid]["title"] = e.get("title", cid)
-                # merge newly-introduced manifest components into state
-                for c in components_for(cid):
-                    data["chapters"][cid]["components"].setdefault(c, "")
+                # Components are manifest-defined (schema v3): REPLACE to
+                # match exactly, preserving prior marks where names match.
+                want = components_for(cid)
+                have = data["chapters"][cid]["components"]
+                for c in list(have):
+                    if c not in want:
+                        del have[c]
+                for c in want:
+                    have.setdefault(c, "")
         for cid in list(data["chapters"]):
             if cid not in mch:
                 del data["chapters"][cid]
@@ -160,8 +166,21 @@ def is_unlocked(data: dict, ch: str) -> bool:
     return True
 
 
-def cmd_status(_: argparse.Namespace) -> int:
+def cmd_status(ns: argparse.Namespace) -> int:
     data = load()
+    # Reconcile state against the manifest before rendering.
+    mf = repo() / "course-manifest.json"
+    if mf.is_file():
+        mch = json.loads(mf.read_text()).get("chapters", {})
+        for cid, e in mch.items():
+            if cid in data["chapters"]:
+                want = components_for(cid)
+                have = data["chapters"][cid]["components"]
+                for c in list(have):
+                    if c not in want:
+                        del have[c]
+                for c in want:
+                    have.setdefault(c, "")
     unlocked = [c for c in chapters_in_order(data) if is_unlocked(data, c)]
     cur = data["student"]["current"]
     print("# Emulator School — gated laboratory curriculum\n")
@@ -203,10 +222,13 @@ def cmd_mark(ns: argparse.Namespace) -> int:
         sys.exit(f"error: unknown chapter '{ch}'")
     if not is_unlocked(data, ch):
         sys.exit(f"error: {ch} is LOCKED — prerequisites not passed yet")
+    valid = components_for(ch)
+    if ns.component not in valid:
+        sys.exit(f"error: component '{ns.component}' is not valid for {ch}; "
+                 f"valid components: {', '.join(valid)}")
     data["chapters"][ch]["components"][ns.component] = ns.state
 
-    comps = data["chapters"][ch]["components"]
-    if all(comps[c] == GATE_MARK for c in COMPONENTS):
+    if gate_passed(data["chapters"][ch]):
         nxt = next_open_chapter(data)
         if nxt:
             data["student"]["current"] = nxt
@@ -260,6 +282,44 @@ def cmd_why(ns: argparse.Namespace) -> int:
     return 2
 
 
+def cmd_show(ns: argparse.Namespace) -> int:
+    data = load()
+    ch = ns.chapter
+    if ch not in data["chapters"]:
+        sys.exit(f"error: unknown chapter '{ch}'")
+    st = data["chapters"][ch]
+    print(st.get("title", ch))
+    print()
+    width = max((len(c) for c in st["components"]), default=0)
+    for c, v in st["components"].items():
+        mark = {"passed": "✓", "active": "~"}.get(v, "-" if v == "" else "✗")
+        print(f"{c:<{width}}  {mark}")
+    all_pass = gate_passed(st)
+    print()
+    print("STATE:", "PASSED" if all_pass else
+          ("ACTIVE" if data["student"].get("current") == ch else
+           ("UNLOCKED" if is_unlocked(data, ch) else "LOCKED")))
+    return 0
+
+
+def route_closure(data: dict, selected: set[str]) -> set[str]:
+    """Selected-track chapters plus their recursive prerequisite closure
+    (latest review #33): a selected route is targets + ancestors."""
+    mf = repo() / "course-manifest.json"
+    mch = json.loads(mf.read_text()).get("chapters", {}) if mf.is_file() else {}
+    targets = {c for c, e in mch.items()
+               if set(e.get("track", [])) & selected or not selected}
+    route = set()
+    stack = list(targets)
+    while stack:
+        c = stack.pop()
+        if c in route:
+            continue
+        route.add(c)
+        stack.extend(mch.get(c, {}).get("requires", []))
+    return route
+
+
 def cmd_tracks(ns: argparse.Namespace) -> int:
     data = load()
     mf = repo() / "course-manifest.json"
@@ -304,10 +364,14 @@ def next_open_chapter(data: dict) -> str:
     """Earliest unlocked, unfinished chapter. With an active track set,
     optional chapters outside that track are deferred to the end."""
     sel = selected_tracks(data)
+    route = route_closure(data, sel) if sel else None
     on_track, off_track = [], []
     for c in chapters_in_order(data):
         st = data["chapters"][c]
         if gate_passed(st) or not is_unlocked(data, c):
+            continue
+        if route is not None and c not in route:
+            off_track.append(c)   # outside the selected route closure
             continue
         mf_entry = manifest_entry(c)
         optional = mf_entry.get("optional", False)
@@ -351,12 +415,15 @@ def main() -> int:
                      help="show only unlocked chapters")
     m = sub.add_parser("mark")
     m.add_argument("chapter")
-    m.add_argument("component", choices=COMPONENTS)
+    m.add_argument("component",
+                   help="gate component (chapter-specific; see `show`)")
     m.add_argument("state", choices=["passed", "failed", "active", ""])
     u = sub.add_parser("unlock-check")
     u.add_argument("chapter")
     w = sub.add_parser("why")
     w.add_argument("chapter")
+    sh = sub.add_parser("show")
+    sh.add_argument("chapter")
     t = sub.add_parser("track")
     t.add_argument("track_name", nargs="?", default="",
                    help="select one track (alias for track-add)")
@@ -372,7 +439,7 @@ def main() -> int:
                  "track-add": cmd_track_add,
                  "track-remove": cmd_track_remove,
                  "unlock-check": cmd_unlock_check,
-                 "why": cmd_why}
+                 "why": cmd_why, "show": cmd_show}
         return table[args.cmd](args)
     except BrokenPipeError:
         return 0

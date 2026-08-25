@@ -19,7 +19,8 @@ CODE TEST          make grade GRADE_TARGETS=chNN_slug
    ↓
 REVIEW             reread diffs vs solution; run solution-tree diff if desired
    ↓
-PASS               mark all five components; next chapter unlocks
+PASS               mark every component the chapter defines;
+                   next dependency unlocks
 ```
 
 Marking a gate:

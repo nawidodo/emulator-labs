@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "known_good_commit": "91841a9",
+  "known_good_commit": "bfefefd",
   "reference": {
     "build": "GREEN",
     "ctest": "414/414 GREEN (build-solutions)",

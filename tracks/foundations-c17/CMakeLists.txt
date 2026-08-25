@@ -11,8 +11,8 @@ set(LABS_TEMPLATES_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/templates"
 add_compile_options(-pedantic-errors)
 enable_testing()
 file(GLOB labs_lists
-     "${LABS_TEMPLATES_ROOT}/ch*/CMakeLists.txt"
-     "${LABS_TEMPLATES_ROOT}/ch*/*/CMakeLists.txt")
+     "${LABS_TEMPLATES_ROOT}/*/CMakeLists.txt"
+     "${LABS_TEMPLATES_ROOT}/*/*/CMakeLists.txt")
 foreach(l ${labs_lists})
   get_filename_component(d "${l}" DIRECTORY)
   get_filename_component(chname "${d}" NAME)

@@ -1,0 +1,21 @@
+; sched0.asm — assembled with a throwaway MIPS-I subset assembler
+;   (kept out of the repo on purpose — see provenance.md)
+; entry point 0x80010000; loaded at physical 0x10000
+
+80010000:  3C081F80  lui   $8, 0x1F80                   ; lui   $t0, 0x1F80
+80010004:  35081100  ori   $8, $8, 0x1100               ; ori   $t0, $t0, 0x1100
+80010008:  3409003C  ori   $9, $0, 0x003C               ; ori   $t1, $zero, 60
+8001000C:  AD090008  sw    $9, 8($8)                    ; sw    $t1, 8($t0)
+80010010:  34090018  ori   $9, $0, 0x0018               ; ori   $t1, $zero, 0x18
+80010014:  AD090004  sw    $9, 4($8)                    ; sw    $t1, 4($t0)
+80010018:  3C0B1F80  lui   $11, 0x1F80                  ; lui   $t3, 0x1F80
+8001001C:  356B1070  ori   $11, $11, 0x1070             ; ori   $t3, $t3, 0x1070
+80010020:  8D6A0000  lw    $10, 0($11)                  ; lw    $t2, 0($t3)
+80010024:  1140FFFE  beq   $10, $0, -2                  ; beq   $t2, $zero, poll
+80010028:  00000000  nop                                ; nop
+8001002C:  AC0A0200  sw    $10, 512($0)                 ; sw    $t2, 0x200($zero)
+80010030:  AD6A0000  sw    $10, 0($11)                  ; sw    $t2, 0($t3)
+80010034:  8D0D0000  lw    $13, 0($8)                   ; lw    $t5, 0($t0)
+80010038:  AC0D0204  sw    $13, 516($0)                 ; sw    $t5, 0x204($zero)
+8001003C:  1000FFFF  beq   $0, $0, -1                   ; beq   $zero, $zero, spin
+80010040:  00000000  nop                                ; nop

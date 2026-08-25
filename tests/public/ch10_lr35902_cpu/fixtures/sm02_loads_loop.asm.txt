@@ -1,0 +1,20 @@
+; sm02_loads_loop.asm.txt -- pair loads + LDI fill + indirect reads
+    org $0100
+    ld  bc,$1234
+    ld  de,$C000
+    ld  hl,$C010
+    ld  sp,$FFFE
+    ld  a,3
+fill:
+    ldi (hl),a
+    dec a
+    jr  nz, fill    ; fills C010,C011,C012 with 3,2,1
+    ld  hl,$C010
+    ld  a,(hl+)     ; A=3, HL=C011
+    ld  b,(hl)      ; B=(C011)=2 (clobbers high byte of BC!)
+    ld  a,(de)      ; A=(C000)=0
+    ldd (hl),a      ; (C011)=0, HL=C010
+    ld  a,(hl)      ; A=(C010)=3
+    ld  ($C020),a
+    add hl,bc       ; HL=C010+$0234=$C244 (BC low byte changed above)
+    halt

@@ -1,0 +1,4 @@
+This plain-text file carries no @LABS markers at all.
+The student generator must copy it through verbatim,
+byte for byte, including this trailing blank line.
+

@@ -1,0 +1,3 @@
+add_executable(ch39_02_exception_entry_tests main.cpp exception.hpp)
+target_link_libraries(ch39_02_exception_entry_tests PRIVATE labstest)
+add_test(NAME ch39_02_exception_entry COMMAND ch39_02_exception_entry_tests)

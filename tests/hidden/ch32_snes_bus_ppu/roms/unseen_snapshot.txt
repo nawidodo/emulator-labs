@@ -1,0 +1,43 @@
+# ch32 hidden coding-test snapshot — UNSEEN fixture.
+# Students have only seen the SPEC.md example; this file exercises the same
+# grammar with different dimensions, palettes, tiles, scroll, window and
+# subtract color math. Hand-authored; provenance in ../provenance.md.
+
+SIZE 16 12
+
+# Backdrop: muted blue-gray; layer colors: white, green, blue, teal.
+PAL 0 294A
+PAL 1 7FFF
+PAL 2 03E0
+PAL 3 7C00
+PAL 4 02A0
+PAL 5 0000
+
+# Tile 0: fully transparent (all texels zero).
+TILE 0 0000 0000 0000 0000 0000 0000 0000 0000
+# Tile 10: solid green (texel value 2).
+TILE 10 AAAA AAAA AAAA AAAA AAAA AAAA AAAA AAAA
+# Tile 12: checkerboard alternating texel values 1 and 2 ($6666 rows).
+TILE 12 6666 6666 6666 6666 6666 6666 6666 6666
+# Tile 11: white stripe — texels 3 and 4 equal 1 ($0280 rows).
+TILE 11 0000 0000 0000 0280 0280 0000 0000 0000
+MAP 0  12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12
+MAP 1  12 10 10 10 10 10 10 10 10 10 10 10 10 10 10 12
+MAP 2  12 10 10 10 10 10 11 10 10 11 10 10 10 10 10 12
+MAP 3  12 10 10 10 10 10 11 10 10 11 10 10 10 10 10 12
+MAP 4  12 10 10 10 10 10 11 10 10 11 10 10 10 10 10 12
+MAP 5  12 10 10 10 10 10 11 10 10 11 10 10 10 10 10 12
+MAP 6  12 10 10 10 10 10 11 10 10 11 10 10 10 10 10 12
+MAP 7  12 10 10 10 10 10 11 10 10 11 10 10 10 10 10 12
+MAP 8  12 10 10 10 10 10 10 10 10 10 10 10 10 10 10 12
+MAP 9  12 10 10 10 10 10 10 10 10 10 10 10 10 10 10 12
+MAP 10 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12
+MAP 11 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12 12
+
+SCROLL 5 3
+
+WINDOW 40 200 1 0
+
+MATH sub 0 1
+
+BACKDROP 3

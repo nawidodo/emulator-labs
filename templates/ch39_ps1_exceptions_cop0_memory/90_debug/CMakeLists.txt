@@ -1,0 +1,4 @@
+add_executable(ch39_90_debug_tests main.cpp)
+target_link_libraries(ch39_90_debug_tests PRIVATE labstest)
+target_include_directories(ch39_90_debug_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME ch39_90_debug COMMAND ch39_90_debug_tests)

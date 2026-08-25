@@ -1,0 +1,13 @@
+# MMC3 IRQ lab — basic period + enable/acknowledge discipline
+# Latch = 3 -> period = latch + 1 = 5 edges. First IRQ at edge 5.
+wr 0xC000 03        # latch = 3
+wr 0xE001 00        # enable IRQ line
+wr 0xC001 00        # request reload on next edge
+edge 12             # IRQ@5 fires here; the level-held line stays up
+snap                # edge=12: two full periods later, counter wrapped to 0
+wr 0xE000 00        # acknowledge (line drops); also disables
+snap                # en=0 irq=0 — same counters, quiet line
+edge 4              # countdown continues silently while disabled...
+wr 0xE001 00        # ...re-enable just before the reload edge
+edge 1              # counter==0 + enabled -> IRQ@17
+snap                # counter reloaded to latch=3, irq=1

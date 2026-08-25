@@ -1,0 +1,71 @@
+{
+  "description": "ch08 hidden gates: first-divergence harness on committed trace pairs, diagnostic challenge, golden trace hash",
+  "cases": [
+    {
+      "name": "diverge_pair_a",
+      "binary": "build/skels/ch08_i8080_control_interrupts/99_coding_test/i8080_divergence_tests",
+      "args": [
+        "--check",
+        "tests/hidden/ch08_i8080_control_interrupts/traces/pair_a_golden.log",
+        "tests/hidden/ch08_i8080_control_interrupts/traces/pair_a_buggy.log",
+        "7"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "diverge_pair_b",
+      "binary": "build/skels/ch08_i8080_control_interrupts/99_coding_test/i8080_divergence_tests",
+      "args": [
+        "--check",
+        "tests/hidden/ch08_i8080_control_interrupts/traces/pair_b_golden.log",
+        "tests/hidden/ch08_i8080_control_interrupts/traces/pair_b_buggy.log",
+        "4"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "diverge_pair_c",
+      "binary": "build/skels/ch08_i8080_control_interrupts/99_coding_test/i8080_divergence_tests",
+      "args": [
+        "--check",
+        "tests/hidden/ch08_i8080_control_interrupts/traces/pair_c_golden.log",
+        "tests/hidden/ch08_i8080_control_interrupts/traces/pair_c_buggy.log",
+        "11"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_diag_embedded",
+      "binary": "build/skels/ch08_i8080_control_interrupts/91_challenge/i8080_diag_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "diag_runner_trace_golden",
+      "binary": "build/skels/ch08_i8080_control_interrupts/91_challenge/i8080_diag_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch08_i8080_control_interrupts/roms/ch08_diag.bin",
+        "--cycles",
+        "10000",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "EFC075824110F571"
+      }
+    },
+    {
+      "name": "diag_runner_final_state",
+      "binary": "build/skels/ch08_i8080_control_interrupts/91_challenge/i8080_diag_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch08_i8080_control_interrupts/roms/ch08_diag.bin",
+        "--cycles",
+        "10000"
+      ],
+      "expect_stdout_contains": "AF=1C02 BC=1B00 DE=0000 HL=0000 SP=2000 PC=000F cyc=162"
+    }
+  ]
+}

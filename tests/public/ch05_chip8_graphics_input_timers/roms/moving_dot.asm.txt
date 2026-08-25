@@ -1,0 +1,23 @@
+moving_dot — single dot animates (+1,+2) per program frame with DT pacing,
+coordinates masked to wrap within the screen. Course-original.
+200: 68 3F   LD V8,63        ; x mask
+202: 69 1F   LD V9,31        ; y mask
+204: 65 02   LD V5,2         ; pace ticks
+206: A2 2C   LD I,$22C
+208: 60 00   LD V0,0
+20A: 61 00   LD V1,0
+20C: D0 11   DRW V0,V1,1     ; erase old dot (loop)
+20E: 70 01   ADD V0,1
+210: 71 02   ADD V1,2
+212: 80 82   AND V0,V8
+214: 81 92   AND V1,V9
+216: D0 11   DRW V0,V1,1     ; draw new dot
+218: 65 02   LD V5,2
+21A: F5 15   LD DT,V5
+21C: 67 00   LD V7,0         ; wait loop
+21E: F7 07   LD V7,DT
+220: 37 00   SE V7,0
+222: 12 1C   JP $21C
+224: 12 0C   JP $20C
+226: 00 x6   padding
+22C: 80      dot sprite

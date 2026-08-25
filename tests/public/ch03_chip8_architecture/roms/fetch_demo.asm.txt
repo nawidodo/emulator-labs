@@ -1,0 +1,12 @@
+; fetch_demo.asm.txt — annotated listing of fetch_demo.ch8 (public fixture)
+;
+; Course-original probe for exercise 02 (fetch only, no decode yet). Every
+; step must read the word big-endian and advance PC by two; execution is a
+; NOP at this stage.
+
+        .org 0x0200
+
+0200  60 42    LD   V0, 0x42       ; fetched as 0x6042
+0202  71 17    ADD  V1, 0x17       ; fetched as 0x7117
+0204  A2 06    LD   I, 0x006       ; fetched as 0xA206
+0206  12 06    JP   0x0206         ; fetched as 0x1206, parks here

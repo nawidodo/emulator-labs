@@ -1,0 +1,13 @@
+# fine_scroll_sweep.txt — fine X sweep across a scanline with $2002 reads
+# clearing the write toggle between halves.
+ctrl 0x08
+write 0 0 2005 3
+snap
+runto 10 340
+write 11 1 2002 0
+write 11 2 2005 5
+snap
+runto 12 257
+snap
+runto 240 100
+snap

@@ -1,0 +1,31 @@
+0000: C3 40 00  JMP start
+0008: C3 50 00  JMP vec8
+0010: C3 5D 00  JMP vec10
+0040: F3        DI
+0041: 31 00 21  LXI SP,0x2100
+0044: FB        EI
+0045: 01 98 1A  LXI B,0x1A98
+0048: 0B        DCX B
+0049: 78        MOV A,B
+004A: B1        ORA C
+004B: C2 48 00  JNZ loop
+004E: F3        DI
+004F: 76        HLT
+0050: F5        PUSH PSW
+0051: E5        PUSH H
+0052: 2A 00 20  LHLD 0x2000
+0055: 23        INX H
+0056: 22 00 20  SHLD 0x2000
+0059: E1        POP H
+005A: F1        POP PSW
+005B: FB        EI
+005C: C9        RET
+005D: F5        PUSH PSW
+005E: E5        PUSH H
+005F: 2A 02 20  LHLD 0x2002
+0062: 23        INX H
+0063: 22 02 20  SHLD 0x2002
+0066: E1        POP H
+0067: F1        POP PSW
+0068: FB        EI
+0069: C9        RET

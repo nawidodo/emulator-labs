@@ -1,0 +1,16 @@
+hidden_branches.asm.txt — synthetic ARM program, hidden grading fixture for
+ch25_arm7tdmi_arm_isa. Countdown loop plus a BL/BX call. Assembled
+little-endian into hidden_branches.bin; no data segment.
+
+ADDR     WORD       DISASSEMBLY
+00000000 E3A00004   mov   r0, #4
+00000004 E2500001   subs  r0, r0, #1        ; loop: countdown to zero
+00000008 1AFFFFFD   bne   00000004
+0000000C E3A01007   mov   r1, #7
+00000010 EB000000   bl    00000018          ; bump
+00000014 EAFFFFFE   b     00000014          ; park
+00000018 E2811001   add   r1, r1, #1        ; r1 = 8
+0000001C E12FFF1E   bx    lr
+
+Expected final state (cycles=30): r0=00000000, r1=00000008,
+lr(r14)=00000014, r15=00000014.

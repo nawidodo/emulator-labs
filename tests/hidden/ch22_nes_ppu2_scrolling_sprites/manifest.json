@@ -1,0 +1,101 @@
+{
+  "description": "ch22 hidden: loopy scroll, sprite eval/overflow, scrolled rendering, raster timing, frame diff",
+  "cases": [
+    {
+      "name": "loopy_sequences",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/01_loopy_scroll/ch22_01_loopy_tests",
+      "args": [
+        "nes22scroll"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "sprite_eval_and_sprite0",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/02_sprite_eval/ch22_02_sprite_eval_tests",
+      "args": [
+        "nes22sprite"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "frame_golden_scrolled_scene",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/03_sprites_priority/ch22_03_sprites_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/scroll_scene.nesf",
+        "--headless",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "69F4AFF694879225"
+      }
+    },
+    {
+      "name": "debug_fine_y_latch_fixed",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/90_debug/ch22_dbg_tests",
+      "args": [
+        "nes22dbg"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_timing_split_status_bar",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/91_challenge/ch22_91_timing_runner",
+      "args": [
+        "--script",
+        "templates/ch22_nes_ppu2_scrolling_sprites/91_challenge/fixtures/split_status_bar.txt",
+        "--trace",
+        "{{tmp}}/snap.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/snap.txt",
+        "fnv64": "2BDC4EA0E4CB3D2C"
+      }
+    },
+    {
+      "name": "challenge_timing_fine_scroll_sweep",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/91_challenge/ch22_91_timing_runner",
+      "args": [
+        "--script",
+        "templates/ch22_nes_ppu2_scrolling_sprites/91_challenge/fixtures/fine_scroll_sweep.txt",
+        "--trace",
+        "{{tmp}}/snap.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/snap.txt",
+        "fnv64": "177E961AC7918A29"
+      }
+    },
+    {
+      "name": "coding_test_frame_diff_h1",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/99_coding_test/ch22_99_frame_diff",
+      "args": [
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/pair_h_a.rgba",
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/pair_h_b.rgba"
+      ],
+      "expect_stdout_contains": "shift=h1"
+    },
+    {
+      "name": "coding_test_frame_diff_v1",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/99_coding_test/ch22_99_frame_diff",
+      "args": [
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/pair_v_a.rgba",
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/pair_v_b.rgba"
+      ],
+      "expect_stdout_contains": "shift=v1"
+    },
+    {
+      "name": "coding_test_frame_diff_other",
+      "binary": "build/skels/ch22_nes_ppu2_scrolling_sprites/99_coding_test/ch22_99_frame_diff",
+      "args": [
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/pair_o_a.rgba",
+        "tests/hidden/ch22_nes_ppu2_scrolling_sprites/fixtures/pair_o_b.rgba"
+      ],
+      "expect_stdout_contains": "shift=other"
+    }
+  ]
+}

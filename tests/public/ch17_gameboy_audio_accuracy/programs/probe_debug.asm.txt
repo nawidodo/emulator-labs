@@ -1,0 +1,16 @@
+# probe_debug.apuprog — register write table
+# envelope decay + negative-mode sweep probe (see DEBUGGING.md)
+# tcycle   reg   value
+# ------------------
+  0        0xff26  0x80
+  0        0xff24  0x77
+  0        0xff25  0x11
+  0        0xff10  0x19
+  0        0xff11  0x80
+  0        0xff12  0x72
+  0        0xff13  0xb0
+  0        0xff14  0x84
+  180000   0xff12  0x72
+  180000   0xff13  0xb0
+  180000   0xff14  0x84
+  TERM     0xffff  --

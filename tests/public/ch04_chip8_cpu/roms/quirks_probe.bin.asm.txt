@@ -1,0 +1,10 @@
+# quirks_probe: minimal program whose final state depends on profile
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  6181   LD  V1,#81
+0202:  6202   LD  V2,#02
+0204:  8316   SHR V3,V1   ; quirk-sensitive
+0206:  A500   LD  I,#500
+0208:  F455   STORE V0-V4 ; I-advance quirk-sensitive
+020A:  0000   halt

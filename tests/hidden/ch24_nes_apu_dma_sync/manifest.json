@@ -1,0 +1,116 @@
+{
+  "description": "ch24 hidden: APU channels, frame counter/DMA/scheduler, debug DMA bill, synchronized-run goldens, drift-repair coding test",
+  "cases": [
+    {
+      "name": "apu_channel_suites",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/01_apu_channels/ch24_01_apu_tests",
+      "args": [
+        "nes24pulse"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "frame_dma_scheduler_suite",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/02_frame_dma_scheduler/ch24_02_sched_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_dma_bill_fixed",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/90_debug/ch24_dbg_tests",
+      "args": [
+        "nes24dbg"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_sync_golden_trace",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/91_challenge/ch24_91_sync_runner",
+      "args": [
+        "--rom",
+        "templates/ch24_nes_apu_dma_sync/91_challenge/fixtures/sync_sweep.txt",
+        "--frames",
+        "60",
+        "--headless",
+        "--trace",
+        "{{tmp}}/sync.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/sync.txt",
+        "fnv64": "B8EC68A211C8649D"
+      }
+    },
+    {
+      "name": "challenge_sync_golden_audio",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/91_challenge/ch24_91_sync_runner",
+      "args": [
+        "--rom",
+        "templates/ch24_nes_apu_dma_sync/91_challenge/fixtures/sync_sweep.txt",
+        "--frames",
+        "60",
+        "--headless",
+        "--audio-out",
+        "{{tmp}}/sync.pcm"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/sync.pcm",
+        "fnv64": "A7EFC77F903BEF7F"
+      }
+    },
+    {
+      "name": "coding_test_drift_repair_audio",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/99_coding_test/ch24_99_drift_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch24_nes_apu_dma_sync/fixtures/unseen_drift.txt",
+        "--frames",
+        "40",
+        "--audio-out",
+        "{{tmp}}/drift.pcm"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/drift.pcm",
+        "fnv64": "C646160039C5F977"
+      }
+    },
+    {
+      "name": "coding_test_drift_repair_trace",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/99_coding_test/ch24_99_drift_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch24_nes_apu_dma_sync/fixtures/unseen_drift.txt",
+        "--frames",
+        "40",
+        "--trace",
+        "{{tmp}}/drift.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/drift.txt",
+        "fnv64": "F465E64B6C5B489C"
+      }
+    },
+    {
+      "name": "coding_test_drift_repair_frame",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/99_coding_test/ch24_99_drift_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch24_nes_apu_dma_sync/fixtures/unseen_drift.txt",
+        "--frames",
+        "40",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/drift.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/drift.rgba",
+        "fnv64": "7915F1E8DB7E9725"
+      }
+    },
+    {
+      "name": "pcm_fifo_abi_suite_exit",
+      "binary": "build/skels/ch24_nes_apu_dma_sync/03_pcm_fifo_abi/ch24_03_fifo_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

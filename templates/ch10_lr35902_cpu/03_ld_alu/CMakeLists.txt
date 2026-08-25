@@ -1,0 +1,5 @@
+add_executable(ch10_03_ld_alu_tests main.cpp)
+target_link_libraries(ch10_03_ld_alu_tests PRIVATE labstest)
+add_test(NAME ch10_03_ld_alu COMMAND ch10_03_ld_alu_tests)
+
+add_executable(ch10_03_ld_alu_runner runner_main.cpp)

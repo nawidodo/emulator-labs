@@ -1,0 +1,63 @@
+{
+  "description": "ch21 hidden: PPU address space, background pipeline, frame rendering",
+  "cases": [
+    {
+      "name": "ppu_bus_mirrors",
+      "binary": "build/skels/ch21_nes_ppu1/01_ppu_bus/ch21_01_ppu_bus_tests",
+      "args": [
+        "nes21bus"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "bg_pipeline_pixels_and_golden",
+      "binary": "build/skels/ch21_nes_ppu1/02_bg_pipeline/ch21_02_bg_tests",
+      "args": [
+        "nes21bg"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "frame_golden_public_scene",
+      "binary": "build/skels/ch21_nes_ppu1/03_render_frame/ch21_03_render_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch21_nes_ppu1/fixtures/scene_grid.nesf",
+        "--headless",
+        "--frames",
+        "2",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "985B8113C024BB25"
+      }
+    },
+    {
+      "name": "debug_attr_quadrant_fixed",
+      "binary": "build/skels/ch21_nes_ppu1/90_debug/ch21_dbg_tests",
+      "args": [
+        "nes21dbg"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_unseen_snapshot",
+      "binary": "build/skels/ch21_nes_ppu1/03_render_frame/ch21_03_render_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch21_nes_ppu1/fixtures/unseen_vram.nesf",
+        "--headless",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "0B8D07A7D54A3325"
+      }
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+add_executable(ch22_01_loopy_tests main.cpp)
+target_link_libraries(ch22_01_loopy_tests PRIVATE labstest)
+add_test(NAME ch22_01_loopy COMMAND ch22_01_loopy_tests)

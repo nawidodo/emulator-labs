@@ -1,0 +1,96 @@
+{
+  "description": "ch23 hidden: mapper interface/iNES parse, UxROM+CNROM, MMC1, MMC3 IRQ, debug regression, challenge IRQ logs, MFX-1 coding test",
+  "cases": [
+    {
+      "name": "uxcn_board_suites",
+      "binary": "build/skels/ch23_nes_mappers/02_uxrom_cnrom/ch23_02_uxcn_tests",
+      "args": [
+        "nes23uxcn"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "mmc1_serial_banking_suite",
+      "binary": "build/skels/ch23_nes_mappers/03_mmc1/ch23_03_mmc1_tests",
+      "args": [
+        "nes23mmc1"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "mmc3_banking_irq_suite",
+      "binary": "build/skels/ch23_nes_mappers/04_mmc3/ch23_04_mmc3_tests",
+      "args": [
+        "nes23mmc3"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_mmc3_latch_timing_fixed",
+      "binary": "build/skels/ch23_nes_mappers/90_debug/ch23_dbg_tests",
+      "args": [
+        "nes23dbg"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_irq_period_log",
+      "binary": "build/skels/ch23_nes_mappers/91_challenge/ch23_91_irq_runner",
+      "args": [
+        "--script",
+        "templates/ch23_nes_mappers/91_challenge/fixtures/irq_period.txt",
+        "--trace",
+        "{{tmp}}/irq.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/irq.log",
+        "fnv64": "3FA2E41C148FAABC"
+      }
+    },
+    {
+      "name": "challenge_irq_rewrite_log",
+      "binary": "build/skels/ch23_nes_mappers/91_challenge/ch23_91_irq_runner",
+      "args": [
+        "--script",
+        "templates/ch23_nes_mappers/91_challenge/fixtures/irq_rewrite.txt",
+        "--trace",
+        "{{tmp}}/irq.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/irq.log",
+        "fnv64": "B6AEC18821EE6BCC"
+      }
+    },
+    {
+      "name": "hidden_cart_header_parse",
+      "binary": "build/skels/ch23_nes_mappers/01_ines_header/ch23_01_ines_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch23_nes_mappers/fixtures/unseen_header.nes",
+        "--headless",
+        "--trace",
+        "{{tmp}}/cart.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/cart.txt",
+        "fnv64": "574D85EA90290DCD"
+      }
+    },
+    {
+      "name": "coding_test_unseen_mfx",
+      "binary": "build/skels/ch23_nes_mappers/99_coding_test/ch23_99_mfx_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch23_nes_mappers/fixtures/unseen_mfx.nes",
+        "--script",
+        "tests/hidden/ch23_nes_mappers/fixtures/unseen_mfx_script.txt",
+        "--trace",
+        "{{tmp}}/mfx.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/mfx.log",
+        "fnv64": "36D6EC6C9AA99755"
+      }
+    }
+  ]
+}

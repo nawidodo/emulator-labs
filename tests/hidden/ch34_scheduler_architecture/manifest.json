@@ -1,0 +1,67 @@
+{
+  "description": "ch34 scheduler architecture \u2014 hidden gate",
+  "cases": [
+    {
+      "name": "unit_core",
+      "binary": "build/skels/ch34_scheduler_architecture/01_event_queue/ch34_01_event_queue_tests",
+      "args": [
+        "sched."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "soc_trace_golden",
+      "binary": "build/skels/ch34_scheduler_architecture/02_toy_soc_events/ch34_02_toy_soc_runner",
+      "args": [
+        "--program",
+        "tests/hidden/ch34_scheduler_architecture/programs/uart_burst.bin",
+        "--cycles",
+        "400",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "ABCD9A9E3C61A100"
+      }
+    },
+    {
+      "name": "event_order_golden",
+      "binary": "build/skels/ch34_scheduler_architecture/02_toy_soc_events/ch34_02_toy_soc_runner",
+      "args": [
+        "--program",
+        "tests/public/ch34_scheduler_architecture/programs/hello_loop.bin",
+        "--cycles",
+        "400",
+        "--events",
+        "{{tmp}}/ev.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/ev.log",
+        "fnv64": "2859AC68F148E133"
+      }
+    },
+    {
+      "name": "sync3_coding_test",
+      "binary": "build/skels/ch34_scheduler_architecture/99_coding_test/ch34_99_sync3",
+      "args": [
+        "--cycles",
+        "50",
+        "--out",
+        "{{tmp}}/events.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/events.log",
+        "fnv64": "654BDBD5EE1B0FF9"
+      }
+    },
+    {
+      "name": "mooneye_timer_optional",
+      "binary": "build/skels/ch34_scheduler_architecture/02_toy_soc_events/ch34_02_toy_soc_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/timer.bin",
+      "optional": true
+    }
+  ]
+}

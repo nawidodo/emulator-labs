@@ -1,0 +1,76 @@
+{
+  "description": "ch11 hidden gate: existing exercise suites, challenge golden through the 91 runner on an unseen fixture, LDH coding test probe, optional Mooneye",
+  "cases": [
+    {
+      "name": "daa_rot_contracts",
+      "binary": "build/skels/ch11_gameboy_cpu_completion/01_daa_rotates/ch11_01_daa_tests",
+      "args": [
+        "prog."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "stack_conditional_timing",
+      "binary": "build/skels/ch11_gameboy_cpu_completion/02_stack_calls/ch11_02_stack_tests",
+      "args": [
+        "timing."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "irq_dispatch",
+      "binary": "build/skels/ch11_gameboy_cpu_completion/03_halt_interrupts/ch11_03_irq_tests",
+      "args": [
+        "irq."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "smoke_golden",
+      "binary": "build/skels/ch11_gameboy_cpu_completion/91_challenge/ch11_91_cpu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch11_gameboy_cpu_completion/fixtures/smoke_hidden.bin",
+        "--headless",
+        "--cycles",
+        "100000",
+        "--hash-frame",
+        "{{tmp}}/hidden.final"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "af=3100 bc=0013",
+      "expect_file_hash": {
+        "file": "{{tmp}}/hidden.final",
+        "fnv64": "F317F5C4DF046F9C"
+      }
+    },
+    {
+      "name": "coding_test_ldh",
+      "binary": "build/skels/ch11_gameboy_cpu_completion/99_coding_test/ch11_99_coding_test_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch11_gameboy_cpu_completion/fixtures/ldh_probe.bin",
+        "--headless",
+        "--cycles",
+        "100000",
+        "--trace",
+        "{{tmp}}/probe.trace.log",
+        "--hash-frame",
+        "{{tmp}}/probe.final"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "af=56B0 bc=1242",
+      "expect_file_hash": {
+        "file": "{{tmp}}/probe.final",
+        "fnv64": "719EE7B653718D68"
+      }
+    },
+    {
+      "name": "mooneye_cpu_instr_optional",
+      "binary": "build/skels/ch11_gameboy_cpu_completion/91_challenge/ch11_91_cpu_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/instr_timing.bin",
+      "optional": true
+    }
+  ]
+}

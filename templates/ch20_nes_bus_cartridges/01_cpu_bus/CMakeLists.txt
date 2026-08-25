@@ -1,0 +1,3 @@
+add_executable(ch20_01_cpu_bus_tests main.cpp)
+target_link_libraries(ch20_01_cpu_bus_tests PRIVATE labstest)
+add_test(NAME ch20_01_cpu_bus COMMAND ch20_01_cpu_bus_tests)

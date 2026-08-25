@@ -1,0 +1,3 @@
+add_executable(ch22_02_sprite_eval_tests main.cpp)
+target_link_libraries(ch22_02_sprite_eval_tests PRIVATE labstest)
+add_test(NAME ch22_02_sprite_eval COMMAND ch22_02_sprite_eval_tests)

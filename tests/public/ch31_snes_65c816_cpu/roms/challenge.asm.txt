@@ -1,0 +1,40 @@
+;; ch31 challenge program — hand-assembled listing for roms/challenge.bin
+;;
+;; Two-bank image (128 KiB): bank 0 at file offset $00000, bank 1 at
+;; file offset $10000. The loader maps chunks sequentially from bank 0.
+;; Data marker word $BEEF lives at bank1:$2000 (file offset $12000).
+;;
+;; The program crosses a program bank with JML, then proves that K and
+;; DB are INDEPENDENT: after JML, long addressing still reaches bank 1
+;; explicitly while DB stays whatever it was.
+
+=== BANK 0 ===
+addr   bytes         insn          ; effect
+--------------------------------------------------
+0000   FB            XCE           ; native mode
+0001   C2 30         REP #$30      ; A,X 16-bit
+0003   A9 CD AB      LDA #$ABCD
+0006   8F 00 20 00   STA $002000   ; long store: [00:2000]=CD [00:2001]=AB
+000A   E2 20         SEP #$20      ; A 8-bit
+000C   A9 5A         LDA #$5A      ; A := $AB5A (B preserved)
+000E   AF 00 20 00   LDA $002000   ; long load, M=1 -> low byte only:
+                                   ; A := $ABCD
+0012   5C 00 80 01   JML $018000   ; K := $01, PC := $8000
+
+=== BANK 1 ($01:$8000) ===
+8000   A2 00 00      LDX #$0000    ; X is STILL 16-bit across JML
+8003   BF 00 20 01   LDA $012000,X ; long,X -> $01:$2000, M=1:
+                                   ; A := $ABEF ([2000]=$EF)
+8007   8F 00 30 01   STA $013000   ; long store, M=1: [01:3000]=$EF
+800B   E2 10         SEP #$10      ; X 8-bit
+800D   A2 07         LDX #$07
+800F   9F 00 40 01   STA $014000,X ; long,X store: [01:$4007]=$EF
+8013   00            BRK           ; halt
+
+; Expected memory afterwards:
+;   $00:$2000 = CD AB
+;   $01:$3000 = EF
+;   $01:$4007 = EF
+
+; The image also contains the data marker at $01:$2000 = EF BE
+; (word $BEEF) at file offset $12000.

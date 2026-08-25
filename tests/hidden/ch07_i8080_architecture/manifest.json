@@ -1,0 +1,118 @@
+{
+  "description": "ch07 hidden gates: ten coding-test instructions plus runner trace/state goldens",
+  "cases": [
+    {
+      "name": "coding_stax",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.stax"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_ldax",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.ldax"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_inx",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.inx"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_dcx",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.dcx"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_dad",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.dad"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_daa",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.daa"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_rlc",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.rlc"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_rrc",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.rrc"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_ral",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.ral"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_rar",
+      "binary": "build/skels/ch07_i8080_architecture/99_coding_test/i8080_coding_tests",
+      "args": [
+        "hidden.rar"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "runner_trace_golden",
+      "binary": "build/skels/ch07_i8080_architecture/03_cpu_core/i8080_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch07_i8080_architecture/roms/ch07_hidden.bin",
+        "--cycles",
+        "1000",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "4DD6C420033E7873"
+      }
+    },
+    {
+      "name": "runner_final_state",
+      "binary": "build/skels/ch07_i8080_architecture/03_cpu_core/i8080_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch07_i8080_architecture/roms/ch07_hidden.bin",
+        "--cycles",
+        "1000"
+      ],
+      "expect_stdout_contains": "AF=3016 BC=120F DE=0000 HL=5000 SP=0000 PC=0017 cyc=103"
+    },
+    {
+      "name": "challenge_diag_program",
+      "binary": "build/skels/ch07_i8080_architecture/91_challenge/i8080_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

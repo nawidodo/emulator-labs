@@ -1,0 +1,10 @@
+; q5_vfreset -- vf_reset quirk differential (hand-assembled)
+; 0200: 64FF    LD   V4, 0xFF
+; 0202: A400    LD   I, 0x400
+; 0204: F41E    ADD  I, V4         ; MODERN clears VF here...
+; 0206: 65FF    LD   V5, 0xFF
+; 0208: 6611    LD   V6, 0x11
+; 020A: 8644    ADD  V6, V4        ; carry -> VF=1 on every profile
+; 020C: A400    LD   I, 0x400
+; 020E: F41E    ADD  I, V4         ; MODERN clears VF again -> final VF=00
+; assembled by hand; provenance in ../provenance.md

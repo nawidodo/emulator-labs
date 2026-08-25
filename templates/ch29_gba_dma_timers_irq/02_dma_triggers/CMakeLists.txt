@@ -1,0 +1,3 @@
+add_executable(ch29_02_triggers_tests main.cpp)
+target_link_libraries(ch29_02_triggers_tests PRIVATE labstest)
+add_test(NAME ch29_02_triggers COMMAND ch29_02_triggers_tests)

@@ -1,0 +1,13 @@
+# c1_mbc1_banks.ops — multi-bank traversal on mbc1_512k.gb (32 banks, 8 KiB RAM)
+R 0200
+W 2000 05
+R 4000
+R 4321
+W 2000 00
+R 4000
+W 4000 02
+W 6000 01
+R 4200
+W 0000 0A
+W A123 9C
+R A123

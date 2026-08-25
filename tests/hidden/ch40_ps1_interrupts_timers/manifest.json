@@ -1,0 +1,84 @@
+{
+  "description": "ch40_ps1_interrupts_timers hidden grading: unit suites, scheduler trace golden, debug fix, challenge state hash, unseen coding-test IRQ-order hash",
+  "cases": [
+    {
+      "name": "irq_controller_unit",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/01_irq_controller/ch40_01_irq_controller_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "timers_unit",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/02_timers/ch40_02_timers_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "scheduler_trace_golden",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/03_scheduler/ch40_03_scheduler_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch40_ps1_interrupts_timers/roms/sched0.bin",
+        "--cycles",
+        "400",
+        "--headless",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "16337D4584345492"
+      }
+    },
+    {
+      "name": "debug_ack_fixed_green",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/90_debug/ch40_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_state_golden",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/91_challenge/ch40_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch40_ps1_interrupts_timers/roms/challenge0.bin",
+        "--cycles",
+        "600",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "8565BA60D40858B7"
+      }
+    },
+    {
+      "name": "coding_test_irq_order_golden",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/99_coding_test/ch40_99_coding_test_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch40_ps1_interrupts_timers/roms/coding0.bin",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "8DE826F29F0574B5"
+      }
+    },
+    {
+      "name": "ps1_tests_root_counters_optional",
+      "binary": "build/skels/ch40_ps1_interrupts_timers/03_scheduler/ch40_03_scheduler_runner",
+      "args": [
+        "--rom",
+        "roms/ps1/ps1-tests/rootcnt.bin",
+        "--cycles",
+        "100000"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/rootcnt.bin",
+      "optional": true
+    }
+  ]
+}

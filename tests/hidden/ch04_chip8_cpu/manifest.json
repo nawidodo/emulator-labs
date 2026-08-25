@@ -1,0 +1,199 @@
+{
+  "description": "ch04_chip8_cpu: hidden opcode/flag/quirk/coding-test cases. Binaries assume the standard build layout; goldens under tests/public/ch04_chip8_cpu were produced by the reference solution (see tests/public provenance.md).",
+  "cases": [
+    {
+      "name": "cf_trace_golden",
+      "binary": "build/skels/ch04_chip8_cpu/01_control_flow/ch04_01_control_flow_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/control_flow.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--trace",
+        "{{tmp}}/cf.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/cf.log",
+        "fnv64": "A5F38BD4C7D15050"
+      },
+      "expect_exit": 0
+    },
+    {
+      "name": "cf_regs_golden",
+      "binary": "build/skels/ch04_chip8_cpu/01_control_flow/ch04_01_control_flow_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/control_flow.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--regs",
+        "{{tmp}}/cf.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/cf.json",
+        "fnv64": "64261B98B7F5D358"
+      }
+    },
+    {
+      "name": "alu_regs_golden",
+      "binary": "build/skels/ch04_chip8_cpu/02_alu/ch04_02_alu_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/alu.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--regs",
+        "{{tmp}}/alu.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/alu.json",
+        "fnv64": "92179BA07AF4DE46"
+      }
+    },
+    {
+      "name": "shift_cosmac_golden",
+      "binary": "build/skels/ch04_chip8_cpu/03_shift_quirks/ch04_03_shift_quirks_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/shift_quirks.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--quirks",
+        "cosmac",
+        "--regs",
+        "{{tmp}}/sqc.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/sqc.json",
+        "fnv64": "BCD2ED6809D10B28"
+      }
+    },
+    {
+      "name": "shift_modern_diverges",
+      "binary": "build/skels/ch04_chip8_cpu/03_shift_quirks/ch04_03_shift_quirks_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/shift_quirks.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--quirks",
+        "modern",
+        "--regs",
+        "{{tmp}}/sqm.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/sqm.json",
+        "fnv64": "D61683531B2AB4DC"
+      }
+    },
+    {
+      "name": "memory_bcd_golden",
+      "binary": "build/skels/ch04_chip8_cpu/04_memory_bcd/ch04_04_memory_bcd_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/memory_bcd.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--regs",
+        "{{tmp}}/mb.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/mb.json",
+        "fnv64": "2638304EDDA86038"
+      }
+    },
+    {
+      "name": "rng_key_golden",
+      "binary": "build/skels/ch04_chip8_cpu/05_random_key/ch04_05_random_key_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/random_key.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--input-file",
+        "tests/public/ch04_chip8_cpu/input/random_key.input",
+        "--regs",
+        "{{tmp}}/rk.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/rk.json",
+        "fnv64": "B83D1549DADDB6BE"
+      }
+    },
+    {
+      "name": "flags_suite_cosmac_golden",
+      "binary": "build/skels/ch04_chip8_cpu/06_flags_suite/ch04_06_flags_suite_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch04_chip8_cpu/roms/flags_suite.bin",
+        "--headless",
+        "--cycles",
+        "300",
+        "--trace",
+        "{{tmp}}/fs.log",
+        "--regs",
+        "{{tmp}}/fs.json"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/fs.log",
+        "fnv64": "1F84002B9CB5E7D9"
+      }
+    },
+    {
+      "name": "debug_bugs_fixed_green",
+      "binary": "build/skels/ch04_chip8_cpu/90_debug/ch04_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_both_profiles",
+      "binary": "build/skels/ch04_chip8_cpu/91_challenge/ch04_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "codingtest_ext_avg_min_max",
+      "binary": "build/skels/ch04_chip8_cpu/99_coding_test/ch04_99_coding_test_tests",
+      "args": [
+        "ext."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "codingtest_ext_mullo_xsum",
+      "binary": "build/skels/ch04_chip8_cpu/99_coding_test/ch04_99_coding_test_tests",
+      "args": [
+        "ext.mu"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "codingtest_extension_program",
+      "binary": "build/skels/ch04_chip8_cpu/99_coding_test/ch04_99_coding_test_tests",
+      "args": [
+        "codingtest.extension_program"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "timendus_v5_suite_optional",
+      "binary": "build/skels/ch04_chip8_cpu/06_flags_suite/ch04_06_flags_suite_runner",
+      "args": [
+        "--rom",
+        "student-supplied Timendus CHIP-8 test suite path",
+        "--headless",
+        "--cycles",
+        "100000"
+      ],
+      "requires_rom": "roms/chip8/timendus_v5_opcode.bin",
+      "optional": true
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+add_executable(ch33_03_apu_sync_tests main.cpp)
+target_link_libraries(ch33_03_apu_sync_tests PRIVATE labstest)
+add_test(NAME ch33_03_apu_sync_tests COMMAND ch33_03_apu_sync_tests)

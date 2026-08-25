@@ -1,0 +1,15 @@
+pc=0000 op=FB k=00 db=00 a=0000 x=0000 y=0000 p=35 sp=01FF cyc=2
+pc=0001 op=C2 k=00 db=00 a=0000 x=0000 y=0000 p=05 sp=01FF cyc=5
+pc=0003 op=A9 k=00 db=00 a=1234 x=0000 y=0000 p=05 sp=01FF cyc=7
+pc=0006 op=8D k=00 db=00 a=1234 x=0000 y=0000 p=05 sp=01FF cyc=11
+pc=0009 op=E2 k=00 db=00 a=1234 x=0000 y=0000 p=25 sp=01FF cyc=14
+pc=000B op=A9 k=00 db=00 a=1278 x=0000 y=0000 p=25 sp=01FF cyc=16
+pc=000D op=C2 k=00 db=00 a=1278 x=0000 y=0000 p=05 sp=01FF cyc=19
+pc=000F op=AD k=00 db=00 a=1234 x=0000 y=0000 p=05 sp=01FF cyc=23
+pc=0012 op=AF k=00 db=00 a=1234 x=0000 y=0000 p=05 sp=01FF cyc=28
+pc=0016 op=A2 k=00 db=00 a=1234 x=00FF y=0000 p=05 sp=01FF cyc=30
+pc=0019 op=BD k=00 db=00 a=0000 x=00FF y=0000 p=07 sp=01FF cyc=35
+pc=001C op=E2 k=00 db=00 a=0000 x=00FF y=0000 p=17 sp=01FF cyc=38
+pc=001E op=A2 k=00 db=00 a=0000 x=0022 y=0000 p=15 sp=01FF cyc=40
+pc=0020 op=95 k=00 db=00 a=0000 x=0022 y=0000 p=15 sp=01FF cyc=44
+pc=0022 op=B5 k=00 db=00 a=0000 x=0022 y=0000 p=17 sp=01FF cyc=48

@@ -1,0 +1,37 @@
+{
+  "description": "ch31 65C816 hidden gate: width switching, hidden-rom trace golden, unseen addressing mode",
+  "cases": [
+    {
+      "name": "widths_xce_emulation_hidden",
+      "binary": "build/skels/ch31_snes_65c816_cpu/01_widths/ch31_01_widths_tests",
+      "args": [
+        "widths.xce_enter_emu_clears_index_high"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "hidden_rom_trace_golden",
+      "binary": "build/skels/ch31_snes_65c816_cpu/03_execute/ch31_03_exec_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch31_snes_65c816_cpu/roms/hidden_demo.bin",
+        "--cycles",
+        "200",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "E4DEE178096106C9"
+      }
+    },
+    {
+      "name": "coding_dp_indirect_y",
+      "binary": "build/skels/ch31_snes_65c816_cpu/99_coding_test/ch31_coding_tests",
+      "args": [
+        "coding."
+      ],
+      "expect_exit": 0
+    }
+  ]
+}

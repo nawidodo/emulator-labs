@@ -1,0 +1,146 @@
+{
+  "description": "ch37 performance & dynamic recompilation \u2014 hidden gate",
+  "cases": [
+    {
+      "name": "unit_core",
+      "binary": "build/skels/ch37_performance_dynarec/01_dispatch_bench/ch37_01_rx8_tests",
+      "args": [
+        "rx8."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "bench_trace_golden",
+      "binary": "build/skels/ch37_performance_dynarec/01_dispatch_bench/ch37_01_runner",
+      "args": [
+        "--program",
+        "tests/public/ch37_performance_dynarec/programs/bench.bin",
+        "--max-steps",
+        "10000",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "F0F8D3DBE55C5126"
+      }
+    },
+    {
+      "name": "bench_switch_golden",
+      "binary": "build/skels/ch37_performance_dynarec/01_dispatch_bench/ch37_01_runner",
+      "args": [
+        "--program",
+        "tests/public/ch37_performance_dynarec/programs/bench.bin",
+        "--max-steps",
+        "10000",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "A9C3FDCC49EDF84E"
+      }
+    },
+    {
+      "name": "smc_cache_golden",
+      "binary": "build/skels/ch37_performance_dynarec/02_decode_cache/ch37_02_runner",
+      "args": [
+        "--program",
+        "tests/public/ch37_performance_dynarec/programs/smc.bin",
+        "--max-steps",
+        "10000",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "80B7D9D93EB642C6"
+      }
+    },
+    {
+      "name": "ir_pipeline_golden",
+      "binary": "build/skels/ch37_performance_dynarec/03_basic_blocks_ir/ch37_03_runner",
+      "args": [
+        "--program",
+        "tests/public/ch37_performance_dynarec/programs/bench.bin",
+        "--max-ops",
+        "1000000",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "A9C3FDCC49EDF84E"
+      }
+    },
+    {
+      "name": "smc_ir_flush_golden",
+      "binary": "build/skels/ch37_performance_dynarec/03_basic_blocks_ir/ch37_03_runner",
+      "args": [
+        "--program",
+        "tests/public/ch37_performance_dynarec/programs/smc.bin",
+        "--max-ops",
+        "1000000",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "80B7D9D93EB642C6"
+      }
+    },
+    {
+      "name": "opt_gate_threshold_and_hash",
+      "binary": "build/skels/ch37_performance_dynarec/04_opt_gate/ch37_04_runner",
+      "args": [
+        "--program",
+        "tests/public/ch37_performance_dynarec/programs/bench.bin",
+        "--max-ops",
+        "1000000",
+        "--check-opt",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "A9C3FDCC49EDF84E"
+      }
+    },
+    {
+      "name": "opt_gate_hidden_variant",
+      "binary": "build/skels/ch37_performance_dynarec/04_opt_gate/ch37_04_runner",
+      "args": [
+        "--program",
+        "tests/hidden/ch37_performance_dynarec/programs/bench2.bin",
+        "--max-ops",
+        "1000000",
+        "--check-opt",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "F95C99AAFFD894F0"
+      }
+    },
+    {
+      "name": "coding_test_ext_pipeline",
+      "binary": "build/skels/ch37_performance_dynarec/99_coding_test/ch37_99_ext_runner",
+      "args": [
+        "--program",
+        "tests/hidden/ch37_performance_dynarec/programs/ext1.bin",
+        "--max-ops",
+        "1000000",
+        "--dump",
+        "{{tmp}}/e.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/e.txt",
+        "fnv64": "2473577296BC023B"
+      }
+    }
+  ]
+}

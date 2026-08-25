@@ -1,0 +1,13 @@
+# split_status_bar.txt — classic status-bar split:
+# coarse scroll changes at the start of scanline 64, mid-frame.
+ctrl 0x08
+scroll 0 0
+snap
+runto 63 340
+write 64 0 2006 0x20
+write 64 0 2006 0x40
+snap
+runto 64 100
+snap
+runto 130 257
+snap

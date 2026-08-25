@@ -1,0 +1,24 @@
+orbit — animated dot like moving_dot but step (+3,+1), pace 1 tick, start
+(5,7). Frame-sequence hashing catches any drift in driver or timers.
+Hidden fixture.
+200: 68 3F   LD V8,63
+202: 69 1F   LD V9,31
+204: 65 01   LD V5,1
+206: A2 2C   LD I,$22C
+208: 60 05   LD V0,5
+20A: 61 07   LD V1,7
+20C: D0 11   DRW V0,V1,1
+20E: 70 03   ADD V0,3
+210: 71 01   ADD V1,1
+212: 80 82   AND V0,V8
+214: 81 92   AND V1,V9
+216: D0 11   DRW V0,V1,1
+218: 65 01   LD V5,1
+21A: F5 15   LD DT,V5
+21C: 67 00   LD V7,0
+21E: F7 07   LD V7,DT
+220: 37 00   SE V7,0
+222: 12 1C   JP $21C
+224: 12 0C   JP $20C
+226: 00 x6   padding
+22C: 80      dot sprite

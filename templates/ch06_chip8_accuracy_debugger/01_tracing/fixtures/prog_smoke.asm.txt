@@ -1,0 +1,8 @@
+; prog_smoke -- ch06 tracing smoke fixture (synthetic, assembled by hand)
+; load address 0x200, 6 instructions
+0200: 6005    LD   V0, 0x05
+0202: 6103    LD   V1, 0x03
+0204: 8014    ADD  V0, V1      ; V0 = 08
+0206: 7001    ADD  V0, 0x01    ; V0 = 09
+0208: 8114    ADD  V1, V1      ; V1 = 06
+020A: 0000    NOP              ; PC leaves ROM -> halt

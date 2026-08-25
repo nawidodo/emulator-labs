@@ -1,0 +1,3 @@
+add_executable(ch19_02_dummy_unofficial_tests main.cpp)
+target_link_libraries(ch19_02_dummy_unofficial_tests PRIVATE labstest)
+add_test(NAME ch19_02_dummy_unofficial COMMAND ch19_02_dummy_unofficial_tests)

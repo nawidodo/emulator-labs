@@ -1,0 +1,16 @@
+status_swap.asm.txt — synthetic ARM program for ch25_arm7tdmi_arm_isa
+Exercises the SWP/SWPB/MRS/MSR coding-test family. Assembled little-endian
+into status_swap.bin; one data word at 0x500: 0xDEADBEEF.
+
+ADDR     WORD       DISASSEMBLY
+00000000 E3A01C05   mov   r1, #00000500     ; buffer address
+00000004 E3A02011   mov   r2, #17
+00000008 E1013092   swp   r3, r2, [r1]      ; r3 = DEADBEEF, [r1] = 11
+0000000C E10F4000   mrs   r4, cpsr          ; flags untouched by SWP
+00000010 E328020F   msr   cpsr_f, #F0000000 ; NZCV all set
+00000014 E1415092   swpb  r5, r2, [r1]      ; r5 = 11 (old low byte)
+00000018 E10F6000   mrs   r6, cpsr
+0000001C EAFFFFFE   b     0000001C          ; park
+
+Expected final state (cycles=20): r3=DEADBEEF r4=00000010 r5=00000011,
+r6=cpsr=F0000010, r15=0000001C.

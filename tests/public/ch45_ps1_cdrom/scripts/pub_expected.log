@@ -1,0 +1,14 @@
+t=0 int=3 resp=00
+t=0 int=3 resp=00
+t=0 int=3 resp=40
+t=200 int=2 resp=00
+t=200 int=3 resp=02
+t=1400 int=2 resp=02
+t=1400 int=3 resp=02
+t=1400 int=3 resp=22
+t=1604 int=1 resp= lba=20
+t=1604 int=3 resp=02
+t=1854 int=2 resp=02
+t=1854 int=3 resp=22
+t=1983 int=3 resp=02
+t=2233 int=2 resp=02

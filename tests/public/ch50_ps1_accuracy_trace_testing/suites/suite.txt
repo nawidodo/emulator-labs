@@ -1,0 +1,33 @@
+# ch50 accuracy suite — the full mandatory set.
+#
+# Grammar (see templates/ch50_ps1_accuracy_trace_testing/01_suite_runner/suite.hpp):
+#   case <name> builtin.<check>            run a built-in psx-mini check
+#   case <name> <path> [args...]           run an executable, PASS iff exit 0
+#
+# Run from the repo root after building:
+#   build/skels/ch50_ps1_accuracy_trace_testing/01_suite_runner/ch50_01_accuracy_runner \
+#     tests/public/ch50_ps1_accuracy_trace_testing/suites/suite.txt
+#
+# The seven built-ins pin the psx-mini reference models; the ten `seedNN`
+# cases each verify one regression fix from 90_debug via its dedicated
+# labstest filter, so this single manifest IS the regression discipline:
+# every fix gets exactly one pinned case.
+
+case cpu_trace builtin.cpu_trace
+case vram_hash  builtin.vram
+case spu_hash   builtin.spu
+case dma_state  builtin.dma
+case gte_state  builtin.gte
+case timer_state builtin.timer
+case cdrom_state builtin.cdrom
+
+case seed01 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed01
+case seed02 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed02
+case seed03 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed03
+case seed04 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed04
+case seed05 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed05
+case seed06 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed06
+case seed07 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed07
+case seed08 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed08
+case seed09 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed09
+case seed10 build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests seed10

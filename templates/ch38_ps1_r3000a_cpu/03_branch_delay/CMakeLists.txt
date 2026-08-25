@@ -1,0 +1,3 @@
+add_executable(ch38_03_branch_delay_tests main.cpp)
+target_link_libraries(ch38_03_branch_delay_tests PRIVATE labstest)
+add_test(NAME ch38_03_branch_delay COMMAND ch38_03_branch_delay_tests)

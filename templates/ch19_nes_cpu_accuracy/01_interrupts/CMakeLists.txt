@@ -1,0 +1,3 @@
+add_executable(ch19_01_interrupts_tests main.cpp)
+target_link_libraries(ch19_01_interrupts_tests PRIVATE labstest)
+add_test(NAME ch19_01_interrupts COMMAND ch19_01_interrupts_tests)

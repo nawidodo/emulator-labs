@@ -1,0 +1,3 @@
+add_executable(ch32_01_bus_map_tests main.cpp)
+target_link_libraries(ch32_01_bus_map_tests PRIVATE labstest)
+add_test(NAME ch32_01_bus_map_tests COMMAND ch32_01_bus_map_tests)

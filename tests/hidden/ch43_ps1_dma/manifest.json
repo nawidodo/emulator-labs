@@ -1,0 +1,134 @@
+{
+  "description": "ch43 hidden: DMA channels, block modes, linked lists, challenge, coding test",
+  "cases": [
+    {
+      "name": "unit_channels",
+      "binary": "build/skels/ch43_ps1_dma/01_channels/ch43_01_channels_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_block_transfer",
+      "binary": "build/skels/ch43_ps1_dma/02_block_transfer/ch43_02_transfer_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_linked_list",
+      "binary": "build/skels/ch43_ps1_dma/03_linked_list/ch43_03_linked_list_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "ll_trace_hidden",
+      "binary": "build/skels/ch43_ps1_dma/03_linked_list/ch43_03_ll_runner",
+      "args": [
+        "--chain",
+        "tests/hidden/ch43_ps1_dma/chains/h_a.chain",
+        "--madr",
+        "0x0",
+        "--trace",
+        "{{tmp}}/t.log",
+        "--capture",
+        "{{tmp}}/c.bin"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "E8296EFE9874CCC8"
+      }
+    },
+    {
+      "name": "ll_capture_hidden",
+      "binary": "build/skels/ch43_ps1_dma/03_linked_list/ch43_03_ll_runner",
+      "args": [
+        "--chain",
+        "tests/hidden/ch43_ps1_dma/chains/h_a.chain",
+        "--madr",
+        "0x0",
+        "--capture",
+        "{{tmp}}/c.bin"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/c.bin",
+        "fnv64": "59E956D5EDB24EC2"
+      }
+    },
+    {
+      "name": "otc_table_hidden",
+      "binary": "build/skels/ch43_ps1_dma/03_linked_list/ch43_03_ll_runner",
+      "args": [
+        "--otc",
+        "16",
+        "--otc-base",
+        "0x100",
+        "--dump",
+        "{{tmp}}/o.bin"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/o.bin",
+        "fnv64": "CC014C6594327E8C"
+      }
+    },
+    {
+      "name": "debug_chain_bugs_fixed",
+      "binary": "build/skels/ch43_ps1_dma/90_debug/ch43_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_vram_hash",
+      "binary": "build/skels/ch43_ps1_dma/91_challenge/ch43_91_challenge_runner",
+      "args": [
+        "--list",
+        "tests/hidden/ch43_ps1_dma/lists/h.list",
+        "--hash-out",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "fnv64=",
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "1958BA27E07C2864"
+      }
+    },
+    {
+      "name": "ct_valid_edge",
+      "binary": "build/skels/ch43_ps1_dma/99_coding_test/ch43_ct_dma_tests",
+      "args": [
+        "tests/hidden/ch43_ps1_dma/ct/valid_edge.chain"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ct_dangling_link",
+      "binary": "build/skels/ch43_ps1_dma/99_coding_test/ch43_ct_dma_tests",
+      "args": [
+        "tests/hidden/ch43_ps1_dma/ct/dangling.chain"
+      ],
+      "expect_exit": 1
+    },
+    {
+      "name": "ct_cycle_no_sentinel",
+      "binary": "build/skels/ch43_ps1_dma/99_coding_test/ch43_ct_dma_tests",
+      "args": [
+        "tests/hidden/ch43_ps1_dma/ct/cycle.chain"
+      ],
+      "expect_exit": 1
+    },
+    {
+      "name": "ps1_tests_dma_optional",
+      "binary": "build/skels/ch43_ps1_dma/03_linked_list/ch43_03_ll_runner",
+      "args": [
+        "--chain",
+        "roms/ps1/ps1-tests/dma.bin",
+        "--madr",
+        "0x0"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/dma.bin",
+      "optional": true
+    }
+  ]
+}

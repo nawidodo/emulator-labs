@@ -1,0 +1,3 @@
+add_executable(ch39_01_cop0_regs_tests main.cpp cop0.hpp)
+target_link_libraries(ch39_01_cop0_regs_tests PRIVATE labstest)
+add_test(NAME ch39_01_cop0_regs COMMAND ch39_01_cop0_regs_tests)

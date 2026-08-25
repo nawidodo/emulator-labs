@@ -1,0 +1,12 @@
+# shift_quirks: diverges under cosmac/modern profiles
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  6181   LD  V1,#81
+0202:  6280   LD  V2,#80
+0204:  8316   SHR V3,V1   ; source follows shift_uses_vy
+0206:  8426   SHR V4,V2
+0208:  856E   SHL V5,V1
+020A:  861E   SHL V6,V2
+020C:  8776   SHR V7,V7   ; self-shift: profile-neutral
+020E:  0000   halt

@@ -1,0 +1,20 @@
+; ch07_hidden.bin — hidden-case program for ch07 grading (23 bytes)
+; Same instruction groups as the public diagnostic but different data,
+; exercising MOV M,A / DCR M / MOV A,M and the SUB equal-low AC quirk.
+;
+;   addr  bytes        insn
+;   0000  3E 30        MVI A,30
+;   0002  06 12        MVI B,12
+;   0004  0E 0F        MVI C,0F
+;   0006  21 00 50     LXI H,5000
+;   0009  77           MOV M,A         ; [5000]=30
+;   000A  35           DCR M           ; [5000]=2F
+;   000B  7E           MOV A,M         ; A=2F
+;   000C  80           ADD B           ; A=41 CY=0 AC=1
+;   000D  C6 01        ADI 01          ; A=42 AC=0
+;   000F  32 00 60     STA 6000
+;   0012  3A 00 60     LDA 6000
+;   0015  90           SUB B           ; A=30, AC=1 via equal-low quirk
+;   0016  76           HLT
+;
+; Expected final state: AF=3016 BC=120F HL=5000 PC=0017 cyc=103.

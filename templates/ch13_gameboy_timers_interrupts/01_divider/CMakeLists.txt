@@ -1,0 +1,3 @@
+add_executable(ch13_01_divider_tests main.cpp)
+target_link_libraries(ch13_01_divider_tests PRIVATE labstest)
+add_test(NAME ch13_01_divider COMMAND ch13_01_divider_tests)

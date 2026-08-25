@@ -1,0 +1,3 @@
+add_executable(ch33_02_hdma_tests main.cpp)
+target_link_libraries(ch33_02_hdma_tests PRIVATE labstest)
+add_test(NAME ch33_02_hdma_tests COMMAND ch33_02_hdma_tests)

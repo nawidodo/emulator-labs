@@ -1,0 +1,33 @@
+; ch08_diag.bin — course-original 8080 diagnostic (103 bytes, padded image)
+;
+; Arithmetic + branch matrix driven through CALL/RET. The two subroutines
+; each return a byte in A; the mainline combines and stores them.
+;
+;   addr  bytes        insn
+;   0000  31 00 20     LXI SP,2000
+;   0003  CD 30 00     CALL 0030      ; arithmetic check
+;   0006  47           MOV B,A        ; B = 1B
+;   0007  CD 40 00     CALL 0040      ; branch matrix check
+;   000A  80           ADD B          ; A = 01 + 1B = 1C
+;   000B  32 10 40     STA 4010       ; [4010] = 1C
+;   000E  76           HLT            ; total 162 T-states
+;
+;   0030  3E 88        MVI A,88
+;   0032  C6 93        ADI 93         ; A=1B CY=1 AC=0
+;   0034  C9           RET
+;
+;   ; branch matrix: equal/less compares, taken AND not-taken jumps
+;   0040  3E 07        MVI A,07
+;   0042  FE 07        CPI 07         ; Z=1 CY=0
+;   0044  C2 55 00     JNZ 0055       ; NOT taken (7T)
+;   0047  3E 01        MVI A,01       ; right path
+;   0049  C3 5A 00     JMP 005A       ; taken (10T)
+;
+;   0055  3E 02        MVI A,02       ; wrong path (never runs)
+;   0057  C3 5A 00     JMP 005A
+;
+;   005A  FE 02        CPI 02         ; A=01: Z=0 CY=1
+;   005C  C2 66 00     JNZ 0066       ; taken
+;   0066  C9           RET            ; A=01 back to mainline
+;
+; Expected final state: A=1C B=1B SP=2000 [4010]=1C cyc=162.

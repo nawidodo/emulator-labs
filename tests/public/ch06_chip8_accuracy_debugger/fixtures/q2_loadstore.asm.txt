@@ -1,0 +1,6 @@
+; q2_loadstore -- FX55/FX65 I-advance quirk differential (hand-assembled)
+; 0200: 6312    LD   V3, 0x12
+; 0202: A400    LD   I, 0x400
+; 0204: F355    LD   [I], V3      ; VIP leaves I=400, others I=404
+; 0206: F365    LD   V3, [I]      ; VIP reloads 12, others read zeros
+; assembled by hand; provenance in ../provenance.md

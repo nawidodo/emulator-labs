@@ -1,0 +1,1 @@
+{"cycles":8,"dt":0,"halted":true,"illegal_op":"0000","i":"000","pc":"210","quirks":{"load_store_leaves_i":true,"shift_uses_vy":true,"vf_reset":true,"wrapping":false},"sound":0,"sp":0,"stack":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"v":["00","81","80","40","40","00","02","00","00","00","00","00","00","00","00","00"]}

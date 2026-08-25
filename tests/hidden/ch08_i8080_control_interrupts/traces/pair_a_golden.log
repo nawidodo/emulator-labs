@@ -1,0 +1,14 @@
+pc=0001 op=C9 af=FA06 bc=1234 de=0000 hl=0030 sp=2000 cyc=10
+pc=0004 op=F5 af=4F06 bc=1234 de=0000 hl=0030 sp=2000 cyc=17
+pc=0005 op=F5 af=1C06 bc=1234 de=0000 hl=0030 sp=2000 cyc=34
+pc=0008 op=3E af=1506 bc=1234 de=0000 hl=0030 sp=2000 cyc=51
+pc=000B op=F5 af=3606 bc=1234 de=0000 hl=0030 sp=2000 cyc=62
+pc=000E op=76 af=EE06 bc=1234 de=0000 hl=0030 sp=2000 cyc=73
+pc=0011 op=C1 af=DA06 bc=1234 de=0000 hl=0030 sp=2000 cyc=84
+pc=0012 op=C9 af=6706 bc=1234 de=0000 hl=0030 sp=2000 cyc=91
+pc=0015 op=C9 af=7606 bc=1234 de=0000 hl=0030 sp=2000 cyc=102
+pc=0016 op=3E af=5D06 bc=1234 de=0000 hl=0030 sp=2000 cyc=119
+pc=0017 op=C9 af=1206 bc=1234 de=0000 hl=0030 sp=2000 cyc=136
+pc=0018 op=C1 af=BC06 bc=1234 de=0000 hl=0030 sp=2000 cyc=140
+pc=001B op=C1 af=6006 bc=1234 de=0000 hl=0030 sp=2000 cyc=151
+pc=001C op=3E af=4C06 bc=1234 de=0000 hl=0030 sp=2000 cyc=168

@@ -1,0 +1,37 @@
+cyc=0 evt=boot
+cyc=24 evt=milestone val=1
+cyc=44 evt=gpu_cmd pixels=1024 cmd=0x00100400
+cyc=695 evt=gpu_idle
+cyc=695 evt=latch line=1 src=gpu
+cyc=768 evt=latch line=9 src=spu
+cyc=1536 evt=latch line=9 src=spu
+cyc=2304 evt=latch line=9 src=spu
+cyc=3072 evt=latch line=9 src=spu
+cyc=3840 evt=latch line=9 src=spu
+cyc=4608 evt=latch line=9 src=spu
+cyc=5376 evt=latch line=9 src=spu
+cyc=6144 evt=latch line=9 src=spu
+cyc=6912 evt=latch line=9 src=spu
+cyc=7680 evt=latch line=9 src=spu
+cyc=8448 evt=latch line=9 src=spu
+cyc=9216 evt=latch line=9 src=spu
+cyc=9984 evt=latch line=9 src=spu
+cyc=10752 evt=latch line=9 src=spu
+cyc=11520 evt=latch line=9 src=spu
+cyc=12288 evt=latch line=9 src=spu
+cyc=13056 evt=latch line=9 src=spu
+cyc=13824 evt=latch line=9 src=spu
+cyc=14592 evt=latch line=9 src=spu
+cyc=15360 evt=latch line=9 src=spu
+cyc=16128 evt=latch line=9 src=spu
+cyc=16896 evt=latch line=9 src=spu
+cyc=17664 evt=latch line=9 src=spu
+cyc=18432 evt=latch line=9 src=spu
+cyc=19200 evt=latch line=9 src=spu
+cyc=19968 evt=latch line=9 src=spu
+cyc=20000 evt=cd_done lba=1
+cyc=20000 evt=latch line=2 src=cd
+cyc=20032 evt=milestone val=2
+cyc=20056 evt=milestone val=3
+cyc=20068 evt=milestone val=7
+cyc=20072 evt=halt

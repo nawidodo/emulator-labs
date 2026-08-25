@@ -1,0 +1,17 @@
+; probe -- hidden tracing-gate fixture (hand-assembled, MODERN profile)
+0200: 6005    LD   V0, 0x05
+0202: 6103    LD   V1, 0x03
+0204: 8014    ADD  V0, V1      ; V0 = 08
+0206: 627F    LD   V2, 0x7F
+0208: 8214    ADD  V2, V1      ; V2 = 82
+020A: 8215    SUB  V2, V0      ; V2 = 7A
+020C: A400    LD   I, 0x400
+020E: 6333    LD   V3, 0x33
+0210: F355    LD   [I], V3      ; mem[403] = 33
+0212: A400    LD   I, 0x400
+0214: F365    LD   V3, [I]
+0216: 7001    ADD  V0, 0x01     ; V0 = 09
+0218: 33FF    SE   V0, 0xFF     ; no skip
+021A: 4033    SNE  V0, 0x33     ; skip -> 21E
+021C: 6000    LD   V0, 0x00     ; (skipped)
+021E: 6000    LD   V0, 0x00

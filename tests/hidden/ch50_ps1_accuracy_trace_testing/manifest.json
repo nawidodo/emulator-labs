@@ -1,0 +1,130 @@
+{
+  "description": "ch50 PS1 accuracy/trace-testing hidden tests: one executable case per seeded regression (seed01..seed10), the aggregate accuracy-suite runner over the full public suite manifest, in-process suite/challenge units, plus an optional external psx-tests hardware case",
+  "cases": [
+    {
+      "name": "regression_seed01_addi_sign_extend",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed01"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed02_trace_entry_pc",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed02"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed03_fill_width",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed03"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed04_blit_stride",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed04"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed05_env_quantum",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed05"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed06_dma_count",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed06"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed07_dma_chain_enable",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed07"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed08_gte_shift_order",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed08"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed09_timer_reload",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed09"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "regression_seed10_cdrom_bcd",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/90_debug/ch50_90_regress_tests",
+      "args": [
+        "seed10"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "aggregate_full_suite_manifest",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/01_suite_runner/ch50_01_accuracy_runner",
+      "args": [
+        "tests/public/ch50_ps1_accuracy_trace_testing/suites/suite.txt"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "suite_runner_units_parse",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/01_suite_runner/ch50_01_runner_tests",
+      "args": [
+        "suite_parse"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "suite_runner_units_builtins",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/01_suite_runner/ch50_01_runner_tests",
+      "args": [
+        "builtin_checks"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "suite_runner_units_report",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/01_suite_runner/ch50_01_runner_tests",
+      "args": [
+        "report"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_aggregate_in_process",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/91_challenge/ch50_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "psx_tests_cpu_exception_optional",
+      "binary": "build/skels/ch50_ps1_accuracy_trace_testing/01_suite_runner/ch50_01_accuracy_runner",
+      "args": [],
+      "requires_rom": "roms/ps1/psx-tests/cpu_exception.bin",
+      "optional": true
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+; q1_shift -- shift quirk differential (synthetic, hand-assembled)
+; 0200: 62F0    LD   V2, 0xF0
+; 0202: 6301    LD   V3, 0x01
+; 0204: 8236    SHR  V2, {V3|V2}   ; VIP/CHIP48: V2=V3>>1=00 VF=01
+;                                   ; MODERN:     V2=F0>>1=78 VF=00
+; 0206: 8420    LD   V4, V2
+; assembled by hand; provenance in ../provenance.md

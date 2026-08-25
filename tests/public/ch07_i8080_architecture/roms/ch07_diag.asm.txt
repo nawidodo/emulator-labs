@@ -1,0 +1,24 @@
+; ch07_diag.bin — straight-line 8080 diagnostic (39 bytes)
+; Exercises the chapter 7 arithmetic/logic matrix across addressing modes.
+; Result table lands at 4000-4004; HLT at the end. 156 T-states total.
+
+        ORG 0000H
+
+0000    MVI A,25H
+0002    ADI 41H         ; A=66, CY=0 AC=0
+0004    STA 4000H       ; [4000]=66
+0007    MVI A,F0H
+0009    ANI 3CH         ; A=30, AC=1 (8080 AND quirk: (F0|3C)&08)
+000B    STA 4001H       ; [4001]=30
+000E    MVI A,AAH
+0010    XRI 55H         ; A=FF, CY=0 AC=0 S=1 P=1
+0012    STA 4002H       ; [4002]=FF
+0015    MVI A,05H
+0017    SUI 07H         ; A=FE, CY=1 borrow, AC=0
+0019    ACI 01H         ; A=00, CY=1, AC=1, Z=1
+001B    SBB A           ; A=FF, CY=1 borrow, AC=0
+001C    STA 4003H       ; [4003]=FF
+001F    LDA 4000H       ; A=66 (flags untouched)
+0022    ORA A           ; CY=0 AC=0 P=1
+0023    STA 4004H       ; [4004]=66
+0026    HLT

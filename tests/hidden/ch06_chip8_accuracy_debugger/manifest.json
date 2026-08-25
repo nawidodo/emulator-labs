@@ -1,0 +1,96 @@
+{
+  "description": "ch06_chip8_accuracy_debugger hidden gate: tracing, debugger REPL, watchpoints, quirk matrix, compat hunt, seeded debug bug, coding test",
+  "cases": [
+    {
+      "name": "probe_trace_golden",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/01_tracing/ch06_01_trace_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch06_chip8_accuracy_debugger/roms/probe.bin",
+        "--quirks",
+        "MODERN",
+        "--cycles",
+        "16",
+        "--trace",
+        "{{tmp}}/probe.log",
+        "--trace-full"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/probe.log",
+        "fnv64": "8736B29264D791A5"
+      }
+    },
+    {
+      "name": "coding_test_mystery_profile",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/01_tracing/ch06_01_trace_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch06_chip8_accuracy_debugger/roms/mystery.bin",
+        "--quirks",
+        "CHIP48",
+        "--cycles",
+        "8",
+        "--trace",
+        "{{tmp}}/mystery.log",
+        "--trace-full"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/mystery.log",
+        "fnv64": "88F9CB62E9C4C408"
+      }
+    },
+    {
+      "name": "repl_break_continue",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/02_debugger_repl/ch06_02_repl",
+      "args": [
+        "--rom",
+        "tests/public/ch06_chip8_accuracy_debugger/fixtures/q2_loadstore.bin",
+        "--script",
+        "tests/hidden/ch06_chip8_accuracy_debugger/scripts/repl_session.txt"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "bp hit"
+    },
+    {
+      "name": "watchpoint_register_predicate",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/03_watchpoints/ch06_03_repl",
+      "args": [
+        "--rom",
+        "tests/public/ch06_chip8_accuracy_debugger/fixtures/q1_shift.bin",
+        "--script",
+        "tests/hidden/ch06_chip8_accuracy_debugger/scripts/watch_session.txt"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "watch hit"
+    },
+    {
+      "name": "quirk_matrix_all_profiles",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/91_challenge/ch06_91_matrix",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "compat_hunt_answer_recorded",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/05_compat_hunt/ch06_05_hunt_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_seeded_bug_regression",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/90_debug/ch06_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "timendus_chip8_suite_optional",
+      "binary": "build/skels/ch06_chip8_accuracy_debugger/01_tracing/ch06_01_trace_runner",
+      "args": [
+        "--help"
+      ],
+      "requires_rom": "roms/chip8/timendus/Timendus1.bin",
+      "optional": true
+    }
+  ]
+}

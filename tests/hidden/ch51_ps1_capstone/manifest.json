@@ -1,0 +1,12 @@
+{
+  "description": "ch51 PS1 capstone hidden manifest. The capstone deliverable is an externally built student binary addressed via {{env:LABS_CAPSTONE_BIN}} (see templates/ch51_ps1_capstone/99_coding_test/manifest.example.json); those env-gated cases execute at final grading time. This always-on manifest carries the single out-of-the-box pipeline self-check, which must pass on any machine without any student implementation.",
+  "cases": [
+    {
+      "name": "selfcheck.pipeline_ok",
+      "binary": "tests/hidden/ch51_ps1_capstone/selfcheck/selfcheck.sh",
+      "args": ["{{tmp}}/pipeline.bin"],
+      "expect_exit": 0,
+      "expect_file_hash": {"file": "{{tmp}}/pipeline.bin", "fnv64": "A97463F5F76BA55D"}
+    }
+  ]
+}

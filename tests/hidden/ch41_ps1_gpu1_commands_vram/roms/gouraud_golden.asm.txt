@@ -1,0 +1,65 @@
+# mask stripes, boundary-crossing triangles, interior quad
+# offset   word       disassembly
+
+0000     E6000000  GP1: GP0(E6h) mask bits off
+0004     E3000000  GP1: GP0(E3h) drawing area TL (0,0)
+0008     E407FFFF  GP1: GP0(E4h) drawing area BR (1023,511)
+000C     E5000000  GP1: GP0(E5h) drawing offset (0,0)
+0010     E6000002  GP1: GP0(E6h) check-mask ON (bit15 destinations protected)
+0014     A0000000  GP1: GP0(A0h) upload stripe pattern
+0018     00018040  GP0:          dest (64,96)
+001C     00040010  GP0:          size 16x4
+0020     83E183E1  GP1:          stripe data
+0024     7FFF7FFF  GP0:          stripe data
+0028     83E183E1  GP1:          stripe data
+002C     7FFF7FFF  GP0:          stripe data
+0030     83E183E1  GP1:          stripe data
+0034     7FFF7FFF  GP0:          stripe data
+0038     83E183E1  GP1:          stripe data
+003C     7FFF7FFF  GP0:          stripe data
+0040     83E183E1  GP1:          stripe data
+0044     7FFF7FFF  GP0:          stripe data
+0048     83E183E1  GP1:          stripe data
+004C     7FFF7FFF  GP0:          stripe data
+0050     83E183E1  GP1:          stripe data
+0054     7FFF7FFF  GP0:          stripe data
+0058     83E183E1  GP1:          stripe data
+005C     7FFF7FFF  GP0:          stripe data
+0060     83E183E1  GP1:          stripe data
+0064     7FFF7FFF  GP0:          stripe data
+0068     83E183E1  GP1:          stripe data
+006C     7FFF7FFF  GP0:          stripe data
+0070     83E183E1  GP1:          stripe data
+0074     7FFF7FFF  GP0:          stripe data
+0078     83E183E1  GP1:          stripe data
+007C     7FFF7FFF  GP0:          stripe data
+0080     83E183E1  GP1:          stripe data
+0084     7FFF7FFF  GP0:          stripe data
+0088     83E183E1  GP1:          stripe data
+008C     7FFF7FFF  GP0:          stripe data
+0090     83E183E1  GP1:          stripe data
+0094     7FFF7FFF  GP0:          stripe data
+0098     83E183E1  GP1:          stripe data
+009C     7FFF7FFF  GP0:          stripe data
+00A0     60F0F000  GP0: GP0(60h) rect #F0F000 (lemon) over the stripes
+00A4     00030040  GP0:          xy (64,96)
+00A8     00040010  GP0:          size 16x4 -> masked pixels survive as stripes
+00AC     E6000000  GP1: GP0(E6h) masks off
+00B0     E3006020  GP1: GP0(E3h) drawing area TL (32,24)
+00B4     E4035D1F  GP1: GP0(E4h) drawing area BR (287,215)
+00B8     E53FC008  GP1: GP0(E5h) drawing offset (+8,-8)
+00BC     20FFFF00  GP0: GP0(20h) flat cyan tri crossing left/top boundaries
+00C0     0001E7FC  GP0:          v1 (-4,60)
+00C4     003FD064  GP0:          v2 (100,-6)
+00C8     0005A03C  GP0:          v3 (60,180)
+00CC     30FFFFFF  GP0: GP0(30h) gouraud tri crossing right/bottom boundaries
+00D0     0004B0FA  GP0:         v1 (250,150) white
+00D4     00000000  GP0:          c2 black
+00D8     0002D14A  GP0:          v2 (330,90) beyond area right edge
+00DC     00808080  GP0:          c3 mid grey
+00E0     000820B4  GP0:         v3 (180,260) beyond area bottom edge
+00E4     28FF00FF  GP0: GP0(28h) mono quad magenta, fully inside
+00E8     0003C064  GP0:         v1
+00EC     0003C0A0  GP0:         v2
+00F0     000500A0  GP0:         v3
+00F4     00050064  GP0:         v4

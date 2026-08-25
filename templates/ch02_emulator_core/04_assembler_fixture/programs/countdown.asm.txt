@@ -1,0 +1,20 @@
+; countdown.asm — LAB-8 program: counts r0 from 7 down to 0 using
+; SUB/JZ/JMP, then halts. Exercises the full control-flow subset.
+;
+; Hand-assembled per templates/ch02_emulator_core/SPEC.md. The .bin image in
+; this directory is committed alongside this provenance listing
+; (docs/AUTHORING.md ROM & fixture policy: no generated artifacts without a
+; human-readable source).
+;
+; addr   bytes        mnemonic
+; 0x00   10 00 07     LOAD r0, #0x07      ; counter = 7
+; 0x03   10 01 01     LOAD r1, #0x01      ; step = 1
+; 0x06   50 00 01     SUB r0, r1          ; <- loop
+; 0x09   70 0F        JZ 0x0F             ; counter hit zero -> done
+; 0x0B   60 06        JMP 0x06            ; else keep looping
+; 0x0D   00 00        HALT                ; padding (never executed)
+; 0x0F   00           HALT                ; <- done
+;
+; Reference run (--cycles 500): terminates after exactly 73 cycles with
+; r0 == 0 and pc == 0x10. Golden trace:
+; tests/public/ch02_emulator_core/traces/countdown.log

@@ -1,0 +1,6 @@
+add_executable(ch27_91_challenge_tests main.cpp)
+target_link_libraries(ch27_91_challenge_tests PRIVATE labstest)
+add_test(NAME ch27_91_challenge COMMAND ch27_91_challenge_tests)
+
+add_executable(ch27_calc_runner calc_runner.cpp)
+add_test(NAME ch27_91_calc COMMAND ch27_calc_runner)

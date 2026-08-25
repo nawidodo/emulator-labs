@@ -1,0 +1,19 @@
+; cpu_program.asm.txt — psx-mini fixture program (7 words, 28 bytes)
+; Committed byte-for-byte as cpu_program.bin (little-endian words).
+; Semantics: shared/psx_mini.hpp. Sum of 5..1 lands in r1 (== 15) and at
+; RAM byte 0x40 before halt.
+;
+; Encoding: op<31:24> rd<23:20> rs<19:16> rt<15:12> imm<11:0>
+;
+; addr   word      disassembly
+; 0x00   09100000  li   r1, 0
+; 0x04   09200005  li   r2, 5
+; 0x08   02112000  loop: add r1, r1, r2
+; 0x0C   01220FFF  addi r2, r2, -1        ; imm 0xFFF == -1 (sign-extended)
+; 0x10   0B020FFD  bne  r2, r0, loop      ; rel -3 words from delay slot 0x14
+; 0x14   08001040  sw   r1, 64(r0)
+; 0x18   FF000000  halt
+;
+; Provenance: hand-assembled synthetic fixture for ch50; no commercial or
+; dumped material. Golden trace hash over the executed lines:
+;   FNV-1a 64 = F9ABF9B14EEAED53

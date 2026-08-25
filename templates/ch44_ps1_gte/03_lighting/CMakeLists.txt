@@ -1,0 +1,3 @@
+add_executable(ch44_03_lighting_tests main.cpp)
+target_link_libraries(ch44_03_lighting_tests PRIVATE labstest)
+add_test(NAME ch44_03_lighting COMMAND ch44_03_lighting_tests)

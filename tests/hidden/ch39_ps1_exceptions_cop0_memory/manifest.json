@@ -1,0 +1,93 @@
+{
+  "description": "ch39 PS1 exceptions, COP0 and memory map \u2014 hidden gate",
+  "cases": [
+    {
+      "name": "cop0_regs_suite",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/01_cop0_regs/ch39_01_cop0_regs_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "exception_entry_suite",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/02_exception_entry/ch39_02_exception_entry_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "memory_map_suite",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/03_memory_map/ch39_03_memory_map_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "boot_mini_trace_golden",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/91_challenge/ch39_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch39_ps1_exceptions_cop0_memory/roms/bios_stub.bin",
+        "--cycles",
+        "48",
+        "--headless",
+        "--trace",
+        "{{tmp}}/boot_mini.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/boot_mini.log",
+        "fnv64": "FAF35BD4B54BEE86"
+      }
+    },
+    {
+      "name": "boot_mini_state_golden",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/91_challenge/ch39_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch39_ps1_exceptions_cop0_memory/roms/bios_stub.bin",
+        "--cycles",
+        "48",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/boot_mini.state"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/boot_mini.state",
+        "fnv64": "55816073010919F7"
+      }
+    },
+    {
+      "name": "coding_test_nested_sequence_suite",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/99_coding_test/ch39_99_coding_test_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_nested_sequence_golden",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/99_coding_test/ch39_99_coding_test_runner",
+      "args": [
+        "--cycles",
+        "96",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/coding_test.state"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/coding_test.state",
+        "fnv64": "AB0F937ADC2F81E9"
+      }
+    },
+    {
+      "name": "ps1_tests_hardware_optional",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/91_challenge/ch39_91_challenge_runner",
+      "args": [
+        "--help"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/ex01_cpu_exception.bin",
+      "optional": true
+    },
+    {
+      "name": "debug39_seeded_bugs_fixed",
+      "binary": "build/skels/ch39_ps1_exceptions_cop0_memory/90_debug/ch39_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

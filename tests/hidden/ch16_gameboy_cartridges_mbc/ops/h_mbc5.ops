@@ -1,0 +1,12 @@
+# h_mbc5.ops — hidden MBC5 cart: 9-bit bank select
+W 2000 2A
+R 4000
+W 2000 FF
+W 3000 01
+R 4000
+W 0000 0A
+W A010 77
+R A010
+W 3000 00
+W 2000 09
+R 4055

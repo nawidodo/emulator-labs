@@ -1,0 +1,13 @@
+cyc=32788 tima_overflow
+cyc=32788 irq vector=50 ime=1
+cyc=65556 tima_overflow
+cyc=65556 irq vector=50 ime=1
+cyc=98324 tima_overflow
+cyc=98324 irq vector=50 ime=1
+cyc=131092 tima_overflow
+cyc=131092 irq vector=50 ime=1
+cyc=163860 tima_overflow
+cyc=163860 irq vector=50 ime=1
+cyc=196628 tima_overflow
+cyc=196628 irq vector=50 ime=1
+state af=0480 bc=0013 de=00D8 hl=014D sp=FFFE pc=0112 cyc=200000 halted=1 trap=0 if=00 ie=04 tima=E3 tma=E0 tac=FC

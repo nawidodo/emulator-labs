@@ -1,0 +1,3 @@
+add_executable(ch34_91_challenge_tests main.cpp)
+target_link_libraries(ch34_91_challenge_tests PRIVATE labstest)
+add_test(NAME ch34_91_challenge COMMAND ch34_91_challenge_tests)

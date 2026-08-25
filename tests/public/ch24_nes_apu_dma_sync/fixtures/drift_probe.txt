@@ -1,0 +1,24 @@
+# ch24 coding test rehearsal - deterministic probe for the drift repair.
+# Patterned tiles make scroll changes visible; the frame-IRQ flag in the
+# trace makes the CPU:PPU ratio observable (29830-cycle quarter sequence).
+chrpat 1 A5 5A
+nt 0 01
+nt 1 02
+pal 0 0F
+pal 1 21
+pal 2 11
+wr 4015 FF
+wr 4003 30
+wr 4007 30
+wr 400B 18
+wr 400C 00
+wr 400F 30
+wr 4000 B8
+wr 4002 50
+wr 2001 08
+wr 2005 00
+wr 2005 00
+wr 4017 00
+frame 20
+wr 2005 08
+frame 20

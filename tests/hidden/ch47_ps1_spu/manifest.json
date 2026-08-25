@@ -1,0 +1,94 @@
+{
+  "description": "ch47 PS1 SPU hidden tests: ADPCM decode, voice pipeline, coding-test PCM hashes",
+  "cases": [
+    {
+      "name": "adpcm_filter_table",
+      "binary": "build/skels/ch47_ps1_spu/01_adpcm/ch47_01_adpcm_tests",
+      "args": [
+        "adpcm.filter_table_exact"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "adpcm_history_carry",
+      "binary": "build/skels/ch47_ps1_spu/01_adpcm/ch47_01_adpcm_tests",
+      "args": [
+        "adpcm.history_carries_across_blocks"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "voice_loop_semantics",
+      "binary": "build/skels/ch47_ps1_spu/02_voice/ch47_02_voice_tests",
+      "args": [
+        "voice.loops_back_to_loop_address"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "pitch_half_rate",
+      "binary": "build/skels/ch47_ps1_spu/03_pitch/ch47_03_pitch_tests",
+      "args": [
+        "pitch.stepper_half_rate_alternates"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "adsr_release_to_zero",
+      "binary": "build/skels/ch47_ps1_spu/04_adsr/ch47_04_adsr_tests",
+      "args": [
+        "adsr_release.exponential_falloff_reaches_zero"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "mixer_cd_input_path",
+      "binary": "build/skels/ch47_ps1_spu/05_mix/ch47_05_mix_tests",
+      "args": [
+        "spu_cd_input.mixed_through_cd_and_main_volume"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_stream_a",
+      "binary": "build/skels/ch47_ps1_spu/05_mix/ch47_05_spu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch47_ps1_spu/roms/unseen_stream.bin",
+        "--input-file",
+        "tests/hidden/ch47_ps1_spu/roms/script_a.script",
+        "--hash-frame",
+        "{{tmp}}/a.pcm",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/a.pcm",
+        "fnv64": "FEB22F045C62A753"
+      }
+    },
+    {
+      "name": "coding_test_stream_b",
+      "binary": "build/skels/ch47_ps1_spu/05_mix/ch47_05_spu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch47_ps1_spu/roms/unseen_stream.bin",
+        "--input-file",
+        "tests/hidden/ch47_ps1_spu/roms/script_b.script",
+        "--hash-frame",
+        "{{tmp}}/b.pcm",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/b.pcm",
+        "fnv64": "3E8A3508FA29F730"
+      }
+    },
+    {
+      "name": "psx_spu_hardware_suite_optional",
+      "binary": "build/skels/ch47_ps1_spu/05_mix/ch47_05_spu_runner",
+      "args": [],
+      "requires_rom": "roms/ps1/psx-spu-tests/spu_test.bin",
+      "optional": true
+    }
+  ]
+}

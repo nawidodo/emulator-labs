@@ -1,0 +1,3 @@
+add_executable(ch28_01_bitmap_tests main.cpp)
+target_link_libraries(ch28_01_bitmap_tests PRIVATE labstest)
+add_test(NAME ch28_01_bitmap COMMAND ch28_01_bitmap_tests)

@@ -1,0 +1,8 @@
+# demo debug session for the fx8 program below (see provenance.md)
+disasm pc
+bp 06
+run
+regs
+mem 20
+step
+quit

@@ -1,0 +1,71 @@
+; ch11 smoke fixture A — smoke_cpu
+;
+; DAA all four quadrants, a CB-page tour (rotates/shifts/SWAP/BIT/RES/SET),
+; Assembled at ORG $0100 (image offset 0); FlatBus.load() places it at
+; $0100 where the CPU reset vector points.
+;
+; NOTE: absolute call targets are written as literal $hex addresses because
+; only relative branches resolve labels reliably with the mini-assembler.
+
+        ld  a,$45
+        add a,$38          ; $7D raw, H=1 -> DAA quadrant N=0/H=1
+        daa                ; -> $83
+        ld  b,a
+        ld  a,$99
+        add a,$01          ; $9A, H=1 -> double adjust (+$66)
+        daa                ; -> $00, C=1 Z=1
+        ld  c,a
+        jr  c,quads_done   ; taken: exercises taken-JR timing early
+        ld  b,$FF          ; skipped
+quads_done:
+        ld  a,$40
+        sub $25            ; $1B raw, N=1 H=1
+        daa                ; -> $15 (subtraction half-carry)
+        ld  d,a
+        ld  a,$30
+        sub $A0            ; $90 raw, N=1 C=1 H=0
+        daa                ; -> $30 (carry-only subtraction)
+        ld  e,a
+
+        ; --- CB page tour ---
+        ld  a,$F0
+        cb  swap,a         ; -> $0F, C=0
+        cb  sla,a          ; -> $1E
+        cb  sra,a          ; -> $0F, C=0 (sign bit clear)
+        cb  rl,a           ; C=0 in -> $1E, C out = 0
+        cb  rr,a           ; -> $0F, C=0
+        cb  srl,a          ; -> $07, C=1
+        cb  rlc,b          ; b=$83 -> $07, C=1, Z=0
+        cb  rrc,c          ; c=$00 stays, Z=1, C=0
+        cb  bit,7,d        ; d=$15: bit7 clear -> Z=1, H=1
+        cb  res,0,d        ; no flag change, d keeps $15
+        cb  set,2,e        ; e=$30 -> $34, no flag change
+
+        ; --- stack & control flow ---
+        ld  sp,$FFFE
+        push bc            ; bc=$0700 -> [$FFFD]=$07 [$FFFC]=$00
+        ld  hl,$FFFC
+        ld  a,(hl)         ; read the pushed low byte back
+        ld  c,a
+        inc hl
+        ld  b,(hl)         ; b=$07: roundtrip through the stack
+        push af            ; af snapshot -> [$FFFB] [$FFFA]
+        scf                ; C=1
+        call nc,$01A0      ; NOT taken: base price only
+        call $01A0         ; taken: RET Z fires inside (c=$00)
+        jr  z,fwd          ; Z=1 -> taken
+        xor a              ; skipped
+fwd:
+        dec e              ; e=$34 -> $33, Z=0 N=1
+        jr  z,dead         ; NOT taken
+        jr  nz,stop        ; taken
+dead:
+        ld  d,$AA          ; skipped
+stop:
+        halt
+
+        org $01A0
+subr:
+        ld  a,c            ; c=$00 both times we arrive
+        or  a              ; Z=1, C=0
+        ret z              ; taken: exercises conditional RET timing

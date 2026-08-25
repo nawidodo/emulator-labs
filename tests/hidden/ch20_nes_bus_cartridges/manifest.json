@@ -1,0 +1,70 @@
+{
+  "description": "ch20 hidden grading: bus decode, cartridge stack, boot challenge, CHR-RAM coding test, debug regressions",
+  "cases": [
+    {
+      "name": "bus_mirrors_and_ppu_decode",
+      "binary": "build/skels/ch20_nes_bus_cartridges/01_cpu_bus/ch20_01_cpu_bus_tests",
+      "args": [
+        "mirrors."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "controllers_and_oam_dma",
+      "binary": "build/skels/ch20_nes_bus_cartridges/01_cpu_bus/ch20_01_cpu_bus_tests",
+      "args": [
+        "controllers."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "oam_dma_cycle_debit",
+      "binary": "build/skels/ch20_nes_bus_cartridges/01_cpu_bus/ch20_01_cpu_bus_tests",
+      "args": [
+        "dma."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ines_nrom_cartridge_stack",
+      "binary": "build/skels/ch20_nes_bus_cartridges/02_ines_nrom/ch20_02_ines_nrom_tests",
+      "args": [
+        "nrom."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_regression_both_bugs_fixed",
+      "binary": "build/skels/ch20_nes_bus_cartridges/90_debug/ch20_90_debug_tests",
+      "args": [
+        "regression."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "boot_success_headless",
+      "binary": "build/skels/ch20_nes_bus_cartridges/91_boot/ch20_91_boot_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch20_nes_bus_cartridges/roms/boot_success.nes",
+        "--headless",
+        "--cycles",
+        "500",
+        "--dump-ram",
+        "{{tmp}}/ram.bin"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/ram.bin",
+        "fnv64": "5AD15AD0E7E8576D"
+      }
+    },
+    {
+      "name": "coding_test_chrram_variant",
+      "binary": "build/skels/ch20_nes_bus_cartridges/99_coding_test/ch20_99_coding_test_tests",
+      "args": [
+        "unseen."
+      ],
+      "expect_exit": 0
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+pc=200 op=A20A cyc=0
+pc=202 op=620C cyc=1
+pc=204 op=6306 cyc=2
+pc=206 op=D238 cyc=3
+pc=208 op=1208 cyc=4
+pc=208 op=1208 cyc=5
+pc=208 op=1208 cyc=6
+pc=208 op=1208 cyc=7
+pc=208 op=1208 cyc=8
+pc=208 op=1208 cyc=9
+pc=208 op=1208 cyc=10
+pc=208 op=1208 cyc=11

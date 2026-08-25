@@ -1,0 +1,3 @@
+# ch49 example device script: kick a 6-word DMA at cycle 0 (grammar:
+# templates/ch49_ps1_system_scheduling/03_boot_runner/SPEC.md)
+DMA 6

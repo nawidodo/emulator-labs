@@ -1,0 +1,55 @@
+# ch24 challenge - synchronized 60-frame run: coarse-X scroll sweep with a
+# status-bar split, palette fades, sprite DMAs every 8 frames, and an APU
+# melody on both pulses + triangle. Frame AND audio hashes must match the
+# reference byte-exactly, twice in a row.
+chrpat 1 A5 5A
+chrpat 2 3C 3C
+nt 0 01
+nt 32 02
+nt 64 01
+nt 96 02
+pal 0 0F
+pal 1 21
+pal 2 11
+pal 3 31
+wr 4015 FF
+wr 4003 30
+wr 4007 30
+wr 400B 18
+wr 400C 00
+wr 400F 30
+wr 4000 B8
+wr 4002 50
+wr 4004 B4
+wr 4006 68
+wr 4008 C0
+wr 400A 40
+wr 2001 08
+wr 2000 00
+wr 2005 00
+wr 2005 00
+wr 4017 00
+frame 8
+wr 4014 02
+frame 8
+wr 4014 03
+wr 2005 04
+frame 8
+wr 4014 02
+wr 2005 08
+wr 4002 58
+frame 8
+wr 4014 07
+wr 2005 0C
+wr 4006 70
+frame 8
+wr 4014 05
+wr 2005 10
+frame 8
+wr 4014 02
+wr 2005 14
+wr 4002 48
+frame 8
+wr 2005 18
+wr 4006 78
+frame 4

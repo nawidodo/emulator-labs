@@ -1,0 +1,3 @@
+add_executable(ch27_03_waitstate_tests main.cpp)
+target_link_libraries(ch27_03_waitstate_tests PRIVATE labstest)
+add_test(NAME ch27_03_waitstate COMMAND ch27_03_waitstate_tests)

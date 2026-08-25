@@ -1,0 +1,2 @@
+beep_start frame=0
+beep_end frame=6

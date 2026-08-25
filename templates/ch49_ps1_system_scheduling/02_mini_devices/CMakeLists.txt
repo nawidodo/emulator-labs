@@ -1,0 +1,4 @@
+add_executable(ch49_02_devices_tests main.cpp)
+target_include_directories(ch49_02_devices_tests PRIVATE ..)
+target_link_libraries(ch49_02_devices_tests PRIVATE labstest)
+add_test(NAME ch49_02_devices COMMAND ch49_02_devices_tests)

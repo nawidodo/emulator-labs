@@ -1,0 +1,3 @@
+add_executable(ch45_02_controller_tests main.cpp)
+target_link_libraries(ch45_02_controller_tests PRIVATE labstest)
+add_test(NAME ch45_02_controller COMMAND ch45_02_controller_tests)

@@ -1,0 +1,3 @@
+add_executable(ch11_02_stack_tests main.cpp)
+target_link_libraries(ch11_02_stack_tests PRIVATE labstest)
+add_test(NAME ch11_02_stack COMMAND ch11_02_stack_tests)

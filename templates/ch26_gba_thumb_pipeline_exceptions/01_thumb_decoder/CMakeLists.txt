@@ -1,0 +1,3 @@
+add_executable(ch26_01_decoder_tests main.cpp)
+target_link_libraries(ch26_01_decoder_tests PRIVATE labstest)
+add_test(NAME ch26_01_decoder COMMAND ch26_01_decoder_tests)

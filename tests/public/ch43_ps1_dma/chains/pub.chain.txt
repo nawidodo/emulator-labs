@@ -1,0 +1,12 @@
+; pub.chain -- word dump (little-endian u32); payloads follow their header.
+idx  addr    value      meaning
+000  0x0000  0200000C   hdr count=2 next=0x0C
+001  0x0004  AABB0001   payload
+002  0x0008  AABB0002   payload
+003  0x000C  01000014   hdr count=1 next=0x14
+004  0x0010  AABB0010   payload
+005  0x0014  03000024   hdr count=3 next=0x24
+006  0x0018  AABB0020   payload
+007  0x001C  AABB0021   payload
+008  0x0020  AABB0022   payload
+009  0x0024  00FFFFFF   sentinel header (count=0, link=terminator)

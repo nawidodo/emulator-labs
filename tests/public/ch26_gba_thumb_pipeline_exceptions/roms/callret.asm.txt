@@ -1,0 +1,24 @@
+callret.asm.txt — synthetic Thumb program for ch26_gba_thumb_pipeline_exceptions
+Exercises PUSH/POP (challenge): call/return via PUSH {LR}/POP {PC} and
+caller-state save/restore. Assembled little-endian into callret.bin.
+
+ADDR     WORD   DISASSEMBLY
+00000000 2008   mov   r0, #8
+00000002 0200   lsl   r0, r0, #8        ; r0 = 0x800
+00000004 4685   mov   sp, r0
+00000006 2007   mov   r0, #7
+00000008 2109   mov   r1, #9
+0000000A B403   push  {r0, r1}
+0000000C F000   bl    wreck             (pair -> 0x18)
+0000000E F804
+00000010 BC03   pop   {r0, r1}          ; caller state restored
+00000012 180A   adds  r2, r0, r1        ; 16
+00000014 E7FE   b     .                 ; park
+00000016 46C0   padding (mov r8, r8)
+00000018 B500   wreck: push {lr}
+0000001A 2000   mov   r0, #0            ; clobber caller registers
+0000001C 2100   mov   r1, #0
+0000001E BD00   pop   {pc}              ; return to 0x10, T preserved
+
+Expected final state (cycles=20): r0=7, r1=9, r2=16 (0x10), sp=0x800,
+r15=0x14.

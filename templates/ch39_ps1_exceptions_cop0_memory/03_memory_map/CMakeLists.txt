@@ -1,0 +1,3 @@
+add_executable(ch39_03_memory_map_tests main.cpp bus.hpp)
+target_link_libraries(ch39_03_memory_map_tests PRIVATE labstest)
+add_test(NAME ch39_03_memory_map COMMAND ch39_03_memory_map_tests)

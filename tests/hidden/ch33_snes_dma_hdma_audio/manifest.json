@@ -1,0 +1,38 @@
+{
+  "description": "ch33 SNES DMA/HDMA/APU hidden cases: DMA mode-table suite, HDMA gradient golden hash, unseen transfer-pattern coding test",
+  "cases": [
+    {
+      "name": "dma_modes_suite",
+      "binary": "build/skels/ch33_snes_dma_hdma_audio/01_dma/ch33_01_dma_tests",
+      "args": [
+        "DmaModes"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "hdma_gradient_golden_hash",
+      "binary": "build/skels/ch33_snes_dma_hdma_audio/91_challenge/ch33_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch33_snes_dma_hdma_audio/roms/hidden_ramp.bin",
+        "--headless",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/frame.bin"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/frame.bin",
+        "fnv64": "EF3515111F192EED"
+      }
+    },
+    {
+      "name": "coding_test_variant_mode_x",
+      "binary": "build/skels/ch33_snes_dma_hdma_audio/99_coding_test/ch33_99_coding_tests",
+      "args": [
+        "VariantSpec"
+      ],
+      "expect_exit": 0
+    }
+  ]
+}

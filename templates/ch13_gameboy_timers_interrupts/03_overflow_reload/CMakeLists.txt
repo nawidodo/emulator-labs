@@ -1,0 +1,3 @@
+add_executable(ch13_03_reload_tests main.cpp)
+target_link_libraries(ch13_03_reload_tests PRIVATE labstest)
+add_test(NAME ch13_03_overflow_reload COMMAND ch13_03_reload_tests)

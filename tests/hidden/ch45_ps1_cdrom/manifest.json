@@ -1,0 +1,72 @@
+{
+  "description": "ch45 hidden: disc image, controller, seek/read engine, session coding test",
+  "cases": [
+    {
+      "name": "unit_disc",
+      "binary": "build/skels/ch45_ps1_cdrom/01_disc_image/ch45_01_disc_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_controller",
+      "binary": "build/skels/ch45_ps1_cdrom/02_controller/ch45_02_controller_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_read_engine",
+      "binary": "build/skels/ch45_ps1_cdrom/03_read_engine/ch45_03_read_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_seeks_fixed",
+      "binary": "build/skels/ch45_ps1_cdrom/90_debug/ch45_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "session_hidden_transcript",
+      "binary": "build/skels/ch45_ps1_cdrom/91_challenge/ch45_cd_cli",
+      "args": [
+        "--cue",
+        "tests/hidden/ch45_ps1_cdrom/disc/h.cue",
+        "--bin",
+        "tests/hidden/ch45_ps1_cdrom/disc/h.bin",
+        "--script",
+        "tests/hidden/ch45_ps1_cdrom/scripts/h.script",
+        "--log",
+        "{{tmp}}/log.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/log.txt",
+        "fnv64": "8360ECF141E885E2"
+      }
+    },
+    {
+      "name": "ct_sequencer_hidden",
+      "binary": "build/skels/ch45_ps1_cdrom/99_coding_test/ch45_ct_sequencer_tests",
+      "args": [
+        "tests/hidden/ch45_ps1_cdrom/scripts/ct_script.txt",
+        "{{tmp}}/got.txt",
+        "tests/hidden/ch45_ps1_cdrom/scripts/ct_expected.txt"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ps1_tests_cdrom_optional",
+      "binary": "build/skels/ch45_ps1_cdrom/91_challenge/ch45_cd_cli",
+      "args": [
+        "--cue",
+        "roms/ps1/ps1-tests/cdrom.cue",
+        "--bin",
+        "roms/ps1/ps1-tests/cdrom.bin",
+        "--script",
+        "roms/ps1/ps1-tests/session.script"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/cdrom.bin",
+      "optional": true
+    }
+  ]
+}

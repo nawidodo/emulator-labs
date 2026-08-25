@@ -1,0 +1,3 @@
+add_executable(ch44_ct_nclip_tests main.cpp)
+target_link_libraries(ch44_ct_nclip_tests PRIVATE labstest)
+add_test(NAME ch44_ct_nclip COMMAND ch44_ct_nclip_tests)

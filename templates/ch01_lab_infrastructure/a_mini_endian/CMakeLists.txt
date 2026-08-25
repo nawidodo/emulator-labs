@@ -1,0 +1,3 @@
+add_executable(a_mini_endian_tests main.cpp)
+target_link_libraries(a_mini_endian_tests PRIVATE labstest)
+add_test(NAME a_mini_endian COMMAND a_mini_endian_tests)

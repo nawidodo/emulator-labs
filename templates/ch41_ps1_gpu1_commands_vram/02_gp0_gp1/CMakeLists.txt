@@ -1,0 +1,3 @@
+add_executable(ch41_02_gp0_gp1_tests main.cpp)
+target_link_libraries(ch41_02_gp0_gp1_tests PRIVATE labstest)
+add_test(NAME ch41_02_gp0_gp1 COMMAND ch41_02_gp0_gp1_tests)

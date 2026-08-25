@@ -1,0 +1,11 @@
+# unseen sequence for the coding test
+init
+tick 1200
+setloc 0:3:0
+readn
+tick 175
+tick 50
+pause
+tick 250
+getstat
+setloc 0:2:16

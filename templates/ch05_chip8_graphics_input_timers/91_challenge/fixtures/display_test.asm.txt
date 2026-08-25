@@ -1,0 +1,11 @@
+display_test — vertical stripes: a 15-row sprite of 0xAA drawn at every even
+column (x = 0,2,...,62). Challenge acceptance fixture #1. Course-original.
+200: A2 20   LD I,$220
+202: 60 00   LD V0,0
+204: D0 1F   DRW V0,V1,15 ; stripe (loop; V1 stays 0)
+206: 70 02   ADD V0,2
+208: 30 40   SE V0,64
+20A: 12 04   JP $204
+20C: 12 0C   halt
+20E: 00 x18  padding
+220: AA x15  stripe sprite

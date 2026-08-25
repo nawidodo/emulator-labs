@@ -1,0 +1,16 @@
+keypad_test — waits for 8 key presses; plots one dot per press at
+(col, key*2) where col advances by 4 per sample across the screen.
+Pairs with keypad_input.txt. Challenge acceptance fixture #2. Course-original.
+200: 6E 08   LD VE,8
+202: 62 00   LD V2,0
+204: A2 22   LD I,$222
+206: F0 0A   LD V0,K     ; loop
+208: 83 00   LD V3,V0
+20A: 83 0E   SHL V3      ; key*2
+20C: D2 31   DRW V2,V3,1
+20E: 72 04   ADD V2,4
+210: 32 20   SE V2,32
+212: 12 06   JP $206
+214: 12 14   halt
+216: 00 x12  padding
+222: 80      dot sprite

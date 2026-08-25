@@ -1,0 +1,108 @@
+{
+  "description": "ch02_emulator_core hidden gate: exercises, debug, challenge, coding test, golden traces",
+  "cases": [
+    {
+      "name": "ex01_fde_green",
+      "binary": "build/skels/ch02_emulator_core/01_fetch_decode_execute/ch02_01_fde_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "ex02_alu_green",
+      "binary": "build/skels/ch02_emulator_core/02_alu_ops/ch02_02_alu_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "ex03_flow_green",
+      "binary": "build/skels/ch02_emulator_core/03_control_flow/ch02_03_flow_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_bugs_fixed",
+      "binary": "build/skels/ch02_emulator_core/90_debug/ch02_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_call_ret_green",
+      "binary": "build/skels/ch02_emulator_core/91_challenge/ch02_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_minicore_full",
+      "binary": "build/skels/ch02_emulator_core/99_coding_test/ch02_99_minicore_tests",
+      "args": [
+        "countdown_loop_program"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_minicore_shl_filter",
+      "binary": "build/skels/ch02_emulator_core/99_coding_test/ch02_99_minicore_tests",
+      "args": [
+        "shl_moves_bit7_into_carry"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "runner_rejects_missing_rom",
+      "binary": "build/skels/ch02_emulator_core/04_assembler_fixture/ch02_04_runner",
+      "args": [
+        "--rom",
+        "{{tmp}}/does_not_exist.bin"
+      ],
+      "expect_exit": 1
+    },
+    {
+      "name": "trace_golden_countdown",
+      "binary": "build/skels/ch02_emulator_core/04_assembler_fixture/ch02_04_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch02_emulator_core/roms/countdown.bin",
+        "--cycles",
+        "400",
+        "--trace",
+        "{{tmp}}/countdown.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/countdown.log",
+        "fnv64": "82C22007342BBF90"
+      }
+    },
+    {
+      "name": "trace_golden_summem",
+      "binary": "build/skels/ch02_emulator_core/04_assembler_fixture/ch02_04_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch02_emulator_core/roms/sum_mem.bin",
+        "--cycles",
+        "400",
+        "--trace",
+        "{{tmp}}/summem.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/summem.log",
+        "fnv64": "294E2BDC22A6C9C2"
+      }
+    },
+    {
+      "name": "trace_golden_fib_budgeted",
+      "binary": "build/skels/ch02_emulator_core/04_assembler_fixture/ch02_04_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch02_emulator_core/roms/fib.bin",
+        "--cycles",
+        "400",
+        "--trace",
+        "{{tmp}}/fib.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/fib.log",
+        "fnv64": "D630BB02CA3837D3"
+      }
+    }
+  ]
+}

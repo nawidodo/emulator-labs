@@ -1,0 +1,53 @@
+; challenge_prog.bin — course-original 6502 exercise program (ch18)
+; Hand-assembled from this listing. Load address $0600, PC starts $0600.
+; Preload: $2100 = $0F before execution (--data 2100=0f).
+;
+; Exercises: immediate/zp/abs loads and stores, INC, LSR loop with taken
+; and not-taken branches, page-crossing abs,X load, JSR/RTS, transfers,
+; ASL, overflow branch (BVS), JMP (indirect) with the $xxFF wrap quirk
+; avoided (pointer at $0650 -> $0620), termination on an undocumented JAM.
+
+        * = $0600
+start:
+0600  A9 FF     LDA #$FF
+0602  85 40     STA $40          ; mem[$40] = $FF
+0604  E6 40     INC $40          ; -> $00, Z set (5 cycles)
+0606  A9 05     LDA #$05
+loop:
+0608  4A        LSR A            ; 05->02->01->00, C from bit 0
+0609  D0 FD     BNE loop         ; taken twice (3 cyc), falls through once
+060B  69 30     ADC #$30         ; C=1 in: A = $31
+060D  8D 10 02  STA $0210
+0610  A2 02     LDX #$02
+0612  BD FE 20  LDA $20FE,X      ; base+X = $2100: PAGE CROSS (+1 cycle)
+0615  20 40 06  JSR add7         ; A = $0F + 7 = $16
+0618  AA        TAX
+0619  8A        TXA
+061A  0A        ASL A            ; $2C
+061B  8D 11 02  STA $0211
+061E  18        CLC
+061F  A9 80     LDA #$80
+0621  69 80     ADC #$80         ; result $00: C=1 AND V=1
+0623  70 02     BVS over         ; V set -> skip the poison load
+0625  A9 EE     LDA #$EE         ; (skipped)
+over:
+0627  8D 12 02  STA $0212        ; mem[$0212] = $00
+062A  6C 50 06  JMP ($0650)      ; vector word at $0650
+
+        * = $0640
+add7:
+0640  18        CLC
+0641  69 07     ADC #$07
+0643  60        RTS
+
+        * = $0630
+0630  EA        NOP               ; indirect-jump landing pad
+0631  02        .byte $02         ; unimplemented opcode: CPU jams (halt)
+
+        * = $0650
+vec:
+0650  30 06     .word $0630       ; JMP ($0650) lands at $0630
+
+; Expected final state (asserted by ch18_91_challenge tests):
+;   mem[$0040]=$00  mem[$0210]=$31  mem[$0211]=$2C  mem[$0212]=$00
+;   30 instructions executed, 86 cycles total including the jam fetch.

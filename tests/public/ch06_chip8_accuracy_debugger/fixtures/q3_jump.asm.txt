@@ -1,0 +1,10 @@
+; q3_jump -- BXNN jump-base quirk differential (hand-assembled)
+; 0200: 6005    LD   V0, 0x05
+; 0202: 6203    LD   V2, 0x03
+; 0204: B205    JP   205+{V0|V2}  ; CHIP48 -> 208, others -> 20A
+; 0206: 0000    NOP               ; padding, never executed
+; 0208: 1214    JP   214          ; CHIP48 path exits here
+; 020A: 6411    LD   V4, 0x11     ; MODERN/VIP set V4 then exit
+; 020C: 1214    JP   214
+; 020E: 0000    NOP               ; padding, never executed
+; assembled by hand; provenance in ../provenance.md

@@ -1,0 +1,20 @@
+# CODING TEST: unseen triangle state (see CODING_TEST.md)
+# offset   word       disassembly
+
+0000     E6000000  GP1: GP0(E6h) mask bits off
+0004     E3000000  GP1: GP0(E3h) drawing area TL (0,0)
+0008     E407FFFF  GP1: GP0(E4h) drawing area BR (1023,511)
+000C     E5000000  GP1: GP0(E5h) drawing offset (0,0)
+0010     E3008040  GP1: GP0(E3h) drawing area TL (64,32)
+0014     E4039D3F  GP1: GP0(E4h) drawing area BR (319,231)
+0018     E5008010  GP1: GP0(E5h) drawing offset (+16,+16)
+001C     300000FF  GP0: GP0(30h) UNSEEN gouraud triangle: red/green/blue corners
+0020     000147EC  GP0:          v1 (-20,40) clipped left
+0024     0000FF00  GP0:          c2 green
+0028     003F10FA  GP0:         v2 (250,-30) clipped top
+002C     00FF0000  GP0:          c3 blue
+0030     000870D2  GP0:         v3 (210,270) clipped bottom
+0034     20FCA000  GP0: GP0(20h) flat orange triangle, interior
+0038     0003C078  GP0:         v1 (120,120)
+003C     000460E6  GP0:         v2 (230,140)
+0040     000690AA  GP0:         v3 (170,210)

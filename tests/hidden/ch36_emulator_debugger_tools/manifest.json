@@ -1,0 +1,59 @@
+{
+  "description": "ch36 emulator debugger tools \u2014 hidden gate",
+  "cases": [
+    {
+      "name": "unit_cpu_debug",
+      "binary": "build/skels/ch36_emulator_debugger_tools/01_cpu_debug/ch36_01_cpu_debug_tests",
+      "args": [
+        "cpudebug."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_trace_history",
+      "binary": "build/skels/ch36_emulator_debugger_tools/02_trace_history/ch36_02_trace_tests",
+      "args": [
+        "trace."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_tile_viewer",
+      "binary": "build/skels/ch36_emulator_debugger_tools/03_tile_viewer/ch36_03_tiles_tests",
+      "args": [
+        "tiles."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_transcript_golden",
+      "binary": "build/skels/ch36_emulator_debugger_tools/91_challenge/ch36_91_challenge_tests",
+      "args": [
+        "challenge."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "diagnose_hidden_rom_coding_test",
+      "binary": "build/skels/ch36_emulator_debugger_tools/99_coding_test/ch36_99_diagnose",
+      "args": [
+        "--rom",
+        "tests/hidden/ch36_emulator_debugger_tools/programs/glitch.bin",
+        "--result",
+        "{{tmp}}/diagnosis.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/diagnosis.txt",
+        "fnv64": "08C20787E51A8847"
+      }
+    },
+    {
+      "name": "mgba_suite_optional",
+      "binary": "build/skels/ch36_emulator_debugger_tools/01_cpu_debug/ch36_01_cpu_debug_tests",
+      "args": [],
+      "requires_rom": "roms/gba/mgba-suite/armor.gba",
+      "optional": true
+    }
+  ]
+}

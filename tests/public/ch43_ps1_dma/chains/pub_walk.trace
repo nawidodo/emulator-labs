@@ -1,0 +1,4 @@
+pkt=0 ptr=000000 hdr=0200000C words=2 cyc=3
+pkt=1 ptr=00000C hdr=01000014 words=1 cyc=6
+pkt=2 ptr=000014 hdr=03000024 words=3 cyc=11
+pkt=3 ptr=000024 hdr=00FFFFFF words=0 cyc=13

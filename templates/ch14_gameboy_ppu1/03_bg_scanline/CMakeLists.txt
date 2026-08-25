@@ -1,0 +1,3 @@
+add_executable(ch14_03_bgline_tests main.cpp)
+target_link_libraries(ch14_03_bgline_tests PRIVATE labstest)
+add_test(NAME ch14_03_bgline COMMAND ch14_03_bgline_tests)

@@ -1,0 +1,55 @@
+{
+  "description": "ch42 PS1 GPU II - texturing & rasterization accuracy. Binary paths point at the SOLUTION tree (build with -DLABS_BUILD_SOLUTIONS=On); skeleton stubs intentionally fail these cases.",
+  "cases": [
+    {
+      "name": "unit_texture_pages",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/01_texture_pages/ch42_01_texture_pages_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_blend_clip",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/02_blend_clip/ch42_02_blend_clip_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_seeded_bugs_fixed",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/90_debug/ch42_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "pages_frame_golden",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/01_texture_pages/ch42_01_texture_pages_runner",
+      "args": ["--rom", "tests/public/ch42_ps1_gpu2_texturing_raster/fixtures/pages_blit.bin", "--hash-frame", "{{tmp}}/frame.hash"],
+      "expect_file_hash": {"file": "{{tmp}}/frame.hash", "fnv64": "82FF29ED8C398822"}
+    },
+    {
+      "name": "blend_frame_golden",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/02_blend_clip/ch42_02_blend_clip_runner",
+      "args": ["--rom", "tests/public/ch42_ps1_gpu2_texturing_raster/fixtures/blend_span.bin", "--hash-frame", "{{tmp}}/frame.hash"],
+      "expect_file_hash": {"file": "{{tmp}}/frame.hash", "fnv64": "BBE4B458B3D5830F"}
+    },
+    {
+      "name": "challenge_quad_golden",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/91_challenge/ch42_91_challenge_runner",
+      "args": ["--rom", "tests/public/ch42_ps1_gpu2_texturing_raster/fixtures/challenge_quad.bin", "--hash-frame", "{{tmp}}/frame.hash"],
+      "expect_file_hash": {"file": "{{tmp}}/frame.hash", "fnv64": "7EF70EA4C928AEE1"}
+    },
+    {
+      "name": "coding_test_unseen_primitive",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/99_coding_test/ch42_99_coding_test_runner",
+      "args": ["--rom", "tests/hidden/ch42_ps1_gpu2_texturing_raster/roms/unseen.bin", "--hash-frame", "{{tmp}}/out.hash"],
+      "expect_file_hash": {"file": "{{tmp}}/out.hash", "fnv64": "56F750CFAE35E612"}
+    },
+    {
+      "name": "ps1_tests_hardware_suite_optional",
+      "binary": "build/skels/ch42_ps1_gpu2_texturing_raster/01_texture_pages/ch42_01_texture_pages_runner",
+      "args": ["--help"],
+      "expect_exit": 0,
+      "requires_rom": "roms/ps1/ps1-tests/gpu.tex.bin",
+      "optional": true
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+# cpu_smoke.asm — hand-assembled PS1 CPU smoke fixture
+# Load address 0x80010000 (runner default). Little-endian words.
+
+80010000: 2410000A  addiu $s0,$zero,10      # n = 10
+80010004: 24110000  addiu  $s1,$zero,0       # acc = 0
+80010008: 02308821  addu   $s1,$s1,$s0
+8001000C: 2610FFFF  addiu  $s0,$s0,-1
+80010010: 1E00FFFD  bgtz   $s0,loop          # taken until n==0
+80010014: 00000000  nop                            # DELAY SLOT
+80010018: AC110400  sw $s1,0x400($zero)     # 55
+8001001C: 3C0A1234  lui $t2,0x1234
+80010020: 354A5678  ori $t2,$t2,0x5678
+80010024: AC0A0404  sw  $t2,0x404($zero)
+80010028: 900B0404  lbu $t3,0x404($zero)    # 0x78
+8001002C: A00B0408  sb  $t3,0x408($zero)
+80010030: 980C0405  lwr $t4,0x405($zero)    # unaligned low 3 bytes
+80010034: 880C0408  lwl $t4,0x408($zero)    # top byte -> 0x78345600
+80010038: AC0C040C  sw  $t4,0x40C($zero)
+8001003C: 240DFFFA  addiu $t5,$zero,-6
+80010040: 240E0007  addiu  $t6,$zero,7
+80010044: 01AE0018  mult   $t5,$t6           # -42
+80010048: 00007810  mfhi   $t7               # 0xFFFFFFFF
+8001004C: 0000C012  mflo   $t8               # 0xFFFFFFD6
+80010050: 022E001A  div    $s1,$t6           # 55/7
+80010054: 00009012  mflo   $s2               # 7
+80010058: 00009810  mfhi   $s3               # 6
+8001005C: 0C00401B  jal    func              # call
+80010060: 00000000  nop                            # DELAY SLOT of jal
+80010064: AC020410  sw  $v0,0x410($zero)    # 78
+80010068: 0000000C  syscall                 # HALT
+8001006C: 2402004D  addiu  $v0,$zero,77
+80010070: 03E00008  jr     $ra
+80010074: 24420001  addiu  $v0,$v0,1         # DELAY SLOT of jr

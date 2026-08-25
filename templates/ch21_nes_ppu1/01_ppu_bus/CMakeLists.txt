@@ -1,0 +1,3 @@
+add_executable(ch21_01_ppu_bus_tests main.cpp)
+target_link_libraries(ch21_01_ppu_bus_tests PRIVATE labstest)
+add_test(NAME ch21_01_ppu_bus COMMAND ch21_01_ppu_bus_tests)

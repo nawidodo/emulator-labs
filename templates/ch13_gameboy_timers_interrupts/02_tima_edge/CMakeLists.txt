@@ -1,0 +1,3 @@
+add_executable(ch13_02_edge_tests main.cpp)
+target_link_libraries(ch13_02_edge_tests PRIVATE labstest)
+add_test(NAME ch13_02_tima_edge COMMAND ch13_02_edge_tests)

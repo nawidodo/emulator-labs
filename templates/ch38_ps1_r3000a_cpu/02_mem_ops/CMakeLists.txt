@@ -1,0 +1,3 @@
+add_executable(ch38_02_mem_ops_tests main.cpp)
+target_link_libraries(ch38_02_mem_ops_tests PRIVATE labstest)
+add_test(NAME ch38_02_mem_ops COMMAND ch38_02_mem_ops_tests)

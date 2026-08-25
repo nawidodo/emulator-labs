@@ -1,0 +1,38 @@
+# flags_suite: course-original opcode/flags program (quirk-neutral final state)
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  61 FF  LD   V1,#FF
+0202:  62 01  LD   V2,#01
+0204:  63 FF  LD   V3,#FF
+0206:  83 24  ADD  V3,V2   ; FF+01 -> 00, VF=1
+0208:  84 27  SUBN V4,V2   ; V4 = 1, VF=1
+020A:  85 25  SUB  V5,V2   ; borrow -> FF, VF=0
+020C:  86 13  XOR  V6,V1   ; FF
+020E:  87 22  AND  V7,V2   ; 00
+0210:  88 11  OR   V8,V1   ; FF
+0212:  69 47  LD   V9,#47
+0214:  89 96  SHR  V9,V9   ; -> 23, VF=1 (neutral)
+0216:  6A 81  LD   VA,#81
+0218:  8A AE  SHL  VA,VA   ; -> 02, VF=1 (neutral)
+021A:  AB 00  LD   I,#B00
+021C:  6C CD  LD   VC,#CD
+021E:  FC 33  BCD  VC       ; 2 0 5
+0220:  FD 29  FONT VD(0)   ; I -> 0
+0222:  A1 00  LD   I,#100
+0224:  6D 03  LD   VD,#03
+0226:  FE 55  STORE V0-VE @100..10E
+0228:  A1 00  LD   I,#100
+022A:  FE 65  LOAD  V0-VE <- 100..
+022C:  6F 01  LD   VF,#01   ; renormalize flag
+022E:  6B 03  LD   VB,#03
+0230:  71 01  ADD  V1,#01   ; loop body
+0232:  7B FF  ADD  VB,#FF   ; VB--
+0234:  3B 00  SE   VB,#00   ; done?
+0236:  12 30  JP   0230
+0238:  C8 0F  RND  V8,#0F   ; default-seeded LCG
+023A:  EA A1  SKNP VA      ; key2 UP -> taken
+023C:  12 3E  trap: JP 023E (skipped)
+023E:  6E 42  LD   VE,#42   ; success marker
+0240:  A1 0F  LD   I,#10F   ; normalize I (load_store_leaves_i)
+0242:  00 00  halt (illegal opcode)

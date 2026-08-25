@@ -1,0 +1,32 @@
+# hidden_alu.asm — ch38 hidden coding-test fixture
+# Load address 0x80010000. Little-endian words.
+# Exercises slt/sltu/sra/xori/nor, swl/swr+lwl/lwr roundtrip, bne loop, divu.
+
+80010000: 3C088CA5  lui   $t0,0x8CA5
+80010004: 35081B7F  ori   $t0,$t0,0x1B7F
+80010008: 2409FF7E  addiu $t1,$zero,-130
+8001000C: 0109502A  slt   $t2,$t0,$t1
+80010010: 0109582B  sltu  $t3,$t0,$t1
+80010014: 01296003  sra   $t4,$t1,3
+80010018: 390CF00D  xori  $t4,$t4,0xF00D
+8001001C: 000C6027  nor   $t4,$zero,$t4
+80010020: AC0A0500  sw    $t2,0x500($zero)
+80010024: AC0B0504  sw    $t3,0x504($zero)
+80010028: AC0C0508  sw    $t4,0x508($zero)
+8001002C: 3C081122  lui   $t0,0x1122
+80010030: 35083344  ori   $t0,$t0,0x3344
+80010034: B8080509  swr   $t0,0x509($zero)
+80010038: A808050C  swl   $t0,0x50C($zero)
+8001003C: 98090509  lwr   $t1,0x509($zero)
+80010040: 8809050C  lwl   $t1,0x50C($zero)
+80010044: AC090510  sw    $t1,0x510($zero)     # must equal 0x11223344
+80010048: 24100005  addiu $s0,$zero,5
+8001004C: 263103E8  addiu $s1,$s1,1000
+80010050: 2610FFFF  addiu $s0,$s0,-1
+80010054: 1600FFFD  bne   $s0,$zero,loop2
+80010058: 00000000  nop                            # DELAY SLOT of bne
+8001005C: AC110514  sw    $s1,0x514($zero)     # 5000
+80010060: 0229001B  divu  $s1,$t1
+80010064: 00001012  mflo  $v0
+80010068: AC020518  sw    $v0,0x518($zero)
+8001006C: 0000000C  syscall # HALT

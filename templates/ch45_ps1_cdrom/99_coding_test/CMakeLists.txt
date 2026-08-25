@@ -1,0 +1,3 @@
+add_executable(ch45_ct_sequencer_tests main.cpp)
+target_link_libraries(ch45_ct_sequencer_tests PRIVATE labstest)
+add_test(NAME ch45_ct_sequencer COMMAND ch45_ct_sequencer_tests)

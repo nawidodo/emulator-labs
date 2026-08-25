@@ -1,0 +1,41 @@
+; h1_timer_variant -- ch13 HIDDEN coding-test fixture (unseen variant)
+;
+; Same shape as timer_probe but TMA/TAC/poll differ:
+;   $FF80 : event counter, incremented by the ISR at $0050
+;   $FF81 : marker byte written by the ISR ($5A after the first event)
+;   TMA=$F0 -> overflow every 16 ticks
+;   TAC=$05: enabled, select 01 -> DIV bit 3, one tick per 16 T-cycles
+;            => one interrupt every 256 T-cycles
+;   extra DEC/JR poll loop burns cycles before EI/HALT
+        org $0050
+isr:
+        push af
+        ld a,($FF80)
+        inc a
+        ld ($FF80),a
+        ld a,$5A
+        ld ($FF81),a       ; marker byte
+        pop af
+        reti
+
+        org $0100
+main:
+        xor a
+        ld ($FF80),a
+        ld ($FF81),a
+        ld a,$F0
+        ld ($FF06),a       ; TMA := $F0
+        ld ($FF05),a       ; TIMA aligned with TMA
+        ld a,$05
+        ld ($FF07),a       ; TAC: enable, select 01 (DIV bit 3)
+        ld a,$04
+        ld ($FFFF),a       ; IE: unmask the timer line
+        ld b,$08           ; poll loop: 8 * (8+12) = 160 T-cycles
+poll:
+        dec b
+        jr nz,poll
+        ei
+        nop
+halt_loop:
+        halt
+        jr halt_loop

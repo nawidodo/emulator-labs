@@ -1,0 +1,12 @@
+# MMC3 IRQ lab — the mid-frame period rewrite (the 90_debug bug class)
+# A game shortens the period WHILE a countdown is running. Hardware
+# finishes the old countdown; the new latch lands only at the NEXT reload.
+wr 0xE001 00        # enable
+wr 0xC000 05        # latch = 5
+wr 0xC001 00        # reload next edge
+edge 2              # counter: 5, then 4
+wr 0xC000 01        # mid-count rewrite: latch = 1 (counter UNTOUCHED)
+snap                # still counting the OLD period: cnt=4
+edge 8              # old countdown runs out: IRQ@7, reloaded from NEW latch
+wr 0xE000 00        # acknowledge
+snap

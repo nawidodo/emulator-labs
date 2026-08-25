@@ -1,0 +1,3 @@
+add_executable(ch36_01_cpu_debug_tests main.cpp)
+target_link_libraries(ch36_01_cpu_debug_tests PRIVATE labstest)
+add_test(NAME ch36_01_cpu_debug COMMAND ch36_01_cpu_debug_tests)

@@ -1,0 +1,92 @@
+{
+  "description": "ch48 PS1 SIO hidden tests: pad protocol, card protocol/XOR/bad-sector, dual-slot routing, challenge round trip, unseen transaction-log hashes",
+  "cases": [
+    {
+      "name": "pad_read_transaction",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/01_digital_pad/ch48_01_pad_tests",
+      "args": [
+        "pad_read.id_and_button_sequence"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "pad_ack_timing",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/01_digital_pad/ch48_01_pad_tests",
+      "args": [
+        "pad_ack.pulses_between_data_bytes_not_after_final"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "card_xor_known_vectors",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/02_card_protocol/ch48_02_card_tests",
+      "args": [
+        "card_xor.known_vectors"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "card_bad_sector_read",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/02_card_protocol/ch48_02_card_tests",
+      "args": [
+        "card_read.bad_sector_streams_ff_and_ends_bad"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "dual_slot_routing",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/03_card_image/ch48_03_sio_tests",
+      "args": [
+        "sio_bus.slot_bits_route_to_independent_pads"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_roundtrip_golden",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/91_challenge/ch48_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_log_a",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/03_card_image/ch48_03_sio_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch48_ps1_controllers_memcards/roms/card_unseen.mcr",
+        "--input-file",
+        "tests/hidden/ch48_ps1_controllers_memcards/roms/script_a.script",
+        "--hash-frame",
+        "{{tmp}}/a.bin",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/a.bin",
+        "fnv64": "A1C122ABC7A1CDDC"
+      }
+    },
+    {
+      "name": "coding_test_log_b",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/03_card_image/ch48_03_sio_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch48_ps1_controllers_memcards/roms/card_unseen.mcr",
+        "--input-file",
+        "tests/hidden/ch48_ps1_controllers_memcards/roms/script_b.script",
+        "--hash-frame",
+        "{{tmp}}/b.bin",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/b.bin",
+        "fnv64": "72D13A8B82746E65"
+      }
+    },
+    {
+      "name": "psx_sio_hardware_suite_optional",
+      "binary": "build/skels/ch48_ps1_controllers_memcards/03_card_image/ch48_03_sio_runner",
+      "args": [],
+      "requires_rom": "roms/ps1/psx-sio-tests/sio_test.bin",
+      "optional": true
+    }
+  ]
+}

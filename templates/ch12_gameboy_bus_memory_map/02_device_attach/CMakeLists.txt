@@ -1,0 +1,3 @@
+add_executable(ch12_02_attach_tests main.cpp)
+target_link_libraries(ch12_02_attach_tests PRIVATE labstest)
+add_test(NAME ch12_02_attach COMMAND ch12_02_attach_tests)

@@ -1,0 +1,4 @@
+add_executable(ch09_01_memory_map_tests main.cpp)
+target_link_libraries(ch09_01_memory_map_tests PRIVATE labstest)
+target_include_directories(ch09_01_memory_map_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME ch09_01_memory_map COMMAND ch09_01_memory_map_tests)

@@ -1,0 +1,6 @@
+add_executable(ch43_03_linked_list_tests main.cpp)
+target_link_libraries(ch43_03_linked_list_tests PRIVATE labstest)
+add_test(NAME ch43_03_linked_list COMMAND ch43_03_linked_list_tests)
+
+add_executable(ch43_03_ll_runner ll_runner.cpp)
+add_test(NAME ch43_03_ll_runner_help COMMAND ch43_03_ll_runner)

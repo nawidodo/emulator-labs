@@ -1,0 +1,6 @@
+add_executable(ch11_99_coding_test_tests main.cpp)
+target_link_libraries(ch11_99_coding_test_tests PRIVATE labstest)
+add_test(NAME ch11_99_coding_test COMMAND ch11_99_coding_test_tests)
+
+add_executable(ch11_99_coding_test_runner runner_main.cpp)
+add_test(NAME ch11_99_coding_test_runner_help COMMAND ch11_99_coding_test_runner --help)

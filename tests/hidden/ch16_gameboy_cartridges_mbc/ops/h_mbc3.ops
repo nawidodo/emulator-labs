@@ -1,0 +1,13 @@
+# h_mbc3.ops — hidden MBC3 cart: tick, latch, frozen reads
+T 4194304
+W 4000 08
+R A000
+W 6000 00
+W 6000 01
+T 247463936
+R A000
+W 4000 09
+R A000
+W 6000 00
+W 6000 01
+R A000

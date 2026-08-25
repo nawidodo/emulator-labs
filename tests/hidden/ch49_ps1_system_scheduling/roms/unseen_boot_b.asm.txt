@@ -1,0 +1,24 @@
+# ch49 hidden coding-test fixture: unseen_boot_b
+# Mini-ISA encoding per templates/ch49_ps1_system_scheduling/02_mini_devices/core.hpp.
+# Loaded at RAM word 0 by ch49_03_boot_runner_runner --rom; entry = word 0.
+# Delay-loop prologue; polls CD status that is masked out of the INTC; script_b kicks DMA/GP0/CD.
+# Deterministic construction: hand-assembled from the table below;
+# regenerating against this listing reproduces unseen_boot_b.bin byte-for-byte.
+
+00: 00081F80  lui   $r8, 0x1F80
+01: 000A0000  lui   $r10, 0x0000
+02: 040A0202  ori   $r10, 0x202
+03: 0D0A0074  sw    $r10, 0x074($r8)
+04: 080C0003  addiu $r12, $r0, 3
+05: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+06: 080F0028  addiu $r15, $r0, 40
+07: 09EFFFFF  addiu $r15, $r15, -1
+08: 15E0FFFE  bnez  $r15, -2
+09: 110B0070  lw    $r11, 0x070($r8)
+10: 216B0004  andi  $r11, $r11, 0x004
+11: 15600001  bnez  $r11, +1
+12: 18000009  j     9
+13: 0D0B0070  sw    $r11, 0x070($r8)
+14: 080C0009  addiu $r12, $r0, 9
+15: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+16: 1C000000  halt

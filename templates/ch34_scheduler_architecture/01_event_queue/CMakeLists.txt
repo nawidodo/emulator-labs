@@ -1,0 +1,3 @@
+add_executable(ch34_01_event_queue_tests main.cpp)
+target_link_libraries(ch34_01_event_queue_tests PRIVATE labstest)
+add_test(NAME ch34_01_event_queue COMMAND ch34_01_event_queue_tests)

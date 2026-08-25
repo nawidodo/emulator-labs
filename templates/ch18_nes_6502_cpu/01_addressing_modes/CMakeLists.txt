@@ -1,0 +1,3 @@
+add_executable(ch18_01_addressing_modes_tests main.cpp)
+target_link_libraries(ch18_01_addressing_modes_tests PRIVATE labstest)
+add_test(NAME ch18_01_addressing_modes COMMAND ch18_01_addressing_modes_tests)

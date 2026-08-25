@@ -1,0 +1,70 @@
+{
+  "description": "ch19 hidden grading: interrupt flows, dummy accesses/unofficials, golden trace-log match, divergence tool, debug regressions, optional nestest",
+  "cases": [
+    {
+      "name": "interrupt_flows",
+      "binary": "build/skels/ch19_nes_cpu_accuracy/01_interrupts/ch19_01_interrupts_tests",
+      "args": [
+        "interrupts."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "dummy_accesses_and_unofficials",
+      "binary": "build/skels/ch19_nes_cpu_accuracy/02_dummy_unofficial/ch19_02_dummy_unofficial_tests",
+      "args": [
+        "dummy."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_regression_both_bugs_fixed",
+      "binary": "build/skels/ch19_nes_cpu_accuracy/90_debug/ch19_90_debug_tests",
+      "args": [
+        "regression."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "divergence_tool_committed_pair",
+      "binary": "build/skels/ch19_nes_cpu_accuracy/99_coding_test/ch19_99_coding_test_tests",
+      "args": [
+        "unseen.",
+        "tests/public/ch19_nes_cpu_accuracy/traces/good50k.log",
+        "tests/public/ch19_nes_cpu_accuracy/traces/bad50k.log"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_trace_golden_log",
+      "binary": "build/skels/ch19_nes_cpu_accuracy/91_challenge/ch19_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch19_nes_cpu_accuracy/programs/challenge_prog.bin",
+        "--cycles",
+        "100",
+        "--trace-log",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "EA9553DE3CA91C80"
+      }
+    },
+    {
+      "name": "nestest_optional_requires_rom",
+      "binary": "build/skels/ch20_nes_bus_cartridges/91_boot/ch20_91_boot_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch19_nes_cpu_accuracy/roms/nestest.nes",
+        "--headless",
+        "--cycles",
+        "200000",
+        "--trace-log",
+        "{{tmp}}/nestest.log"
+      ],
+      "requires_rom": "tests/hidden/ch19_nes_cpu_accuracy/roms/nestest.nes",
+      "optional": true
+    }
+  ]
+}

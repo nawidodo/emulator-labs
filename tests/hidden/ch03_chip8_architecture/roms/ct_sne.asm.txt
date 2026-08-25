@@ -1,0 +1,15 @@
+; ct_sne.asm.txt — annotated listing of ct_sne.ch8 (hidden fixture)
+;
+; Exercises 4XNN SNE Vx, byte, both halves of the decision. Expected final
+; state: V0=0x42, V1=0x33, V2=0x55, V4=0x00 (the 61 44 load is skipped),
+; PC parked at 0x20C.
+
+        .org 0x0200
+
+0200  60 42    LD   V0, 0x42
+0202  40 43    SNE  V0, 0x43       ; not equal -> no skip
+0204  61 33    LD   V1, 0x33       ; executes
+0206  40 42    SNE  V0, 0x42       ; equal -> skip next instruction
+0208  61 44    LD   V1, 0x44       ; SKIPPED
+020A  62 55    LD   V2, 0x55       ; executes
+020C  12 0C    JP   0x020C         ; park here forever

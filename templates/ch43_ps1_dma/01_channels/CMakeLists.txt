@@ -1,0 +1,3 @@
+add_executable(ch43_01_channels_tests main.cpp)
+target_link_libraries(ch43_01_channels_tests PRIVATE labstest)
+add_test(NAME ch43_01_channels COMMAND ch43_01_channels_tests)

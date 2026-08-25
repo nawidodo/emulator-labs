@@ -1,0 +1,13 @@
+; sm03_cond_loops.asm.txt -- nested conditional loops
+    org $0100
+    xor a
+    ld  b,3
+outer:
+    ld  c,4
+inner:
+    inc a
+    dec c
+    jr  nz, inner
+    dec b
+    jp  nz, outer   ; 3*4 iterations -> A=$0C
+    halt

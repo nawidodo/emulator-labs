@@ -1,0 +1,3 @@
+add_executable(ch43_02_transfer_tests main.cpp)
+target_link_libraries(ch43_02_transfer_tests PRIVATE labstest)
+add_test(NAME ch43_02_transfer COMMAND ch43_02_transfer_tests)

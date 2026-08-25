@@ -1,0 +1,15 @@
+; PSX ADPCM synthetic "jingle" - 4 x 16-byte blocks
+; hand-assembled by tools-free generator; see provenance.md
+; load address: SPU RAM byte 1000h
+; --- blk0: shift=3 filter=0 flags=04h LOOP_START
+  DB 03 04 A3 81 6F 4D 2B 09
+  DB E7 C5 A3 81 6F 4D 2B 09
+; --- blk1: shift=2 filter=2 flags=00h
+  DB 22 00 0B A5 4F E9 83 2D
+  DB C7 61 0B A5 4F E9 83 2D
+; --- blk2: shift=1 filter=1 flags=04h LOOP_START
+  DB 11 04 B0 16 7C D2 38 9E
+  DB F4 5A B0 16 7C D2 38 9E
+; --- blk3: shift=0 filter=0 flags=01h LOOP_END
+  DB 00 01 00 00 00 00 00 00
+  DB 00 00 00 00 00 00 00 00

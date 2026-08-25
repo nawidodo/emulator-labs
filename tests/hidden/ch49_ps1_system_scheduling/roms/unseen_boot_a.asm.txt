@@ -1,0 +1,37 @@
+# ch49 hidden coding-test fixture: unseen_boot_a
+# Mini-ISA encoding per templates/ch49_ps1_system_scheduling/02_mini_devices/core.hpp.
+# Loaded at RAM word 0 by ch49_03_boot_runner_runner --rom; entry = word 0.
+# GPU-before-CD handshake; script_a additionally stalls the boot with a DMA kick.
+# Deterministic construction: hand-assembled from the table below;
+# regenerating against this listing reproduces unseen_boot_a.bin byte-for-byte.
+
+00: 00081F80  lui   $r8, 0x1F80
+01: 08090001  addiu $r9, $r0, 1
+02: 000A0000  lui   $r10, 0x0000
+03: 040A0206  ori   $r10, 0x0206
+04: 0D0A0074  sw    $r10, 0x074($r8)
+05: 0D090C00  sw    $r9,  0xC00($r8)
+06: 0D090800  sw    $r9,  0x800($r8)
+07: 080C0005  addiu $r12, $r0, 5
+08: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+09: 000D0000  lui   $r13, 0x0000
+10: 040D0898  ori   $r13, 2200
+11: 0D0D0810  sw    $r13, 0x810($r8)
+12: 000E0400  lui   $r14, 0x0400
+13: 040E0001  ori   $r14, 0x0001
+14: 0D0E0814  sw    $r14, 0x814($r8)
+15: 110B0070  lw    $r11, 0x070($r8)
+16: 216B0002  andi  $r11, $r11, 0x002
+17: 15600001  bnez  $r11, +1
+18: 1800000F  j     15
+19: 0D0B0070  sw    $r11, 0x070($r8)
+20: 080C0006  addiu $r12, $r0, 6
+21: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+22: 110B0070  lw    $r11, 0x070($r8)
+23: 216B0004  andi  $r11, $r11, 0x004
+24: 15600001  bnez  $r11, +1
+25: 18000016  j     22
+26: 0D0B0070  sw    $r11, 0x070($r8)
+27: 080C0008  addiu $r12, $r0, 8
+28: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+29: 1C000000  halt

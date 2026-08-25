@@ -1,0 +1,19 @@
+# FILL parameter masking/rounding/wrap quirks per PSX-SPX
+# offset   word       disassembly
+
+0000     E6000000  GP1: GP0(E6h) mask bits off
+0004     E3000000  GP1: GP0(E3h) drawing area TL (0,0)
+0008     E407FFFF  GP1: GP0(E4h) drawing area BR (1023,511)
+000C     E5000000  GP1: GP0(E5h) drawing offset (0,0)
+0010     02FFFFFF  GP0: GP0(02h) FILL white
+0014     00000000  GP0:          xy (0,0)
+0018     02000400  GP0:          size 1024x512 LITERAL -> both collapse to 0: NO FILL (hw quirk)
+001C     02FFFFFF  GP0: GP0(02h) FILL white
+0020     00000000  GP0:          xy (0,0)
+0024     01FF03FF  GP0:          size 1023x511 -> X rounds UP to full-width 400h
+0028     0200FF00  GP0: GP0(02h) FILL green
+002C     0004B008  GP0:          xy (8,300): Xpos AND 3F0h aligns to 0
+0030     012C0030  GP0:          size 48x300: rows past 511 wrap to the top
+0034     020000FF  GP0: GP0(02h) FILL blue
+0038     0007F1F0  GP0:          xy (496,508)
+003C     00100020  GP0:          size 32x16: bottom-right corner wraps both axes

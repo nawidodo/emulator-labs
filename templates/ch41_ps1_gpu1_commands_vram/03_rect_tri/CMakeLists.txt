@@ -1,0 +1,3 @@
+add_executable(ch41_03_rect_tri_tests main.cpp)
+target_link_libraries(ch41_03_rect_tri_tests PRIVATE labstest)
+add_test(NAME ch41_03_rect_tri COMMAND ch41_03_rect_tri_tests)

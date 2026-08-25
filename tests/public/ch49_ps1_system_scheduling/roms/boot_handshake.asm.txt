@@ -1,0 +1,39 @@
+# ch49 91_challenge fixture: boot_handshake
+# Mini-ISA encoding per templates/ch49_ps1_system_scheduling/02_mini_devices/core.hpp.
+# Loaded at RAM word 0 by ch49_03_boot_runner_runner --rom; entry = word 0.
+# Deterministic construction: hand-assembled from the table below;
+# regenerating with tools against this listing reproduces boot_handshake.bin byte-for-byte.
+
+00: 00081F80  lui   $r8, 0x1F80
+01: 08090001  addiu $r9, $r0, 1
+02: 000A0000  lui   $r10, 0x0000
+03: 040A0206  ori   $r10, 0x0206
+04: 0D0A0074  sw    $r10, 0x074($r8)
+05: 080C0001  addiu $r12, $r0, 1
+06: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+07: 0D090C00  sw    $r9,  0xC00($r8)
+08: 0D090800  sw    $r9,  0x800($r8)
+09: 000D0010  lui   $r13, 0x0010
+10: 040D0400  ori   $r13, 0x0400
+11: 0D0D0810  sw    $r13, 0x810($r8)
+12: 000E0400  lui   $r14, 0x0400
+13: 040E0001  ori   $r14, 0x0001
+14: 0D0E0814  sw    $r14, 0x814($r8)
+15: 110B0070  lw    $r11, 0x070($r8)
+16: 216B0004  andi  $r11, $r11, 0x004
+17: 15600001  bnez  $r11, +1
+18: 1800000F  j     15
+19: 0D0B0070  sw    $r11, 0x070($r8)
+20: 080C0002  addiu $r12, $r0, 2
+21: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+22: 110B0070  lw    $r11, 0x070($r8)
+23: 216B0002  andi  $r11, $r11, 0x002
+24: 15600001  bnez  $r11, +1
+25: 18000016  j     22
+26: 0D0B0070  sw    $r11, 0x070($r8)
+27: 080C0003  addiu $r12, $r0, 3
+28: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+29: 0D000C00  sw    $r0,  0xC00($r8)
+30: 080C0007  addiu $r12, $r0, 7
+31: 0D0C0FF0  sw    $r12, 0xFF0($r8)
+32: 1C000000  halt

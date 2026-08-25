@@ -1,0 +1,34 @@
+; sm01_alu_ops.asm.txt -- ALU smoke program (assembled with the course
+; mini-assembler; bytes committed as sm01_alu_ops.bin, ORG $0100)
+    org $0100
+    ld  hl,$C100
+    xor a           ; A=0, Z=1
+    ld  b,$3C
+    ld  c,$0F
+    ld  a,b
+    add a,c         ; 3C+0F=4B, H=1
+    ldi (hl),a
+    ld  a,$80
+    add a,$80       ; 00, C=1
+    ldi (hl),a
+    ld  a,$10
+    adc a,$0F       ; 10+0F+1=20, H=1
+    ldi (hl),a
+    ld  a,$3E
+    sub $0F         ; 2F
+    ldi (hl),a
+    ld  a,$0F
+    sbc a,$0F       ; 00, Z=1
+    ldi (hl),a
+    ld  a,$F0
+    and $0F         ; 00, Z=1 H=1
+    ldi (hl),a
+    ld  a,$AA
+    xor $FF         ; 55
+    ldi (hl),a
+    ld  a,$12
+    or  $34         ; 36
+    ldi (hl),a
+    ld  a,$42
+    cp  $42         ; Z=1 N=1, A unchanged
+    halt

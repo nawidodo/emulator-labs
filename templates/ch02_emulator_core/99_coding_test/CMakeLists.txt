@@ -1,0 +1,3 @@
+add_executable(ch02_99_minicore_tests main.cpp)
+target_link_libraries(ch02_99_minicore_tests PRIVATE labstest)
+add_test(NAME ch02_99_minicore COMMAND ch02_99_minicore_tests)

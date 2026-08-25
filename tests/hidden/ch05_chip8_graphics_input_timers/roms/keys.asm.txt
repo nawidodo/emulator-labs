@@ -1,0 +1,15 @@
+keys — waits for 5 key presses (FX0A); plots dot per press at x=key*2,
+y=sample row 0..4. Pairs with inputs/keys_feed.txt. Hidden fixture.
+200: 6E 05   LD VE,5
+202: 63 00   LD V3,0
+204: A2 1E   LD I,$21E
+206: F0 0A   LD V0,K     ; loop
+208: 81 00   LD V1,V0
+20A: 81 0E   SHL V1      ; key*2
+20C: D1 31   DRW V1,V3,1
+20E: 73 01   ADD V3,1
+210: 43 05   SE V3,5
+212: 12 06   JP $206
+214: 12 14   JP $214     ; halt
+216: 00 x8   padding
+21E: 80      dot sprite

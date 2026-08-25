@@ -1,0 +1,17 @@
+# h1_square_sweep.apuprog — register write table
+# pulse 1: pace-2/slope-4 sweep, two notes then an overflow-disabling climb
+# tcycle   reg   value
+# ------------------
+  0        0xff26  0x80
+  0        0xff24  0x57
+  0        0xff25  0x12
+  0        0xff10  0x24
+  0        0xff11  0xc0
+  0        0xff12  0xb3
+  0        0xff13  0xdc
+  0        0xff14  0x85
+  130000   0xff13  0xa4
+  130000   0xff14  0x86
+  260000   0xff13  0x64
+  260000   0xff14  0x87
+  TERM     0xffff  --

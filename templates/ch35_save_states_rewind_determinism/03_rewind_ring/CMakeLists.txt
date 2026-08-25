@@ -1,0 +1,3 @@
+add_executable(ch35_03_rewind_tests main.cpp)
+target_link_libraries(ch35_03_rewind_tests PRIVATE labstest)
+add_test(NAME ch35_03_rewind COMMAND ch35_03_rewind_tests)

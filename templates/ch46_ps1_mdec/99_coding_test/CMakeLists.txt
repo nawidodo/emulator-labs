@@ -1,0 +1,3 @@
+add_executable(ch46_ct_pixel_tests main.cpp)
+target_link_libraries(ch46_ct_pixel_tests PRIVATE labstest)
+add_test(NAME ch46_ct_pixel COMMAND ch46_ct_pixel_tests)

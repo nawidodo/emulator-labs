@@ -1,0 +1,3 @@
+add_executable(ch18_03_flow_stack_tests main.cpp)
+target_link_libraries(ch18_03_flow_stack_tests PRIVATE labstest)
+add_test(NAME ch18_03_flow_stack COMMAND ch18_03_flow_stack_tests)

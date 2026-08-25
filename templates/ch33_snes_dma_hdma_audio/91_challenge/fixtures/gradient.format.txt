@@ -1,0 +1,29 @@
+S33N bundle format listing -- fixtures/gradient.bin
+====================================================
+
+Container (all integers little-endian):
+
+  00000000  53 33 33 4E          magic "S33N"
+  00000004  01                   version 1
+  00000005  00 00 00             reserved
+  00000008  CB 00 00 00          config_len = 203
+  0000000C  <203 bytes>          config text:
+            "# ch33 public fixture: per-line INIDISP brightness gradient"
+            "# one direct channel, one fresh entry ($01 + byte) per line"
+            "watch=2100"
+            "ch0.enable=1"
+            "ch0.reg=2100"
+            "ch0.regs=1"
+            "ch0.indirect=0"
+            "ch0.table=0000:01c0"
+  000000DB  C0 01 00 00          blob_len = 448
+  000000DF  <448 bytes>          blob: HDMA table
+
+Blob layout (offset in blob):
+
+  0000-01BF   channel 0 direct table, 224 entries of 2 bytes each:
+                header $01  ("fresh data this line", no repeat)
+                value  min(15, line*16/224)   -- INIDISP brightness ramp
+
+Effect on the watched register $2100: scanline n renders with brightness
+ramp(n); buffer bytes equal the raw written values (not masked to 4 bits).

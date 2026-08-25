@@ -1,0 +1,4 @@
+add_executable(ch09_02_shift_register_tests main.cpp)
+target_link_libraries(ch09_02_shift_register_tests PRIVATE labstest)
+target_include_directories(ch09_02_shift_register_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME ch09_02_shift_register COMMAND ch09_02_shift_register_tests)

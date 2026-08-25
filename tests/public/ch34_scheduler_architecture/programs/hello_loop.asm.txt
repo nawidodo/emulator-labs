@@ -1,0 +1,24 @@
+# hello_loop.bin — synthetic fx8 program (hand-assembled)
+
+Author: ch34 authoring, 2026-08. Not derived from any commercial ROM.
+
+Bytes:
+```
+01 48 0B 01 49 0B 04 01 03 20 07 06
+```
+
+Disassembly (.asm.txt):
+```
+addr  bytes     insn        ; cycles
+00    01 48     LDA #'H'    ; 2
+02    0B        OUT         ; 2   -> uart push 'H'
+03    01 49     LDA #'I'    ; 2
+05    0B        OUT         ; 2   -> uart push 'I'
+06    04 01     ADD #1      ; 2
+08    03 20     STA $20     ; 3
+0A    07 06     JMP $06     ; 2   ; loop = 7 cycles/iteration
+```
+
+Behavior: transmits "HI" over the UART (byte period 8 cycles), then loops
+forever incrementing A and storing to $20 while the period-10 timer keeps
+firing — a dense CPU/timer/uart interleaving for golden event logs.

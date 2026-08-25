@@ -1,0 +1,3 @@
+add_executable(ch18_99_coding_test_tests main.cpp)
+target_link_libraries(ch18_99_coding_test_tests PRIVATE labstest)
+add_test(NAME ch18_99_coding_test COMMAND ch18_99_coding_test_tests)

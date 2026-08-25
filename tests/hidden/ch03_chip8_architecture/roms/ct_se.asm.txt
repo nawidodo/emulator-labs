@@ -1,0 +1,12 @@
+; ct_se.asm.txt — annotated listing of ct_se.ch8 (hidden fixture)
+;
+; Exercises 3XNN SE Vx, byte, both halves of the decision. Expected final
+; state: V0=0x42, V1=0x22 (the 61 11 load is skipped), PC parked at 0x208.
+
+        .org 0x0200
+
+0200  60 42    LD   V0, 0x42
+0202  30 42    SE   V0, 0x42       ; equal -> skip next instruction
+0204  61 11    LD   V1, 0x11       ; SKIPPED
+0206  61 22    LD   V1, 0x22       ; executes instead
+0208  12 08    JP   0x0208         ; park here forever

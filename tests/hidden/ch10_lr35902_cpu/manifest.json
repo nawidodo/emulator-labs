@@ -1,0 +1,74 @@
+{
+  "description": "ch10_lr35902_cpu hidden gate: metadata coverage, LD/ALU core, debug fixes, challenge goldens, LDH coding test, unseen-probe trace",
+  "cases": [
+    {
+      "name": "opcode_meta_full_coverage",
+      "binary": "build/skels/ch10_lr35902_cpu/02_opcode_meta/ch10_02_meta_tests",
+      "args": [
+        "meta."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ld_alu_core_semantics",
+      "binary": "build/skels/ch10_lr35902_cpu/03_ld_alu/ch10_03_ld_alu_tests",
+      "args": [
+        "alu.",
+        "ld.",
+        "step."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_bugs_fixed",
+      "binary": "build/skels/ch10_lr35902_cpu/90_debug/ch10_90_debug_tests",
+      "args": [
+        "alu.",
+        "timing."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_golden_suite",
+      "binary": "build/skels/ch10_lr35902_cpu/91_challenge/ch10_91_challenge_tests",
+      "args": [
+        "challenge."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ldh_coding_test_family",
+      "binary": "build/skels/ch10_lr35902_cpu/99_coding_test/ch10_ldh_tests",
+      "args": [
+        "ldh."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ldh_probe_trace_golden",
+      "binary": "build/skels/ch10_lr35902_cpu/99_coding_test/ch10_ldh_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch10_lr35902_cpu/roms/ldh_probe.bin",
+        "--headless",
+        "--cycles",
+        "10000",
+        "--trace",
+        "{{tmp}}/t.log",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "190366A9CCFB6BF9"
+      }
+    },
+    {
+      "name": "mooneye_cpu_instrs_optional",
+      "binary": "build/skels/ch10_lr35902_cpu/03_ld_alu/ch10_03_ld_alu_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/gb-test-roms/cpu_instrs/cpu_instrs.gb",
+      "optional": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+; coding0 config image (see provenance.md; format per CODING_TEST.md)
+
+0000: 4D495443   MAGIC "CTIM"
+0004: 000005DC   RUN_CYCLES
+0008: 00000000   t0.timer
+000C: 00000058   t0.mode
+0010: 00000064   t0.target
+0014: 00000001   t1.timer
+0018: 00000158   t1.mode
+001C: 00000005   t1.target
+0020: 00000002   t2.timer
+0024: 00000258   t2.mode
+0028: 00000025   t2.target
+002C: FFFFFFFF   TERMINATOR

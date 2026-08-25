@@ -1,0 +1,3 @@
+add_executable(ch27_01_region_tests main.cpp)
+target_link_libraries(ch27_01_region_tests PRIVATE labstest)
+add_test(NAME ch27_01_region COMMAND ch27_01_region_tests)

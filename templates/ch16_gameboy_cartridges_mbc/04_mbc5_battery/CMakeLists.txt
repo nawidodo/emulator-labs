@@ -1,0 +1,3 @@
+add_executable(ch16_04_mbc5_battery_tests main.cpp)
+target_link_libraries(ch16_04_mbc5_battery_tests PRIVATE labstest)
+add_test(NAME ch16_04_mbc5_battery COMMAND ch16_04_mbc5_battery_tests)

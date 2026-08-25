@@ -1,0 +1,14 @@
+overlap — draws a 4x3 box twice at the same spot (second draw is pure erase),
+branches on VF: correct cores see collision and draw a second box at (30,10);
+cores that lie about VF leave only the first box. Hidden fixture.
+200: A2 14   LD I,$214
+202: 62 0A   LD V2,10
+204: 63 0A   LD V3,10
+206: D2 32   DRW V2,V3,3
+208: D2 32   DRW V2,V3,3   ; erase-only redraw
+20A: 3F 01   SE VF,1
+20C: 12 12   JP $212       ; VF==0 path (buggy)
+20E: 62 1E   LD V2,30
+210: D2 34   DRW V2,V3,4   ; second box
+212: 12 12   halt
+214: F0 F0 F0      sprite

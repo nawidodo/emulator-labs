@@ -1,0 +1,127 @@
+# ch41 challenge stream: display setup, attributes, fill quirk, primitives, transfers
+# offset   word       disassembly
+
+0000     E6000000  GP1: GP0(E6h) mask bits off
+0004     E3000000  GP1: GP0(E3h) drawing area TL (0,0)
+0008     E407FFFF  GP1: GP0(E4h) drawing area BR (1023,511)
+000C     E5000000  GP1: GP0(E5h) drawing offset (0,0)
+0010     12000000  GP0: GP1 ESCAPE (reserved GP0 opcode 12h)
+0014     08000001  GP0: GP1(08h) video mode 320x240 NTSC 15bit
+0018     12000000  GP0: GP1 ESCAPE
+001C     03000000  GP0: GP1(03h) display enable (on)
+0020     12000000  GP0: GP1 ESCAPE
+0024     04000002  GP0: GP1(04h) DMA direction 2
+0028     12000000  GP0: GP1 ESCAPE
+002C     05000000  GP0: GP1(05h) display start (0,0)
+0030     E6000000  GP1: GP0(E6h) mask bits off
+0034     E3004010  GP1: GP0(E3h) drawing area TL (16,16)
+0038     E4037D2F  GP1: GP0(E4h) drawing area BR (303,223)
+003C     E5008010  GP1: GP0(E5h) drawing offset (+16,+16)
+0040     02001018  GP0: GP0(02h) FILL color #181000 (dark blue)
+0044     00000000  GP0:          xy (0,0)
+0048     01FF03FF  GP0:          wh 1023x511 -> X rounds to full 400h; literal 400h collapses to 0!
+004C     200000FF  GP0: GP0(20h) flat opaque triangle, red
+0050     00008010  GP0:          v1 (16,16)
+0054     00018070  GP0:          v2 (112,48)
+0058     00050030  GP0:          v3 (48,160)
+005C     30FFFFFF  GP0: GP0(30h) gouraud opaque triangle, c1 white
+0060     000140C8  GP0:          v1 (200,40)
+0064     0000FF00  GP0:          c2 green
+0068     0003C118  GP0:          v2 (280,120)
+006C     00FF0000  GP0:          c3 blue
+0070     00064096  GP0:          v3 (150,200)
+0074     2800FF00  GP0: GP0(28h) mono quad, green (TL,TR,BR,BL)
+0078     00058040  GP0:          v1 (64,176)
+007C     00058080  GP0:          v2 (128,176)
+0080     00068080  GP0:          v3 (128,208)
+0084     00068040  GP0:          v4 (64,208)
+0088     60FCA000  GP0: GP0(60h) variable rect #00A0FC (azure)
+008C     0005A0F0  GP0:          xy (240,180)
+0090     00100020  GP0:          size 32x16
+0094     A0000000  GP1: GP0(A0h) CPU->VRAM upload
+0098     0003EBE8  GP0:          dest (1000,250): rows wrap across right edge
+009C     00040028  GP0:          size 40x4 (160 halfwords = 80 words)
+00A0     001D000D  GP0:          pixel data
+00A4     0056006E  GP0:          pixel data
+00A8     008F00CF  GP0:          pixel data
+00AC     00C80130  GP0:          pixel data
+00B0     01010191  GP0:          pixel data
+00B4     013A01F2  GP0:          pixel data
+00B8     01730253  GP0:          pixel data
+00BC     01AC02B4  GP0:          pixel data
+00C0     01E50315  GP0:          pixel data
+00C4     021E0376  GP0:          pixel data
+00C8     025703D7  GP0:          pixel data
+00CC     02900438  GP0:          pixel data
+00D0     02C90499  GP0:          pixel data
+00D4     030204FA  GP0:          pixel data
+00D8     033B055B  GP0:          pixel data
+00DC     037405BC  GP0:          pixel data
+00E0     03AD061D  GP0:          pixel data
+00E4     03E6067E  GP0:          pixel data
+00E8     041F06DF  GP0:          pixel data
+00EC     04580740  GP0:          pixel data
+00F0     049107A1  GP0:          pixel data
+00F4     04CA0802  GP0:          pixel data
+00F8     05030863  GP0:          pixel data
+00FC     053C08C4  GP0:          pixel data
+0100     05750925  GP0:          pixel data
+0104     05AE0986  GP0:          pixel data
+0108     05E709E7  GP0:          pixel data
+010C     06200A48  GP0:          pixel data
+0110     06590AA9  GP0:          pixel data
+0114     06920B0A  GP0:          pixel data
+0118     06CB0B6B  GP0:          pixel data
+011C     07040BCC  GP0:          pixel data
+0120     073D0C2D  GP0:          pixel data
+0124     07760C8E  GP0:          pixel data
+0128     07AF0CEF  GP0:          pixel data
+012C     07E80D50  GP0:          pixel data
+0130     08210DB1  GP0:          pixel data
+0134     085A0E12  GP0:          pixel data
+0138     08930E73  GP0:          pixel data
+013C     08CC0ED4  GP0:          pixel data
+0140     09050F35  GP0:          pixel data
+0144     093E0F96  GP0:          pixel data
+0148     09770FF7  GP0:          pixel data
+014C     09B01058  GP0:          pixel data
+0150     09E910B9  GP0:          pixel data
+0154     0A22111A  GP0:          pixel data
+0158     0A5B117B  GP0:          pixel data
+015C     0A9411DC  GP0:          pixel data
+0160     0ACD123D  GP0:          pixel data
+0164     0B06129E  GP0:          pixel data
+0168     0B3F12FF  GP0:          pixel data
+016C     0B781360  GP0:          pixel data
+0170     0BB113C1  GP0:          pixel data
+0174     0BEA1422  GP0:          pixel data
+0178     0C231483  GP0:          pixel data
+017C     0C5C14E4  GP0:          pixel data
+0180     0C951545  GP0:          pixel data
+0184     0CCE15A6  GP0:          pixel data
+0188     0D071607  GP0:          pixel data
+018C     0D401668  GP0:          pixel data
+0190     0D7916C9  GP0:          pixel data
+0194     0DB2172A  GP0:          pixel data
+0198     0DEB178B  GP0:          pixel data
+019C     0E2417EC  GP0:          pixel data
+01A0     0E5D184D  GP0:          pixel data
+01A4     0E9618AE  GP0:          pixel data
+01A8     0ECF190F  GP0:          pixel data
+01AC     0F081970  GP0:          pixel data
+01B0     0F4119D1  GP0:          pixel data
+01B4     0F7A1A32  GP0:          pixel data
+01B8     0FB31A93  GP0:          pixel data
+01BC     0FEC1AF4  GP0:          pixel data
+01C0     10251B55  GP0:          pixel data
+01C4     105E1BB6  GP0:          pixel data
+01C8     10971C17  GP0:          pixel data
+01CC     10D01C78  GP0:          pixel data
+01D0     11091CD9  GP0:          pixel data
+01D4     11421D3A  GP0:          pixel data
+01D8     117B1D9B  GP0:          pixel data
+01DC     11B41DFC  GP0:          pixel data
+01E0     80000000  GP1: GP0(80h) VRAM->VRAM copy
+01E4     00000000  GP0:          src (0,0)
+01E8     00004200  GP0:          dst (512,16)
+01EC     01000100  GP0:          size 256x256

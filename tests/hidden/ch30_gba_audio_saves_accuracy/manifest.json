@@ -1,0 +1,72 @@
+{
+  "description": "ch30_gba_audio_saves_accuracy hidden grading: audio hash, save/eeprom conformance, suite-runner isolation contract, challenge golden, optional mGBA gate",
+  "cases": [
+    {
+      "name": "audio_hash_golden",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/02_direct_sound/ch30_audio_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch30_gba_audio_saves_accuracy/fixtures/dsound_ramp.hws",
+        "--samples",
+        "128",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/audio.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/audio.txt",
+        "fnv64": "2EE89BA755992E6D"
+      }
+    },
+    {
+      "name": "save_flash_conformance",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/03_save_flash/ch30_03_save_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "eeprom_conformance",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/04_eeprom_dmac/ch30_04_eeprom_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "suite_isolate_audio",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/99_coding_test/ch30_suite_runner",
+      "args": [
+        "--suite",
+        "audio"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "PASS"
+    },
+    {
+      "name": "suite_list",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/99_coding_test/ch30_suite_runner",
+      "args": [
+        "--list-suites"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "audio saves eeprom"
+    },
+    {
+      "name": "suite_runner_contract",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/99_coding_test/ch30_coding_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_audio_golden",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/91_challenge/ch30_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "mgba_audio_save_suite_optional",
+      "binary": "build/skels/ch30_gba_audio_saves_accuracy/99_coding_test/ch30_suite_runner",
+      "args": [],
+      "requires_rom": "roms/gba/mgba-suite/audio_saves.bin",
+      "optional": true
+    }
+  ]
+}

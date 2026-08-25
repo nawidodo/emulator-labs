@@ -1,0 +1,7 @@
+static_box — draws a solid 8x8 box at (12,6), then spins. Course-original.
+200: A2 0A   LD I,$20A
+202: 62 0C   LD V2,12
+204: 63 06   LD V3,6
+206: D2 38   DRW V2,V3,8     ; 8 rows of 0xFF at (12,6)
+208: 12 08   JP $208         ; halt-spin
+20A: FF x8   sprite rows

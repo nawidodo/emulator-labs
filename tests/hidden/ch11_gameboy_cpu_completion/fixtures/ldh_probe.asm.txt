@@ -1,0 +1,25 @@
+; ch11 coding-test probe -- ldh_probe
+;
+; Exercises every opcode of the unseen $FF00-page family:
+;   E0 ldh (n),A / F0 ldh A,(n) / E2 ldh (C),A / F2 ldh A,(C) /
+;   08 ld (nn),SP
+; with observable HRAM ($FF80-$FF82, $FF42) and WRAM ($D000-$D001)
+
+; effects, ending in HALT. Assembled at ORG $0100 (image offset 0).
+        ld  sp,$E000       ; SP value the 08 opcode will store later
+        ld  a,$12
+        ldh ($80),a        ; E0: $FF80 = $12
+        ld  a,$34
+        ldh ($FF81),a      ; E0 (long form): $FF81 = $34
+        ld  c,$42
+        ld  a,$56
+        ldh (c),a          ; E2: $FF42 = $56
+        ldh a,($80)        ; F0: A = $12
+        db  $08,$00,$D0    ; 08 ld ($D000),SP: [$D000]=$00 [$D001]=$E0
+        ld  b,a            ; b=$12 read back from HRAM
+        ld  a,($D000)      ; FA read-back of the stored SP low byte
+        ld  e,a
+        ld  a,($D001)      ; FA read-back of the stored SP high byte
+        ld  d,a
+        ldh a,(c)          ; F2: A = $56
+        halt

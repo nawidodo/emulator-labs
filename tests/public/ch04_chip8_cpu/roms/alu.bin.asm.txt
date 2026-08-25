@@ -1,0 +1,20 @@
+# alu: full 8XY* family with VF rules
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  61F0   LD   V1,#F0
+0202:  623C   LD   V2,#3C
+0204:  8311   OR   V3,V1   ; V3 = 00|F0 = F0
+0206:  8424   ADD  V4,V2   ; V4 = 3C, VF=0
+0208:  65FF   LD   V5,#FF
+020A:  8564   ADD  V5,V4   ; FF+3C -> 3B, VF=1
+020C:  8655   SUB  V6,V5   ; 00-3B -> C5, VF=0 (borrow)
+020E:  6705   LD   V7,#05
+0210:  8877   SUBN V8,V7   ; V8 = 5-0 = 5, VF=1
+0212:  8913   XOR  V9,V1   ; V9 = F0
+0214:  8A22   AND  VA,V2   ; VA = 3C&00 = 00
+0216:  8B12   OR   VB,V1   ; VB = F0
+0218:  8C23   XOR  VC,V2   ; VC = 3C
+021A:  8D03   XOR  VD,V3   ; VD = F0
+021C:  7001   ADD  V0,#01  ; imm add leaves VF alone
+021E:  0000   halt

@@ -1,0 +1,66 @@
+{
+  "description": "ch46 hidden: RLZ decode, IDCT, color convert, pixel-hash coding test",
+  "cases": [
+    {
+      "name": "unit_rlz",
+      "binary": "build/skels/ch46_ps1_mdec/01_rlz/ch46_01_rlz_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_idct",
+      "binary": "build/skels/ch46_ps1_mdec/02_idct/ch46_02_idct_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_color",
+      "binary": "build/skels/ch46_ps1_mdec/03_color_convert/ch46_03_color_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_order_and_clamp_fixed",
+      "binary": "build/skels/ch46_ps1_mdec/90_debug/ch46_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_frame_hash",
+      "binary": "build/skels/ch46_ps1_mdec/91_challenge/ch46_mdec_cli",
+      "args": [
+        "--stream",
+        "tests/hidden/ch46_ps1_mdec/h.bin",
+        "--hash-out",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "fnv64=",
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "E3A4BA3713E60FCC"
+      }
+    },
+    {
+      "name": "ct_pixel_hash_hidden",
+      "binary": "build/skels/ch46_ps1_mdec/99_coding_test/ch46_ct_pixel_tests",
+      "args": [
+        "--stream",
+        "tests/hidden/ch46_ps1_mdec/ct_block.bin",
+        "--expect-hash",
+        "2FBADB56C631E025"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ps1_tests_mdec_optional",
+      "binary": "build/skels/ch46_ps1_mdec/91_challenge/ch46_mdec_cli",
+      "args": [
+        "--stream",
+        "roms/ps1/ps1-tests/mdec.bin"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/mdec.bin",
+      "optional": true
+    }
+  ]
+}

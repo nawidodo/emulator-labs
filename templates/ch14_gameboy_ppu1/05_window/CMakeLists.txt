@@ -1,0 +1,6 @@
+add_executable(ch14_05_window_tests main.cpp)
+target_link_libraries(ch14_05_window_tests PRIVATE labstest)
+add_test(NAME ch14_05_window COMMAND ch14_05_window_tests)
+
+add_executable(ch14_05_window_runner runner_main.cpp)
+target_link_libraries(ch14_05_window_runner PRIVATE labstest)

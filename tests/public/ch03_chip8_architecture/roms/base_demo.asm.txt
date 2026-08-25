@@ -1,0 +1,16 @@
+; base_demo.asm.txt — annotated listing of base_demo.ch8 (public fixture)
+;
+; Course-original demo of the five chapter-3 instructions. Expected final
+; state: V0=0x42, V1=0x17, V5=0x11, I=0x216, PC parked at 0x210.
+
+        .org 0x0200
+
+0200  00 E0    CLS
+0202  60 42    LD   V0, 0x42
+0204  71 17    ADD  V1, 0x17       ; V1 = 0x00 + 0x17
+0206  65 E7    LD   V5, 0xE7
+0208  75 2A    ADD  V5, 0x2A       ; 0xE7 + 0x2A = 0x111 -> wraps to 0x11
+020A  A2 16    LD   I, 0x0216
+020C  12 10    JP   0x0210         ; jump over padding
+020E  00 00    NOP (padding)
+0210  12 10    JP   0x0210         ; park here forever

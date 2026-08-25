@@ -1,0 +1,3 @@
+add_executable(ch40_01_irq_controller_tests main.cpp)
+target_link_libraries(ch40_01_irq_controller_tests PRIVATE labstest)
+add_test(NAME ch40_01_irq_controller COMMAND ch40_01_irq_controller_tests)

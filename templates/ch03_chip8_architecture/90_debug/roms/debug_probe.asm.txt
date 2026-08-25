@@ -1,0 +1,12 @@
+; debug_probe.asm.txt — annotated listing of debug_probe.ch8
+;
+; Course-original probe program for the debugging exercise. With a correct
+; decoder it leaves VA=0x42, VB=0x03 and parks in the self-jump at 0x208.
+
+        .org 0x0200
+
+0200  00 E0    CLS
+0202  6A 42    LD   VA, 0x42      ; expect V A = 0x42
+0204  7B 03    ADD  VB, 0x03      ; expect V B = 0x03
+0206  A2 08    LD   I, 0x0208
+0208  12 08    JP   0x0208         ; park here forever

@@ -1,0 +1,19 @@
+# Build & generated trees
+build*/
+deps/
+
+# Generated student/solution trees (regenerate with make skels / make solutions)
+skels/
+solutions/
+
+# Grader scratch
+.labs/
+
+# Python
+__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+# Test scratch (written to cwd by runner binaries)
+ch14_99_v2_tmp.ppu

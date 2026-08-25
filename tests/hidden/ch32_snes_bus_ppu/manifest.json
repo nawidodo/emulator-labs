@@ -1,0 +1,80 @@
+{
+  "description": "ch32 SNES bus/PPU hidden grading: priority-order regression, scene golden hashes, unseen coding-test snapshot.",
+  "cases": [
+    {
+      "name": "mode1_priority_order_regression",
+      "binary": "build/skels/ch32_snes_bus_ppu/90_debug/ch32_90_compose_tests",
+      "args": [
+        "compose.bg1_outranks_lower_layers"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "mode7_scene_golden",
+      "binary": "build/skels/ch32_snes_bus_ppu/91_challenge/ch32_91_scene_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch32_snes_bus_ppu/roms/mode7_zoom.sns",
+        "--headless",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "2564D946AB36EC88"
+      }
+    },
+    {
+      "name": "baseline_scene_golden",
+      "binary": "build/skels/ch32_snes_bus_ppu/91_challenge/ch32_91_scene_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch32_snes_bus_ppu/roms/baseline.sns",
+        "--headless",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "8BD7BF88470974A5"
+      }
+    },
+    {
+      "name": "coding_test_unseen_snapshot",
+      "binary": "build/skels/ch32_snes_bus_ppu/99_coding_test/ch32_99_coding_tests",
+      "args": [
+        "--snapshot",
+        "tests/hidden/ch32_snes_bus_ppu/roms/unseen_snapshot.txt",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "F24128F9B0F3E325"
+      }
+    },
+    {
+      "name": "mode1_demo_frame_golden",
+      "binary": "build/skels/ch32_snes_bus_ppu/03_bg_render/ch32_03_render_runner",
+      "args": [
+        "--headless",
+        "--frames",
+        "2",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "093F20DF5AF48525"
+      }
+    }
+  ]
+}

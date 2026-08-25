@@ -1,0 +1,57 @@
+; ibm_logo.asm.txt — annotated listing of ibm_logo.ch8
+;
+; Course-original CHIP-8 program (assembled by hand for this course; no
+; third-party or commercial ROM bytes). Draws the word "CHIP" as four 8x8
+; glyphs at y=12, x = 6/18/30/42, using only chapter-3 instructions.
+; The final JP targets itself so a headless run parks deterministically.
+
+        .org 0x0200
+
+0200  00 E0    CLS                 ; clear framebuffer
+0202  60 06    LD   V0, 0x06       ; V0 = x origin of first glyph
+0204  61 0C    LD   V1, 0x0C       ; V1 = y origin (row 12)
+
+0206  A2 1E    LD   I, 0x021E      ; I -> glyph 'C'
+0208  D0 18    DRW  V0, V1, 8
+020A  70 0C    ADD  V0, 0x0C       ; advance x by 12 (8 wide + 4 gap)
+
+020C  A2 26    LD   I, 0x0226      ; I -> glyph 'H'
+020E  D0 18    DRW  V0, V1, 8
+0210  70 0C    ADD  V0, 0x0C
+
+0212  A2 2E    LD   I, 0x022E      ; I -> glyph 'I'
+0214  D0 18    DRW  V0, V1, 8
+0216  70 0C    ADD  V0, 0x0C
+
+0218  A2 36    LD   I, 0x0236      ; I -> glyph 'P'
+021A  D0 18    DRW  V0, V1, 8
+
+021C  12 1C    JP   0x021C         ; park here forever
+
+; ---- glyph data (MSB = leftmost column, 8 rows each) ----
+
+021E  C: 3C 66 C3 C0 C0 C3 66 3C
+          ;  .####...
+          ;  ##..##..
+          ;  ##...##.
+          ;  ##......
+          ;  ##......
+          ;  ##...##.
+          ;  ##..##..
+          ;  .####...
+
+0226  H: C3 C3 C3 FF FF C3 C3 C3
+          ;  ##...##.  x3, full bar rows, then x3 more
+
+022E  I: 3C 18 18 18 18 18 18 3C
+          ;  .####... then ..##.... stem rows, .####... base
+
+0236  P: FE FF C3 C3 FF FE C0 C0
+          ;  #######.
+          ;  ########
+          ;  ##....##  (x2)
+          ;  ########
+          ;  #######.
+          ;  ##......  (x2)
+
+; Bit reference for 'C' row 0x21E: 0x3C = 00111100b -> columns 2-5 lit.

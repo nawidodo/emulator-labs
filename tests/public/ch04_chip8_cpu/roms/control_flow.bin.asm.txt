@@ -1,0 +1,23 @@
+# control_flow: CALL/RET/JP/BNNN and all four conditional skips (uses only the TODO1 instruction set)
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  2240   CALL 0240
+0202:  9100   SNE V1,V0   ; both 0 -> equal -> NO skip
+0204:  1206   JP   0206   ; witness A: proves SNE did not misfire
+0206:  5010   SE   V1,V0   ; equal -> taken
+0208:  1228   trap B (skipped)
+020A:  4009   SNE V0,#09  ; 0 != 9 -> taken
+020C:  122A   trap C (skipped)
+020E:  3005   SE   V0,#05  ; 0 != 5 -> NOT taken
+0210:  1214   JP   0214   ; witness D hop
+0212:  0000   (never reached)
+0214:  5111   SE   V1,V1   ; self-equal -> taken
+0216:  1232   trap E (skipped)
+0218:  B21C   JP   V0+0x21C -> 0x21C (V0 = 0)
+021A:  0000   (never reached)
+021C:  9210   SNE V2,V0   ; equal -> NOT taken
+021E:  4233   SNE V0,#33  ; taken
+0220:  1234   trap G (skipped)
+0222:  0000   clean halt
+0240:  00EE   RET         ; subroutine body (immediate return)

@@ -1,0 +1,19 @@
+# hidden session: unseen sequence and targets
+init
+tick 600
+tick 600
+setloc 0:2:30
+seekl
+tick 180
+readn
+tick 150
+tick 50
+tick 100
+getstat
+pause
+tick 249
+tick 1
+setloc 0:5:00
+reads
+tick 200
+pause

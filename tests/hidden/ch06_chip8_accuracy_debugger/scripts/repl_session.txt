@@ -1,0 +1,7 @@
+break 204
+continue
+regs
+step 2
+disasm 3
+memory 200 6
+quit

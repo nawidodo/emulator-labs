@@ -1,0 +1,3 @@
+add_executable(ch20_02_ines_nrom_tests main.cpp)
+target_link_libraries(ch20_02_ines_nrom_tests PRIVATE labstest)
+add_test(NAME ch20_02_ines_nrom COMMAND ch20_02_ines_nrom_tests)

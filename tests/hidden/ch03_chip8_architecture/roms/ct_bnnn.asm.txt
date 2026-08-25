@@ -1,0 +1,13 @@
+; ct_bnnn.asm.txt — annotated listing of ct_bnnn.ch8 (hidden fixture)
+;
+; Exercises BNNN JP V0 + addr. Expected: V1=0x77, PC parked at 0x21A. A
+; machine that treats BNNN as NOP walks the zero padding instead and never
+; sets V1 within the graded cycle budget.
+
+        .org 0x0200
+
+0200  60 08    LD   V0, 0x08       ; jump offset
+0202  B2 18    JP   V0 + 0x218     ; -> PC = 0x218
+0204..0216   00 00 x10           ; padding the jump lands across
+0218  61 77    LD   V1, 0x77
+021A  12 1A    JP   0x021A         ; park here forever

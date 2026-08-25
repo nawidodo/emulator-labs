@@ -1,0 +1,23 @@
+# uart_burst.bin — synthetic fx8 program (hand-assembled, HIDDEN fixture)
+
+Author: ch34 authoring, 2026-08. Not derived from any commercial ROM.
+
+Bytes:
+```
+01 58 0B 04 05 03 21 00 07 03
+```
+
+Disassembly (.asm.txt):
+```
+addr  bytes     insn        ; cycles
+00    01 58     LDA #'X'    ; 2
+02    0B        OUT         ; 2   -> uart push 'X'
+03    04 05     ADD #5      ; 2
+05    03 21     STA $21     ; 3
+07    00        NOP         ; 1
+08    07 03     JMP $03     ; 2   ; loop = 8 cycles/iteration
+```
+
+Behavior: transmits 'X' (completes at cyc=10), then loops with an
+8-cycle body so timer deadlines (period 10) alternate tightly against
+CPU instruction boundaries.

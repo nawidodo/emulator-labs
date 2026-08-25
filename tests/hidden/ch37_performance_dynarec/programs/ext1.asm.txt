@@ -1,0 +1,18 @@
+# ext1 — unseen-extension-opcode workload for the ch37 coding test.
+# Exercises MUL/NOT/MIN through every pipeline tier; output log is hashed.
+        addi r1, r0, 6
+        addi r2, r0, 7
+        addi r6, r0, 0        # iteration counter guard
+loop:   mul  r3, r1, r2       # ext: r3 = r1 * r2 (low 32 bits)
+        not  r4, r3           # ext: r4 = ~r3
+        min  r5, r1, r4       # ext: r5 = signed min(r1, r4)
+        out  r5               # emit per-iteration minimum
+        addi r6, r6, 1        # seen an iteration
+        addi r1, r1, -1       # shrink multiplicand
+        bnez r1, loop         # 6 iterations (r1 = 6..1)
+        out  r3               # final product (last: 1 * 7 = 7)
+        halt
+# Expected out log per iteration i (r1 = 7-i): mul = r1*7,
+# not = ~mul, min(r1, not) = not when negative. First iter:
+# 42 -> 0xFFFFFFD5 -> min(6, -41) = -41 ... last full iter r1=1:
+# 7 -> 0xFFFFFFF8 -> -8; final out r3 = 7.

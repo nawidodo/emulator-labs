@@ -1,0 +1,14 @@
+; ct_call_ret.asm.txt — annotated listing of ct_call_ret.ch8 (hidden fixture)
+;
+; Exercises 2NNN CALL and 00EE RET. Expected final state: V0=0x42, V1=0x55,
+; PC parked at 0x204.
+
+        .org 0x0200
+
+0200  22 0A    CALL 0x020A         ; push 0x0202, jump to subroutine
+0202  61 55    LD   V1, 0x55       ; runs after RET
+0204  12 04    JP   0x0204         ; park here forever
+0206  00 00    NOP (padding)
+0208  00 00    NOP (padding)
+020A  60 42    LD   V0, 0x42       ; subroutine body
+020C  00 EE    RET                 ; pop -> PC = 0x0202

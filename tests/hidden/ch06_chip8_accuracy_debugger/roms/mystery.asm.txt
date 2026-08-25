@@ -1,0 +1,12 @@
+; mystery -- POTATO-48 homebrew, "savegame checksum" (hand-assembled)
+; Runs correctly ONLY under the machine it was written for. The shipped
+; trace excerpt in templates/ch06_chip8_accuracy_debugger/99_coding_test/
+; CODING_TEST.md was produced with the WRONG profile.
+0200: 62F0    LD   V2, 0xF0
+0202: 6301    LD   V3, 0x01
+0204: 8236    SHR  V2, {V3|V2}
+0206: 8420    LD   V4, V2
+0208: 6312    LD   V3, 0x12
+020A: A400    LD   I, 0x400
+020C: F355    LD   [I], V3
+020E: F365    LD   V3, [I]

@@ -1,0 +1,87 @@
+{
+  "description": "ch14 PPU I hidden coding test: full-frame renders of unseen snapshots must match reference hashes",
+  "cases": [
+    {
+      "name": "hidden_frame_scroll_noise",
+      "binary": "build/skels/ch14_gameboy_ppu1/05_window/ch14_05_window_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch14_gameboy_ppu1/fixtures/h1_scroll_noise.ppu",
+        "--frames",
+        "3",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "B151BBB23E2F1925"
+      }
+    },
+    {
+      "name": "hidden_frame_signed_tiles",
+      "binary": "build/skels/ch14_gameboy_ppu1/05_window/ch14_05_window_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch14_gameboy_ppu1/fixtures/h2_signed_nowin.ppu",
+        "--frames",
+        "3",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "3F87D3D4A82BC5E5"
+      }
+    },
+    {
+      "name": "hidden_frame_window_edge",
+      "binary": "build/skels/ch14_gameboy_ppu1/05_window/ch14_05_window_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch14_gameboy_ppu1/fixtures/h3_window_edge.ppu",
+        "--frames",
+        "3",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "10A75995CB386A74"
+      }
+    },
+    {
+      "name": "hardware_bg_suite_optional",
+      "binary": "build/skels/ch14_gameboy_ppu1/05_window/ch14_05_window_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/bits_tilemap.bin",
+      "optional": true
+    },
+    {
+      "name": "coding_boost_v2_frame_golden",
+      "binary": "build/skels/ch14_gameboy_ppu1/99_coding_test/ch14_99_coding_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch14_gameboy_ppu1/roms/boost_v2.ppu",
+        "--headless",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/boost.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/boost.rgba",
+        "fnv64": "C03917F99E940325"
+      },
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_unit_suite_exit",
+      "binary": "build/skels/ch14_gameboy_ppu1/99_coding_test/ch14_99_coding_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

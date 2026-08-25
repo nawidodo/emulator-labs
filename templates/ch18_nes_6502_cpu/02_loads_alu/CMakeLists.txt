@@ -1,0 +1,3 @@
+add_executable(ch18_02_loads_alu_tests main.cpp)
+target_link_libraries(ch18_02_loads_alu_tests PRIVATE labstest)
+add_test(NAME ch18_02_loads_alu COMMAND ch18_02_loads_alu_tests)

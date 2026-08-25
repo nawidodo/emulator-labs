@@ -1,0 +1,11 @@
+# c3_mbc5_high.ops — 9-bit banking traversal on mbc5_1m.gb (64 banks)
+W 2000 2A
+R 4000
+W 2000 FF
+W 3000 01
+R 4000
+W 0000 0A
+W A010 77
+R A010
+W 2000 09
+R 4055

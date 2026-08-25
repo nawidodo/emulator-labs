@@ -1,0 +1,23 @@
+# ch23 hidden coding test — unseen MFX-1 cart + script
+wr 8000 05          # R0 = bank 5 of 8 (fill byte AF)
+rd 8000
+rd bfff
+rd c000             # mode A: fixed LAST bank (bank 7, fill byte D1)
+wr 8001 01          # R1 bit0: mirror mode B
+rd c000             # now mirrors R0's bank
+rd ffff
+prd 1234            # CHR-RAM board: flat window reads zero unwritten
+wr 6000 aa
+rd 6000             # PRG RAM round-trip
+snap
+wr 8003 02          # arm one-shot timer, period 2 (register write #3)
+wr 8015 00          # write #4 -> tick (count 2->1)
+rd f000             # last-bank window still readable: bank 7 fill byte
+wr 8102 07          # writes #5-#7: no tick
+wr 8101 06
+wr 8100 05
+snap                # armed, count 1, quiet
+wr 9000 04          # write #8 -> tick -> fires, latched
+snap
+wr 8003 01          # fresh R3 write: acknowledges AND rearms
+snap

@@ -1,0 +1,17 @@
+; PSX ADPCM hidden coding-test stream - 5 x 16-byte blocks
+; synthetic hand-assembled; see provenance.md
+; --- shift=4 filter=2 flags=04h LOOP_START
+  DB 24 04 A7 0D 63 C9 2F 85
+  DB EB 41 A7 0D 63 C9 2F 85
+; --- shift=6 filter=4 flags=00h
+  DB 46 00 E1 8B 25 CF 69 03
+  DB AD 47 E1 8B 25 CF 69 03
+; --- shift=2 filter=1 flags=00h
+  DB 12 00 D4 F6 18 3A 5C 7E
+  DB 90 B2 D4 F6 18 3A 5C 7E
+; --- shift=8 filter=3 flags=04h LOOP_START
+  DB 38 04 2B 09 E7 C5 A3 81
+  DB 6F 4D 2B 09 E7 C5 A3 81
+; --- shift=0 filter=0 flags=01h LOOP_END
+  DB 00 01 00 00 00 00 00 00
+  DB 00 00 00 00 00 00 00 00

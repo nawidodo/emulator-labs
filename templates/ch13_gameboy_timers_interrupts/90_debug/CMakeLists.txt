@@ -1,0 +1,3 @@
+add_executable(ch13_90_debug_tests main.cpp)
+target_link_libraries(ch13_90_debug_tests PRIVATE labstest)
+add_test(NAME ch13_90_debug COMMAND ch13_90_debug_tests)

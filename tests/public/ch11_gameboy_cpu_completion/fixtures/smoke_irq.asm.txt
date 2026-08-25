@@ -1,0 +1,42 @@
+; ch11 smoke fixture B -- smoke_irq
+;
+; EI-delay / HALT / timer-vector ISR / priority order over the IntBus
+; ($FF0F / $FFFF). Single-section image at ORG $0100: the 2-byte timer ISR
+; lives just behind the entry jump and is COPYed down to the timer vector
+; $0050 before interrupts are armed.
+;
+; NOTE: IF/IE stores are emitted as raw EA opcodes because the mini-
+; assembler folds every `ld ($FFxx),a` into the E0 LDH form, which this
+; chapter's core does not implement.
+
+        jr  start          ; $0100: jump over the ISR template
+
+isr_src:                   ; $0102: 2-byte timer ISR, copied to $0050
+        inc a              ; count services in A
+        reti               ; RETI restores IME immediately
+
+start:
+        ld  hl,$0102       ; copy loop: ISR template -> timer vector
+        ld  de,$0050
+        ld  bc,$0002
+copy:
+        ld  a,(hl+)
+        ld  (de),a
+        inc de
+        dec bc
+        ld  a,b
+        or  c
+        jr  nz,copy
+
+        ld  a,$05
+        db $EA,$0F,$FF    ; ld ($FF0F),a: VBlank(bit0)+Timer(bit2) pending
+        db $EA,$FF,$FF    ; ld ($FFFF),a: both lines enabled
+        ei                 ; delayed enable: lands after the NOP
+        nop                ; <- EI lands here; VBlank dispatches first
+                           ;    (priority!), then Timer: A counts to $07
+        di                 ; IME off before we touch IF/IE again
+        ld  ($C100),a      ; WRAM snapshot of the service counter
+        xor a              ; A=0, Z=1
+        db $EA,$0F,$FF    ; ld ($FF0F),a: clear IF
+        db $EA,$FF,$FF    ; ld ($FFFF),a: clear IE
+        halt               ; sleeps forever: nothing pending -> runner stops

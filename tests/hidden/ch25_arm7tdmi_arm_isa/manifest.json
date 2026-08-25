@@ -1,0 +1,100 @@
+{
+  "description": "ch25 ARM7TDMI hidden grading: runner trace/dump goldens against scratch-built solution binaries plus conformance suites",
+  "cases": [
+    {
+      "name": "branch_runner_trace_golden",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/05_branches/ch25_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch25_arm7tdmi_arm_isa/roms/branch_demo.bin",
+        "--headless",
+        "--cycles",
+        "12",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "1074628C42AAED3C"
+      }
+    },
+    {
+      "name": "challenge_blockcopy_dump_golden",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/91_challenge/ch25_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch25_arm7tdmi_arm_isa/roms/blockcopy.bin",
+        "--headless",
+        "--cycles",
+        "62",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "F3693B757D6BCC17"
+      }
+    },
+    {
+      "name": "coding_status_trace_golden",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/99_coding_test/ch25_coding_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch25_arm7tdmi_arm_isa/roms/status_swap.bin",
+        "--headless",
+        "--cycles",
+        "20",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "19B515FAF24455B5"
+      }
+    },
+    {
+      "name": "hidden_branches_dump_golden",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/05_branches/ch25_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch25_arm7tdmi_arm_isa/roms/hidden_branches.bin",
+        "--headless",
+        "--cycles",
+        "30",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "F2D70A61AACC6F2E"
+      }
+    },
+    {
+      "name": "debug_conformance",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/90_debug/ch25_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_family_conformance",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/99_coding_test/ch25_coding_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "mgba_arm_suite_optional",
+      "binary": "build/skels/ch25_arm7tdmi_arm_isa/05_branches/ch25_runner",
+      "args": [
+        "--rom",
+        "roms/gba/mgba-suite/suite.gba",
+        "--headless",
+        "--cycles",
+        "10000",
+        "--dump",
+        "{{tmp}}/mgba.txt"
+      ],
+      "requires_rom": "roms/gba/mgba-suite/suite.gba",
+      "optional": true
+    }
+  ]
+}

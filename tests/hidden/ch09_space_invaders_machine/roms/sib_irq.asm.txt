@@ -1,0 +1,59 @@
+0000: C3 50 00  JMP start
+0018: C3 90 00  JMP vec18
+001B: 00        NOP
+001C: 00        NOP
+001D: 00        NOP
+001E: 00        NOP
+001F: 00        NOP
+0020: 00        NOP
+0021: 00        NOP
+0022: 00        NOP
+0023: 00        NOP
+0024: 00        NOP
+0025: 00        NOP
+0026: 00        NOP
+0027: 00        NOP
+0028: 00        NOP
+0029: 00        NOP
+002A: 00        NOP
+002B: 00        NOP
+002C: 00        NOP
+002D: 00        NOP
+0050: F3        DI
+0051: 31 00 42  LXI SP,0x4200
+0054: FB        EI
+0055: 01 B0 1D  LXI B,0x1DB0
+0058: 0B        DCX B
+0059: 78        MOV A,B
+005A: B1        ORA C
+005B: C2 58 00  JNZ loop
+005E: F3        DI
+005F: 76        HLT
+0060: F5        PUSH PSW
+0061: E5        PUSH H
+0062: 2A 00 40  LHLD 0x4000
+0065: 23        INX H
+0066: 22 00 40  SHLD 0x4000
+0069: E1        POP H
+006A: F1        POP PSW
+006B: FB        EI
+006C: C9        RET
+0030: C3 9D 00  JMP vec30
+0090: F5        PUSH PSW
+0091: E5        PUSH H
+0092: 2A 00 40  LHLD 0x4000
+0095: 23        INX H
+0096: 22 00 40  SHLD 0x4000
+0099: E1        POP H
+009A: F1        POP PSW
+009B: FB        EI
+009C: C9        RET
+009D: F5        PUSH PSW
+009E: E5        PUSH H
+009F: 2A 02 40  LHLD 0x4002
+00A2: 23        INX H
+00A3: 22 02 40  SHLD 0x4002
+00A6: E1        POP H
+00A7: F1        POP PSW
+00A8: FB        EI
+00A9: C9        RET

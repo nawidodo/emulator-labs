@@ -1,0 +1,3 @@
+add_executable(ch26_04_exceptions_tests main.cpp)
+target_link_libraries(ch26_04_exceptions_tests PRIVATE labstest)
+add_test(NAME ch26_04_exceptions COMMAND ch26_04_exceptions_tests)

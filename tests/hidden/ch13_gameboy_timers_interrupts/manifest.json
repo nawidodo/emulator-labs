@@ -1,0 +1,61 @@
+{
+  "description": "ch13 hidden grading: timer/interrupt exercises, debug regression, and unseen-program interrupt-log hashing through the chapter runner",
+  "cases": [
+    {
+      "name": "divider_semantics",
+      "binary": "build/skels/ch13_gameboy_timers_interrupts/01_divider/ch13_01_divider_tests",
+      "args": [
+        "divider."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "edge_select_all_four",
+      "binary": "build/skels/ch13_gameboy_timers_interrupts/02_tima_edge/ch13_02_edge_tests",
+      "args": [
+        "edge."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "overflow_reload_if",
+      "binary": "build/skels/ch13_gameboy_timers_interrupts/03_overflow_reload/ch13_03_reload_tests",
+      "args": [
+        "reload."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_regression",
+      "binary": "build/skels/ch13_gameboy_timers_interrupts/90_debug/ch13_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "timer_log_golden",
+      "binary": "build/skels/ch13_gameboy_timers_interrupts/91_challenge/ch13_91_timer_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch13_gameboy_timers_interrupts/fixtures/h1_timer_variant.bin",
+        "--headless",
+        "--cycles",
+        "30000",
+        "--trace",
+        "{{tmp}}/irq.log"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "116 interrupts serviced",
+      "expect_file_hash": {
+        "file": "{{tmp}}/irq.log",
+        "fnv64": "14EA01ACD8809EC2"
+      }
+    },
+    {
+      "name": "mooneye_timer_optional",
+      "binary": "build/skels/ch13_gameboy_timers_interrupts/91_challenge/ch13_91_timer_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/timer.bin",
+      "optional": true
+    }
+  ]
+}

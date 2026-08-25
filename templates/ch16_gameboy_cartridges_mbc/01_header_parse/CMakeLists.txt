@@ -1,0 +1,3 @@
+add_executable(ch16_01_header_tests main.cpp)
+target_link_libraries(ch16_01_header_tests PRIVATE labstest)
+add_test(NAME ch16_01_header COMMAND ch16_01_header_tests)

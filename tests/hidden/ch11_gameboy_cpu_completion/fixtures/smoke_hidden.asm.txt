@@ -1,0 +1,20 @@
+; ch11 hidden fixture -- smoke_hidden (unseen variant for hidden grading)
+;
+; Mixed BCD-adjust + stack program, distinct from both public smoke
+; fixtures. Assembled at ORG $0100 (image offset 0); loaded at $0100.
+
+        ld  a,$27
+        add a,$36          ; $5D raw, H=1
+        daa                ; -> BCD $63
+        ld  d,a
+        ld  a,$50
+        sub $47            ; $09 raw, N=1 H=1
+        daa                ; -> BCD $03
+        ld  e,a
+        ld  sp,$FFF8
+        push de            ; de=$6303 -> [$FFF7]=$63 [$FFF6]=$03
+        ld  hl,$FFF6
+        ld  a,(hl)         ; a=$03 read back from the stack
+        cb  swap,a         ; -> $30
+        inc a              ; -> $31, Z=0 N=0 H=0
+        halt

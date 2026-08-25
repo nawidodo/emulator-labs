@@ -1,0 +1,9 @@
+; divergence -- compat-hunt ROM (hand-assembled for a COSMAC VIP)
+; 0200: 6312    LD   V3, 0x12
+; 0202: A400    LD   I, 0x400
+; 0204: F355    LD   [I], V3
+; 0206: F365    LD   V3, [I]
+; 0208: 3312    SE   V3, 0x12      ; true only when I did not move
+; 020A: 60FF    LD   V0, 0xFF      ; symptom line under wrong profile
+; 020C: 120E    JP   20E           ; program end (prog_end = 0x20E)
+; assembled by hand; provenance in ../provenance.md

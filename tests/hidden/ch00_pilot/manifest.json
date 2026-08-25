@@ -1,0 +1,13 @@
+{
+  "description": "pilot hidden smoke",
+  "cases": [
+    {
+      "name": "endian_hidden",
+      "binary": "build/skels/ch00_pilot/01_core/pilot_tests",
+      "args": [
+        "pilot.endian"
+      ],
+      "expect_exit": 0
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+pc=00000000 op=wr addr=04000100 val=FFFB cyc=2
+pc=00000000 op=wr addr=04000102 val=0041 cyc=3
+pc=00000000 op=wr addr=040000BC val=0000 cyc=12
+pc=00000000 op=wr addr=040000BE val=0200 cyc=14
+pc=00000000 op=wr addr=040000C0 val=0000 cyc=16
+pc=00000000 op=wr addr=040000C2 val=0600 cyc=18
+pc=00000000 op=wr addr=040000C4 val=0004 cyc=20
+pc=00000000 op=wr addr=040000C6 val=A260 cyc=22
+pc=00000000 op=dma ch=1 cyc=960
+pc=00000000 op=dma ch=1 cyc=2192
+pc=00000000 op=dma ch=1 cyc=3424

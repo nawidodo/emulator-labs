@@ -1,0 +1,17 @@
+; ldh_probe.asm.txt -- exercises the LDH family end-to-end (assembled to
+; ldh_probe.bin at ORG $0100)
+    org $0100
+    ld  sp,$FFE0
+    ld  a,$77
+    ldh ($30),a        ; FF30=$77          [E0]
+    ldh a,($30)        ; A=$77             [F0]
+    ld  ($C001),a      ; C001=$77
+    ld  c,$40
+    ld  a,$88
+    ldh (c),a          ; FF40=$88          [E2]
+    xor a              ; A=0, Z=1
+    ldh a,(c)          ; A=$88             [F2], flags untouched by loads
+    ld  b,a            ; B=$88
+    add sp,+16         ; SP=FFE0+16=FFF0   [E8]
+    ld  hl,sp+-32      ; HL=FFE0-32=FFC0   [F8]
+    halt

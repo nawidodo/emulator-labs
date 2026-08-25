@@ -1,0 +1,107 @@
+{
+  "description": "ch49 PS1 system scheduling hidden tests: scheduler FIFO ties, event-driven devices, runner event-log hashes for unseen boot programs",
+  "cases": [
+    {
+      "name": "scheduler_fifo_tie_break",
+      "binary": "build/skels/ch49_ps1_system_scheduling/01_scheduler_core/ch49_01_scheduler_tests",
+      "args": [
+        "sched.equal_timestamps_dispatch_fifo"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "scheduler_cancel_and_deadline",
+      "binary": "build/skels/ch49_ps1_system_scheduling/01_scheduler_core/ch49_01_scheduler_tests",
+      "args": [
+        "sched.cancel_prevents_dispatch"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "devices_dma_stall_event_only",
+      "binary": "build/skels/ch49_ps1_system_scheduling/02_mini_devices/ch49_02_devices_tests",
+      "args": [
+        "devices.dma_stall_pauses_cpu_until_drain"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_ordering_fixed",
+      "binary": "build/skels/ch49_ps1_system_scheduling/90_debug/ch49_90_debug_tests",
+      "args": [
+        "debug.cd_irq_precedes_spu_irq_on_shared_deadline"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_golden_event_log",
+      "binary": "build/skels/ch49_ps1_system_scheduling/91_challenge/ch49_91_challenge_tests",
+      "args": [
+        "challenge.event_log_matches_public_golden"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "runner_public_boot_golden",
+      "binary": "build/skels/ch49_ps1_system_scheduling/03_boot_runner/ch49_03_boot_runner_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch49_ps1_system_scheduling/roms/boot_handshake.bin",
+        "--cycles",
+        "40000",
+        "--hash-frame",
+        "{{tmp}}/ev.log",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/ev.log",
+        "fnv64": "760C13EA4039747C"
+      }
+    },
+    {
+      "name": "coding_test_unseen_boot_a",
+      "binary": "build/skels/ch49_ps1_system_scheduling/03_boot_runner/ch49_03_boot_runner_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch49_ps1_system_scheduling/roms/unseen_boot_a.bin",
+        "--input-file",
+        "tests/hidden/ch49_ps1_system_scheduling/roms/script_a.script",
+        "--cycles",
+        "60000",
+        "--hash-frame",
+        "{{tmp}}/a.log",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/a.log",
+        "fnv64": "788C1334E66A2072"
+      }
+    },
+    {
+      "name": "coding_test_unseen_boot_b",
+      "binary": "build/skels/ch49_ps1_system_scheduling/03_boot_runner/ch49_03_boot_runner_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch49_ps1_system_scheduling/roms/unseen_boot_b.bin",
+        "--input-file",
+        "tests/hidden/ch49_ps1_system_scheduling/roms/script_b.script",
+        "--cycles",
+        "60000",
+        "--hash-frame",
+        "{{tmp}}/b.log",
+        "--headless"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/b.log",
+        "fnv64": "83342705CA5D58C9"
+      }
+    },
+    {
+      "name": "psx_scheduler_tests_optional",
+      "binary": "build/skels/ch49_ps1_system_scheduling/03_boot_runner/ch49_03_boot_runner_runner",
+      "args": [],
+      "requires_rom": "roms/ps1/psx-scheduler-tests/scheduler_suite.bin",
+      "optional": true
+    }
+  ]
+}

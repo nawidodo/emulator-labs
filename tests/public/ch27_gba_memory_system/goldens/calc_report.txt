@@ -1,0 +1,8 @@
+WS0 x16 burst8  = 18
+WS1 x16 burst8  = 17
+WS2 x16 burst8  = 19
+EWRAM w32 burst4 = 9
+IWRAM x16 burst16 = 16
+SRAM x8  burst4  = 11
+fastest burst1 = 8
+fastest burst16 = 8

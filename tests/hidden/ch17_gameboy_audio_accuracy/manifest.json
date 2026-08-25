@@ -1,0 +1,86 @@
+{
+  "description": "ch17 hidden grading: APU channel accuracy via golden PCM hashes through the student's 04 runner",
+  "cases": [
+    {
+      "name": "hidden_square_sweep",
+      "binary": "build/skels/ch17_gameboy_audio_accuracy/04_mixer_apu/ch17_04_apu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch17_gameboy_audio_accuracy/fixtures/h1_square_sweep.apuprog",
+        "--frames",
+        "4",
+        "--headless",
+        "--audio-out",
+        "{{tmp}}/h1.pcm"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "simulated 280896 T-cycles",
+      "expect_file_hash": {
+        "file": "{{tmp}}/h1.pcm",
+        "fnv64": "72E43F50189780DD"
+      }
+    },
+    {
+      "name": "hidden_wave",
+      "binary": "build/skels/ch17_gameboy_audio_accuracy/04_mixer_apu/ch17_04_apu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch17_gameboy_audio_accuracy/fixtures/h2_wave.apuprog",
+        "--frames",
+        "4",
+        "--headless",
+        "--audio-out",
+        "{{tmp}}/h2.pcm"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/h2.pcm",
+        "fnv64": "0F7F90BFFDFD9929"
+      }
+    },
+    {
+      "name": "hidden_noise",
+      "binary": "build/skels/ch17_gameboy_audio_accuracy/04_mixer_apu/ch17_04_apu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch17_gameboy_audio_accuracy/fixtures/h3_noise.apuprog",
+        "--frames",
+        "4",
+        "--headless",
+        "--audio-out",
+        "{{tmp}}/h3.pcm"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/h3.pcm",
+        "fnv64": "41CA2D76AD0DE6DD"
+      }
+    },
+    {
+      "name": "coding_test_waveform_config",
+      "binary": "build/skels/ch17_gameboy_audio_accuracy/04_mixer_apu/ch17_04_apu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch17_gameboy_audio_accuracy/fixtures/h4_coding_test.apuprog",
+        "--frames",
+        "4",
+        "--headless",
+        "--audio-out",
+        "{{tmp}}/coding.pcm"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "34 channel regs applied",
+      "expect_file_hash": {
+        "file": "{{tmp}}/coding.pcm",
+        "fnv64": "316C3384F7782808"
+      }
+    },
+    {
+      "name": "mooneye_rapid_toggle_optional",
+      "binary": "build/skels/ch17_gameboy_audio_accuracy/04_mixer_apu/ch17_04_apu_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/rapid_toggle.bin",
+      "optional": true
+    }
+  ]
+}

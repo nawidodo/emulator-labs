@@ -1,0 +1,30 @@
+interleave.asm.txt — synthetic ARM/Thumb interleave fixture for
+ch26_gba_thumb_pipeline_exceptions. Proves safe ARM<->Thumb round trip:
+ARM calls into Thumb with an odd BX target, saves an EVEN resume address,
+and Thumb returns through BX to ARM state. Assembled little-endian into
+interleave.bin (ARM words at 0x00-0x18, Thumb halfwords at 0x40-0x50).
+
+ARM state:
+ADDR     WORD       DISASSEMBLY
+00000000 E3A00006   mov   r0, #6
+00000004 E2800001   add   r0, r0, #1        ; r0 = 7
+00000008 E3A0C014   mov   r12, #0x14        ; even ARM resume slot
+0000000C E3A03041   mov   r3, #0x41         ; thumb entry | T bit
+00000010 E12FFF13   bx    r3                ; switch to Thumb @0x40
+00000014 E0512000   subs  r2, r1, r0        ; resumed here: 18 - 8 = 10
+00000018 EAFFFFFE   b     .                 ; park
+
+Thumb state:
+ADDR     WORD   DISASSEMBLY
+00000040 2109   mov   r1, #9
+00000042 3108   adds  r1, #8            ; 17
+00000044 F000   bl    inner             (pair -> 0x4E)
+00000046 F803
+00000048 3101   adds  r1, #1            ; 18 (after inner)
+0000004A 4760   bx    r12               ; back to ARM @0x14
+0000004C E7FE   b     .                 ; safety park (unused)
+0000004E 3001   inner: adds r0, #1        ; 8
+00000050 E7FA   b     0x48              ; return via B (stays Thumb)
+
+Expected final state (cycles=21): r0=8, r1=18 (0x12), r2=10 (0xA),
+r15=0x18, cpsr=20000010 (Z from SUBS), T cleared.

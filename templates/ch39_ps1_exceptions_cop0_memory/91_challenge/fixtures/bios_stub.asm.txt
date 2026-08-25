@@ -1,0 +1,27 @@
+; ch39 boot-mini synthetic BIOS stub
+; entry/reset vector: 0xBFC00000, general exception vector: 0xBFC00180
+; 23 words, little-endian
+
+BFC00000:  3C080040  lui   $t0, 0x0040
+BFC00004:  35080000  ori   $t0, $t0, 0x0000
+BFC00008:  40886000  mtc0  $t0, $12        ; SR=0x00400000 (BEV=1)
+BFC0000C:  04110001  bal   resume           ; ra=BFC00014
+BFC00010:  0000000C  syscall                ; DELAY SLOT: BD=1
+BFC00014:  00000000  nop                     ; <- rfe lands here
+BFC00018:  3C099F80  lui   $t1, 0x9F80     ; scratchpad
+BFC0001C:  8D240000  lw    $a0, 0($t1)     ; CAUSE
+BFC00020:  AD240008  sw    $a0, 8($t1)     ; round-trip
+BFC00024:  340AC0DE  ori   $t2, $zero, 0xC0DE
+BFC00028:  AD2A000C  sw    $t2, 12($t1)    ; done marker
+BFC0002C:  1000FFFF  b     halt            ; self-loop
+BFC00030:  00000000  nop
+BFC00180:  401A6800  mfc0  $k0, $13        ; CAUSE (BD=1, ExcCode=Syscall)
+BFC00184:  401B7000  mfc0  $k1, $14        ; EPC = BFC0000C (branch addr)
+BFC00188:  3C089F80  lui   $t0, 0x9F80
+BFC0018C:  AD1A0000  sw    $k0, 0($t0)     ; save CAUSE
+BFC00190:  AD1B0004  sw    $k1, 4($t0)     ; save EPC
+BFC00194:  277B0008  addiu $k1, $k1, 8     ; skip branch+slot
+BFC00198:  409B7000  mtc0  $k1, $14        ; EPC = BFC00014
+BFC0019C:  401A6000  mfc0  $k0, $12        ; SR (pushed shadows)
+BFC001A0:  03600008  jr    $k1             ; return
+BFC001A4:  42000010  rfe                    ; DELAY SLOT: pop SR

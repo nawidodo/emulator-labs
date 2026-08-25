@@ -1,0 +1,5 @@
+mode4_blend.pps — readable listing
+format: addr=value (hex); terminator FFFFFFFF
+records: 19495
+scene: mode 4 paletted stripes, OBJ sprite tile1 prio1 at (40,40),
+palette ramp i->(7i,5i,3i) mod 32, WINOUT=0x3F.

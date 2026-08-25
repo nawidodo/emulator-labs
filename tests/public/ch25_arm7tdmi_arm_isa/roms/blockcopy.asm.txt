@@ -1,0 +1,24 @@
+blockcopy.asm.txt — synthetic ARM program for ch25_arm7tdmi_arm_isa
+Copies two 4-word blocks with LDMIA/STMIA, checksums the destination with
+an add-shift loop, parks. Assembled little-endian into blockcopy.bin;
+8 data words follow at 0x400: w[i] = (i+1) * 0x01010101, i = 0..7.
+
+ADDR     WORD       DISASSEMBLY
+00000000 E3A00B01   mov   r0, #00000400     ; src base
+00000004 E3A01B02   mov   r1, #00000800     ; dst base
+0000000C E8B00F00   ldmia r0!, {r8-r11}     ; copy block
+00000010 E8A10F00   stmia r1!, {r8-r11}
+00000014 E2522001   subs  r2, r2, #1
+00000018 1AFFFFFB   bne   0000000C
+0000001C E3A03000   mov   r3, #0            ; checksum accumulator
+00000020 E3A05B02   mov   r5, #00000800     ; read pointer
+00000024 E3A0C008   mov   r12, #8           ; word count
+00000028 E5954000   ldr   r4, [r5]
+0000002C E0833144   add   r3, r3, r4, asr #2
+00000030 E2855004   add   r5, r5, #4
+00000034 E25CC001   subs  r12, r12, #1
+00000038 1AFFFFFA   bne   00000028
+0000003C EAFFFFFE   b     0000003C          ; park
+
+Expected final state (cycles=62): r1=00000820, r3=09090906 (checksum),
+r15=0000003C, cpsr=60000010 (Z+C from the final SUBS).

@@ -1,0 +1,3 @@
+add_executable(ch10_01_state_tests main.cpp)
+target_link_libraries(ch10_01_state_tests PRIVATE labstest)
+add_test(NAME ch10_01_state COMMAND ch10_01_state_tests)

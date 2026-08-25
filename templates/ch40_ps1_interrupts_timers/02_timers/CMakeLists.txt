@@ -1,0 +1,3 @@
+add_executable(ch40_02_timers_tests main.cpp)
+target_link_libraries(ch40_02_timers_tests PRIVATE labstest)
+add_test(NAME ch40_02_timers COMMAND ch40_02_timers_tests)

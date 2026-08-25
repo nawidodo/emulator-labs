@@ -1,0 +1,89 @@
+{
+  "description": "ch35 save states, rewind, determinism \u2014 hidden gate",
+  "cases": [
+    {
+      "name": "unit_save",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/01_chip8_serialize/ch35_01_chip8_tests",
+      "args": [
+        "save."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_rewind",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/03_rewind_ring/ch35_03_rewind_tests",
+      "args": [
+        "rle."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_rewind_10s",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/91_challenge/ch35_91_challenge_tests",
+      "args": [
+        "challenge."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "state_blob_golden",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/01_chip8_serialize/ch35_01_chip8_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch35_save_states_rewind_determinism/programs/bouncer.bin",
+        "--frames",
+        "30",
+        "--save-state",
+        "{{tmp}}/s.bin"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/s.bin",
+        "fnv64": "F3EA244FCC6255F0"
+      }
+    },
+    {
+      "name": "frame_golden",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/01_chip8_serialize/ch35_01_chip8_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch35_save_states_rewind_determinism/programs/bouncer.bin",
+        "--frames",
+        "30",
+        "--frame-out",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "897053B8C74BF105"
+      }
+    },
+    {
+      "name": "determinism100_coding_test",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/99_coding_test/ch35_99_determinism100",
+      "args": [
+        "--rom",
+        "tests/hidden/ch35_save_states_rewind_determinism/programs/drift.bin",
+        "--out",
+        "{{tmp}}/result.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/result.txt",
+        "fnv64": "3BD599E662CD0C6A"
+      }
+    },
+    {
+      "name": "timendus_suite_optional",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/01_chip8_serialize/ch35_01_chip8_runner",
+      "args": [],
+      "requires_rom": "roms/chip8/timendus/test_opcodes.ch8",
+      "optional": true
+    },
+    {
+      "name": "abi_boundary_suite_exit",
+      "binary": "build/skels/ch35_save_states_rewind_determinism/04_abi_boundary/ch35_04_abi_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

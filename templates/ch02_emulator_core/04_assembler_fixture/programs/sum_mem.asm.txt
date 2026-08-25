@@ -1,0 +1,17 @@
+; sum_mem.asm — LAB-8 program: computes 1+2+3 through the ALU, stores the
+; result to RAM at 0x80, reads it back with LOADM, halts. Exercises every
+; data-movement instruction (LOAD/STORE/LOADM) plus ADD.
+;
+; addr   bytes        mnemonic
+; 0x00   10 01 01     LOAD r1, #0x01
+; 0x03   10 02 02     LOAD r2, #0x02
+; 0x06   10 03 03     LOAD r3, #0x03
+; 0x09   40 01 02     ADD r1, r2          ; r1 = 3
+; 0x0C   40 01 03     ADD r1, r3          ; r1 = 6
+; 0x0F   20 01 80     STORE r1, 0x80      ; mem[0x80] = 6
+; 0x12   30 00 80     LOADM r0, 0x80      ; r0 = 6
+; 0x15   00           HALT
+;
+; Reference run (--cycles 500): terminates after exactly 31 cycles,
+; mem[0x80] == 6, r0 == 6. Golden trace:
+; tests/public/ch02_emulator_core/traces/summem.log

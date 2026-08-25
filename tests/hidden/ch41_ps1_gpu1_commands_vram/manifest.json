@@ -1,0 +1,94 @@
+{
+  "description": "ch41 GPU I: command FIFO, VRAM transfers, FILL quirks and untextured rasterization. Golden hashes are FNV-1a-64 over the full little-endian 1024x512x2-byte VRAM dump produced by --hash-frame.",
+  "cases": [
+    {
+      "name": "unit_tests_vram_transfers",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/01_vram/ch41_01_vram_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "transfer_roundtrip_wrap",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/91_challenge/ch41_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch41_ps1_gpu1_commands_vram/roms/xfer_roundtrip.bin",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "6EE6E5DADDE8E7DB"
+      }
+    },
+    {
+      "name": "fill_param_quirks",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/91_challenge/ch41_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch41_ps1_gpu1_commands_vram/roms/fill_quirk.bin",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "E8B19D579D9B7409"
+      }
+    },
+    {
+      "name": "gouraud_and_mask_golden",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/91_challenge/ch41_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch41_ps1_gpu1_commands_vram/roms/gouraud_golden.bin",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "1A336C10AD4084B2"
+      }
+    },
+    {
+      "name": "coding_test_unseen_triangle",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/99_coding_test/ch41_99_coding_test_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch41_ps1_gpu1_commands_vram/roms/tri_unseen.bin",
+        "--frames",
+        "1",
+        "--hash-frame",
+        "{{tmp}}/h.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/h.txt",
+        "fnv64": "107E362E986885AE"
+      }
+    },
+    {
+      "name": "ps1_tests_gpu_suite_optional",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/91_challenge/ch41_91_challenge_runner",
+      "args": [
+        "--help"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/gpu.ifs",
+      "optional": true
+    },
+    {
+      "name": "debug41_seeded_bugs_fixed",
+      "binary": "build/skels/ch41_ps1_gpu1_commands_vram/90_debug/ch41_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

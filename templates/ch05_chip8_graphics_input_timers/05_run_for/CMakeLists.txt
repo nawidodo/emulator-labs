@@ -1,0 +1,3 @@
+add_executable(ch05_05_run_for_tests main.cpp)
+target_link_libraries(ch05_05_run_for_tests PRIVATE labstest)
+add_test(NAME ch05_05_run_for COMMAND ch05_05_run_for_tests)

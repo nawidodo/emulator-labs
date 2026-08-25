@@ -1,0 +1,3 @@
+add_executable(ch17_03_noise_tests main.cpp)
+target_link_libraries(ch17_03_noise_tests PRIVATE labstest)
+add_test(NAME ch17_03_noise COMMAND ch17_03_noise_tests)

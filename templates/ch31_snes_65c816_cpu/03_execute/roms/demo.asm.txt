@@ -1,0 +1,29 @@
+;; ch31 demo program — hand-assembled listing for roms/demo.bin
+;; Loaded at $00:$0000 by the runner; PC starts at $0000 in emulation
+;; mode (E=1, C=0, SP=$01FF). Exercises width switching, DB-banked
+;; absolute addressing, long addressing, index widths and page-cross
+;; cycle penalties. Ends with BRK (halts the executor).
+
+ORG $0000
+
+addr   bytes         insn         ; effect
+--------------------------------------------------
+0000   FB            XCE          ; E:=0 (native), C:=1
+0001   C2 30         REP #$30     ; A and X 16-bit
+0003   A9 34 12      LDA #$1234   ; A:=$1234 (2-byte immediate)
+0006   8D 00 20      STA $2000    ; [$002000]=$34 [$002001]=$12 (DB=0)
+0009   E2 20         SEP #$20     ; A becomes 8-bit
+000B   A9 78         LDA #$78     ; A:=$1278 (1-byte immediate, high kept)
+000D   C2 20         REP #$20     ; A 16-bit again
+000F   AD 00 20      LDA $2000    ; A:=$1234 from DB bank $00
+0012   AF 00 20 00   LDA $002000  ; long addressing, same value
+0016   A2 FF 00      LDX #$00FF
+0019   BD 90 01      LDA $0190,X  ; ->$0028F, page cross (+1 cycle); A:=$0000
+001C   E2 10         SEP #$10     ; X becomes 8-bit
+001E   A2 22         LDX #$22
+0020   95 40         STA $40,X    ; dp,X -> $0062, stores A ($0000)
+0022   B5 40         LDA $40,X    ; word read at $0062 -> A:=$0000, Z set
+0024   00            BRK          ; halt
+
+; Data written during execution:
+;   $002000 = 34 12   ($1234)

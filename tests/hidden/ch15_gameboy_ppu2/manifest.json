@@ -1,0 +1,73 @@
+{
+  "description": "ch15 PPU II hidden coding test: unseen-snapshot frame/trace hashes plus the debug suites, run against the student's own build",
+  "cases": [
+    {
+      "name": "hidden_frame_sprite_heavy",
+      "binary": "build/skels/ch15_gameboy_ppu2/04_full_ppu/ch15_04_fullppu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch15_gameboy_ppu2/fixtures/h1_sprite_heavy.ppu2",
+        "--frames",
+        "3",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "54E511C4A763B1C5"
+      }
+    },
+    {
+      "name": "hidden_mode_trace",
+      "binary": "build/skels/ch15_gameboy_ppu2/04_full_ppu/ch15_04_fullppu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch15_gameboy_ppu2/fixtures/h2_trace_scene.ppu2",
+        "--frames",
+        "1",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "84B8128AF36A346C"
+      }
+    },
+    {
+      "name": "hidden_window_toggle",
+      "binary": "build/skels/ch15_gameboy_ppu2/04_full_ppu/ch15_04_fullppu_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch15_gameboy_ppu2/fixtures/h3_window_toggle.ppu2",
+        "--frames",
+        "3",
+        "--window-off-lines",
+        "32:96",
+        "--hash-frame",
+        "{{tmp}}/f.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/f.rgba",
+        "fnv64": "4EDD05345BBC9F25"
+      }
+    },
+    {
+      "name": "hidden_debug_lyc_unit",
+      "binary": "build/skels/ch15_gameboy_ppu2/90_debug/ch15_90_debug_tests",
+      "args": [
+        "debug_lyc"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "hardware_timing_suite_optional",
+      "binary": "build/skels/ch15_gameboy_ppu2/04_full_ppu/ch15_04_fullppu_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/instr_timing.bin",
+      "optional": true
+    }
+  ]
+}

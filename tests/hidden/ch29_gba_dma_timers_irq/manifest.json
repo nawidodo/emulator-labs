@@ -1,0 +1,68 @@
+{
+  "description": "ch29_gba_dma_timers_irq hidden grading: race regression, golden traces/state hashes, scheduler and capture conformance, optional mGBA gate",
+  "cases": [
+    {
+      "name": "race_trace_golden",
+      "binary": "build/skels/ch29_gba_dma_timers_irq/05_scheduler/ch29_hw_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch29_gba_dma_timers_irq/fixtures/race_fixture.hws",
+        "--cycles",
+        "60",
+        "--trace",
+        "{{tmp}}/race.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/race.log",
+        "fnv64": "0E80CF17DB197FEA"
+      }
+    },
+    {
+      "name": "hb_timer_state_golden",
+      "binary": "build/skels/ch29_gba_dma_timers_irq/05_scheduler/ch29_hw_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch29_gba_dma_timers_irq/fixtures/hb_timer_mix.hws",
+        "--cycles",
+        "4000",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/state.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/state.txt",
+        "fnv64": "3B265CFE1D53AD2F"
+      }
+    },
+    {
+      "name": "race_regression_challenge",
+      "binary": "build/skels/ch29_gba_dma_timers_irq/91_challenge/ch29_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "scheduler_conformance",
+      "binary": "build/skels/ch29_gba_dma_timers_irq/05_scheduler/ch29_05_scheduler_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "capture_trigger_conformance",
+      "binary": "build/skels/ch29_gba_dma_timers_irq/99_coding_test/ch29_capture_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "mgba_dma_timer_suite_optional",
+      "binary": "build/skels/ch29_gba_dma_timers_irq/05_scheduler/ch29_hw_runner",
+      "args": [
+        "--rom",
+        "roms/gba/mgba-suite/dma_timer.bin",
+        "--cycles",
+        "1000000"
+      ],
+      "requires_rom": "roms/gba/mgba-suite/dma_timer.bin",
+      "optional": true
+    }
+  ]
+}

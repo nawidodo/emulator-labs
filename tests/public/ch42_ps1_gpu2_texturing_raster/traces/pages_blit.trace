@@ -1,0 +1,15 @@
+pc=0000 op=e3000000 cyc=0
+pc=0004 op=e407ffff cyc=1
+pc=0008 op=e5000000 cyc=2
+pc=000c op=e6000000 cyc=3
+pc=0010 op=a0000000 cyc=4
+pc=003c op=a0000000 cyc=5
+pc=00c8 op=a0000000 cyc=6
+pc=02d4 op=a0000000 cyc=7
+pc=06e0 op=a0000000 cyc=8
+pc=092c op=e1000102 cyc=9
+pc=0930 op=65808080 cyc=10
+pc=0940 op=e1000000 cyc=11
+pc=0944 op=65808080 cyc=12
+pc=0954 op=e1000081 cyc=13
+pc=0958 op=65808080 cyc=14

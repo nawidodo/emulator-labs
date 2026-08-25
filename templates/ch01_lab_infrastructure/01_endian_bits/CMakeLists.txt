@@ -1,0 +1,3 @@
+add_executable(ch01_01_endian_bits_tests main.cpp)
+target_link_libraries(ch01_01_endian_bits_tests PRIVATE labstest)
+add_test(NAME ch01_01_endian_bits COMMAND ch01_01_endian_bits_tests)

@@ -1,0 +1,16 @@
+# ch23 coding test rehearsal — MFX-1 probe over mfx_echo.nes
+wr 8000 02          # R0 = PRG bank 2
+rd 8000             # -> b2
+rd bfff             # -> b2
+rd c000             # mode A: last bank (b3)
+wr 8001 01          # R1 bit0: mirror R0 into the high half
+rd c000             # -> b2 now
+rd ffff             # -> b2
+wr 8002 01          # R2 = CHR unit 1: echo window
+prd 0000            # unit 1 fill
+prd 07ff            # still unit 1
+prd 0800            # echo quadrant: unit 1 again
+prd 17ff            # ...and the far corner too
+wr 6abc 42          # PRG RAM
+rd 6abc
+snap                # r0=02 r1=01 r2=01 wc=7 irq=0

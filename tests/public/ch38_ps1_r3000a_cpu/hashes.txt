@@ -1,0 +1,2 @@
+# cpu_smoke.bin full-RAM fnv64 from ch38_91_challenge_runner
+fnv64=F32F225FE55FA9F3

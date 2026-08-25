@@ -1,0 +1,3 @@
+add_executable(ch46_03_color_tests main.cpp)
+target_link_libraries(ch46_03_color_tests PRIVATE labstest)
+add_test(NAME ch46_03_color COMMAND ch46_03_color_tests)

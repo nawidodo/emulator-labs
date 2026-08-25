@@ -1,0 +1,11 @@
+# h_mbcx.ops — hidden MBC-X cart (spec in CODING_TEST.md)
+R 4000
+W 2000 07
+R 4000
+W 2000 09
+R 4000
+W 4000 01
+R 4000
+W 4000 00
+R 4000
+R 0230

@@ -1,0 +1,69 @@
+{
+  "description": "ch01_lab_infrastructure hidden gate: endian/bits edge cases, dumper golden output, student-generator determinism and unseen seven-level coding test, challenge fixture hashes",
+  "cases": [
+    {
+      "name": "endian_edge_hidden",
+      "binary": "build/skels/ch01_lab_infrastructure/01_endian_bits/ch01_01_endian_bits_tests",
+      "args": [
+        "endian"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "bits_edge_hidden",
+      "binary": "build/skels/ch01_lab_infrastructure/01_endian_bits/ch01_01_endian_bits_tests",
+      "args": [
+        "bits"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "dumper_golden_hash",
+      "binary": "build/skels/ch01_lab_infrastructure/02_hex_dumper/ch01_02_hex_dumper",
+      "args": [
+        "--file",
+        "tests/hidden/ch01_lab_infrastructure/fixtures/sample.bin",
+        "--output",
+        "{{tmp}}/dump.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/dump.txt",
+        "fnv64": "73695691F82A6B39"
+      }
+    },
+    {
+      "name": "dumper_cli_contract",
+      "binary": "build/skels/ch01_lab_infrastructure/02_hex_dumper/ch01_02_hex_dumper",
+      "args": [
+        "--help"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "usage:"
+    },
+    {
+      "name": "coding_test_seven_levels_all_variants",
+      "binary": "build/skels/ch01_lab_infrastructure/99_coding_test/ch01_99_coding_test",
+      "args": [
+        "coding-test"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "generator_determinism",
+      "binary": "build/skels/ch01_lab_infrastructure/99_coding_test/ch01_99_coding_test",
+      "args": [
+        "determinism"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_multi_target_hashes",
+      "binary": "build/skels/ch01_lab_infrastructure/99_coding_test/ch01_99_coding_test",
+      "args": [
+        "challenge"
+      ],
+      "expect_exit": 0
+    }
+  ]
+}

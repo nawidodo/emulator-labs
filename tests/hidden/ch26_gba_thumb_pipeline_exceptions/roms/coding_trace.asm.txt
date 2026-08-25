@@ -1,0 +1,12 @@
+coding_trace.asm.txt — hidden grading fixture for ch26 (Thumb).
+Exercises imm8 group flags, conditional backward branch, literal pool load.
+
+ADDR     WORD   DISASSEMBLY
+00000000 2002   mov r0, #2
+00000002 3801   sub r0, #1          ; loop body
+00000004 D1FD   bne -6              ; back to 0x02
+00000006 4901   ldr r1, [pc, #4]    ; literal at 0x0E
+00000008 E7FE   b .                 ; park
+0000000E 0000002A               ; literal word 42
+
+Expected final state (cycles=9): r0=0, r1=42, r15=0x08.

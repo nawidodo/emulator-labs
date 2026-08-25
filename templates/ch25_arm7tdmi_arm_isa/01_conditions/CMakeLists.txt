@@ -1,0 +1,3 @@
+add_executable(ch25_01_conditions_tests main.cpp)
+target_link_libraries(ch25_01_conditions_tests PRIVATE labstest)
+add_test(NAME ch25_01_conditions COMMAND ch25_01_conditions_tests)

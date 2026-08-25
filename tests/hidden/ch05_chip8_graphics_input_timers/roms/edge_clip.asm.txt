@@ -1,0 +1,8 @@
+edge_clip — 4x4 sprite of 0xF0 rows drawn at (60,30): clip mode must keep
+columns 60-63 of rows 30-31 only. Hidden fixture.
+200: A2 0A   LD I,$20A
+202: 62 3C   LD V2,60
+204: 63 1E   LD V3,30
+206: D2 34   DRW V2,V3,4
+208: 12 08   halt
+20A: F0 x4   sprite

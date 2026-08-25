@@ -1,0 +1,31 @@
+; timer_probe -- ch13 challenge fixture (public golden program)
+;
+; Configures TMA/TAC, HALTs, and counts timer interrupts in HRAM.
+;   $FF80 : event counter, incremented by the ISR at $0050
+;   TMA=$E0, TIMA starts aligned -> overflow every 32 ticks
+;   TAC=$04: enabled, select 00 -> DIV bit 9, one tick per 1024 T-cycles
+;            => one interrupt every 32768 T-cycles
+        org $0050
+isr:
+        push af
+        ld a,($FF80)
+        inc a
+        ld ($FF80),a
+        pop af
+        reti
+
+        org $0100
+main:
+        xor a
+        ld ($FF80),a       ; event counter := 0
+        ld a,$E0
+        ld ($FF06),a       ; TMA := $E0
+        ld ($FF05),a       ; TIMA aligned with TMA
+        ld a,$04
+        ld ($FF07),a       ; TAC: enable, select 00 (DIV bit 9)
+        ld ($FFFF),a       ; IE: unmask the timer line
+        ei
+        nop                ; EI lands after this NOP
+halt_loop:
+        halt               ; sleep; RETI returns here via the jr below
+        jr halt_loop

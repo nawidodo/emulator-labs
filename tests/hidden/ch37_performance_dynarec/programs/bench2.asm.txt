@@ -1,0 +1,16 @@
+# bench2 — second optimization-gate workload (hidden gate variant).
+# Same spirit as bench but with an XOR-self zero fold, a SUB-by-r0
+# identity and a shorter trip count. Optimizer must still clear >=20%
+# executed-op reduction while preserving the observable dump.
+        addi r7, r0, 15       # outer counter = 15 (5 iterations at step -3)
+        addi r6, r0, 5        # loop-invariant constant
+        addi r1, r0, 0        # accumulator = 0
+loop:   add  r1, r1, r6       # acc += 5                       (live)
+        xor  r2, r6, r6       # r2 = 0 fold candidate          (bait)
+        mov  r3, r1           # dead copy                      (bait)
+        sub  r5, r3, r0       # identity sub r5 = r1           (consumer)
+        sw   r5, 600(r0)      # mem[600] = acc                 (observable store)
+        addi r7, r7, -3       # outer -= 3                     (fusion candidate)
+        bnez r7, loop
+        out  r1               # final accumulator (25)
+        halt

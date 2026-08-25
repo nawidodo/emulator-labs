@@ -1,0 +1,3 @@
+add_executable(ch17_01_square_tests main.cpp)
+target_link_libraries(ch17_01_square_tests PRIVATE labstest)
+add_test(NAME ch17_01_square COMMAND ch17_01_square_tests)

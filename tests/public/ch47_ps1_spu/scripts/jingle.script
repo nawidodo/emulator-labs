@@ -1,0 +1,10 @@
+# ch47 public golden render: the synthetic ADPCM jingle.
+# ROM (tests/public/ch47_ps1_spu/adpcm/jingle.bin) is DMA'd to byte 0x1000;
+# START uses >>3 word units, so word 0x0200 == byte 0x1000.
+MAIN 0x4000 0x4000
+VOL 0 0x4000 0x4000
+PITCH 0 0x1000
+START 0 0x0200
+ADSR 0 0x40F1 0x3040
+KEYON 0x0001
+RENDER 4000

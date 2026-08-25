@@ -1,0 +1,65 @@
+{
+  "description": "ch44 hidden: GTE COP2 regs, RTPS/RTPT, lighting, NCLIP coding test",
+  "cases": [
+    {
+      "name": "unit_cop2",
+      "binary": "build/skels/ch44_ps1_gte/01_cop2_regs/ch44_01_cop2_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_rtps",
+      "binary": "build/skels/ch44_ps1_gte/02_rtps/ch44_02_rtps_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "unit_lighting",
+      "binary": "build/skels/ch44_ps1_gte/03_lighting/ch44_03_lighting_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_lm_and_divide_fixed",
+      "binary": "build/skels/ch44_ps1_gte/90_debug/ch44_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "conf_hidden_golden",
+      "binary": "build/skels/ch44_ps1_gte/91_challenge/ch44_conf_runner",
+      "args": [
+        "--inputs",
+        "tests/hidden/ch44_ps1_gte/conf/hidden_inputs.txt",
+        "--outputs",
+        "{{tmp}}/out.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/out.txt",
+        "fnv64": "02683F7F74297D2C"
+      }
+    },
+    {
+      "name": "ct_nclip_hidden",
+      "binary": "build/skels/ch44_ps1_gte/99_coding_test/ch44_ct_nclip_tests",
+      "args": [
+        "tests/hidden/ch44_ps1_gte/ct/nclip_input.txt",
+        "tests/hidden/ch44_ps1_gte/ct/nclip_expected.txt"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "ps1_tests_gte_optional",
+      "binary": "build/skels/ch44_ps1_gte/91_challenge/ch44_conf_runner",
+      "args": [
+        "--inputs",
+        "roms/ps1/ps1-tests/gte_snapshots.txt",
+        "--outputs",
+        "{{tmp}}/o.txt"
+      ],
+      "requires_rom": "roms/ps1/ps1-tests/gte_snapshots.txt",
+      "optional": true
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "description": "ch18 hidden grading: coding-test combos, debug regressions, exercise cycle contracts, golden trace",
+  "cases": [
+    {
+      "name": "coding_test_unseen_combos",
+      "binary": "build/skels/ch18_nes_6502_cpu/99_coding_test/ch18_99_coding_test_tests",
+      "args": [
+        "unseen."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_regression_both_bugs_fixed",
+      "binary": "build/skels/ch18_nes_6502_cpu/90_debug/ch18_90_debug_tests",
+      "args": [
+        "regression."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "exercise_cycle_contracts",
+      "binary": "build/skels/ch18_nes_6502_cpu/02_loads_alu/ch18_02_loads_alu_tests",
+      "args": [
+        "cycles."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_trace_golden",
+      "binary": "build/skels/ch18_nes_6502_cpu/91_challenge/ch18_91_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch18_nes_6502_cpu/programs/challenge_prog.bin",
+        "--data",
+        "2100=0f",
+        "--cycles",
+        "100",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "2CBFD2ED292D500F"
+      }
+    }
+  ]
+}

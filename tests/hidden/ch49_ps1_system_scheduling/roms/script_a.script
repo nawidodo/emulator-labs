@@ -1,0 +1,3 @@
+# unseen_boot_a companion script: DMA kick at cycle 0
+# (grammar: templates/ch49_ps1_system_scheduling/03_boot_runner/SPEC.md)
+DMA 10

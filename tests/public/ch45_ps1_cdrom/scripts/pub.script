@@ -1,0 +1,18 @@
+# public scripted session
+getstat
+setloc 0:2:16
+seekl
+tick 200
+init
+tick 1200
+setloc 0:2:20
+readn
+tick 104
+tick 100
+pause
+tick 250
+reads
+tick 79
+tick 50
+pause
+tick 250

@@ -1,0 +1,3 @@
+add_executable(ch05_03_keypad_tests main.cpp)
+target_link_libraries(ch05_03_keypad_tests PRIVATE labstest)
+add_test(NAME ch05_03_keypad COMMAND ch05_03_keypad_tests)

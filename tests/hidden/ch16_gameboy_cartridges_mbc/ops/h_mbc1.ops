@@ -1,0 +1,15 @@
+# h_mbc1.ops — hidden MBC1 cart: bank identity + mode + RAM gate
+R 0200
+W 2000 05
+R 4000
+W 2000 00
+R 4000
+W 4000 02
+W 6000 01
+R 0200
+R 4200
+W 0000 0A
+W A000 5A
+R A000
+W 0000 00
+R A000

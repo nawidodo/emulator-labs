@@ -1,0 +1,3 @@
+add_executable(ch31_02_addressing_tests main.cpp)
+target_link_libraries(ch31_02_addressing_tests PRIVATE labstest)
+add_test(NAME ch31_02_addressing COMMAND ch31_02_addressing_tests)

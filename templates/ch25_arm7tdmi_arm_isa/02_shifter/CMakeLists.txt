@@ -1,0 +1,3 @@
+add_executable(ch25_02_shifter_tests main.cpp)
+target_link_libraries(ch25_02_shifter_tests PRIVATE labstest)
+add_test(NAME ch25_02_shifter COMMAND ch25_02_shifter_tests)

@@ -1,0 +1,3 @@
+add_executable(b_mini_dumper_tests main.cpp)
+target_link_libraries(b_mini_dumper_tests PRIVATE labstest)
+add_test(NAME b_mini_dumper COMMAND b_mini_dumper_tests)

@@ -1,0 +1,8 @@
+# ch48 public rehearsal: pad read sessions (see templates/.../03 SPEC.md)
+# PAD words are ACTIVE-LOW wire halfwords.
+SLOT 0
+PAD 7FFF
+XFER 01 42 00 00 00 00
+PAD BFF7
+XFER 01 42 00 00 00 00
+RUN

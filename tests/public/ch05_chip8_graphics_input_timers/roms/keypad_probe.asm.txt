@@ -1,0 +1,17 @@
+keypad_probe — waits for 8 key presses via FX0A; plots one dot per press at
+x = key*4, y = sample row. Leaves a visual trace of the input script.
+Course-original.
+200: 6E 08   LD VE,8
+202: 63 00   LD V3,0
+204: A2 20   LD I,$220
+206: F0 0A   LD V0,K       ; FX0A wait (loop)
+208: 81 00   LD V1,V0
+20A: 81 0E   SHL V1
+20C: 81 0E   SHL V1        ; V1 = key*4
+20E: D1 31   DRW V1,V3,1
+210: 73 01   ADD V3,1
+212: 43 08   SE V3,8
+214: 12 06   JP $206
+216: 12 16   JP $216       ; halt
+218: 00 x8   padding
+220: 80      dot sprite

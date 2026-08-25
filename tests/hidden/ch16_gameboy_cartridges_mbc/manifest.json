@@ -1,0 +1,84 @@
+{
+  "description": "ch16 cartridges/MBC hidden coding test: op-script runs over unseen synthetic carts must match reference trace hashes (MBC1 banking/mode/RAM gate, MBC3 injected-tick RTC latch, MBC5 9-bit banks, and the unseen-spec MBC-X)",
+  "cases": [
+    {
+      "name": "mbc1_hidden_ops",
+      "binary": "build/skels/ch16_gameboy_cartridges_mbc/05_cart_runner/ch16_05_cart_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/roms/h_mbc1.gb",
+        "--headless",
+        "--input-file",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/ops/h_mbc1.ops",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "43A06DD700647991"
+      }
+    },
+    {
+      "name": "mbc3_rtc_hidden_ops",
+      "binary": "build/skels/ch16_gameboy_cartridges_mbc/05_cart_runner/ch16_05_cart_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/roms/h_mbc3.gb",
+        "--headless",
+        "--input-file",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/ops/h_mbc3.ops",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "7E234330CAFB6434"
+      }
+    },
+    {
+      "name": "mbc5_hidden_ops",
+      "binary": "build/skels/ch16_gameboy_cartridges_mbc/05_cart_runner/ch16_05_cart_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/roms/h_mbc5.gb",
+        "--headless",
+        "--input-file",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/ops/h_mbc5.ops",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "0FB5C9B062066D20"
+      }
+    },
+    {
+      "name": "mbcx_hidden_ops",
+      "binary": "build/skels/ch16_gameboy_cartridges_mbc/05_cart_runner/ch16_05_cart_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/roms/h_mbcx.gb",
+        "--headless",
+        "--input-file",
+        "tests/hidden/ch16_gameboy_cartridges_mbc/ops/h_mbcx.ops",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "A180244930BEC0AA"
+      }
+    },
+    {
+      "name": "hardware_mbc_suite_optional",
+      "binary": "build/skels/ch16_gameboy_cartridges_mbc/05_cart_runner/ch16_05_cart_runner",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/bits_bank0.bin",
+      "optional": true
+    }
+  ]
+}

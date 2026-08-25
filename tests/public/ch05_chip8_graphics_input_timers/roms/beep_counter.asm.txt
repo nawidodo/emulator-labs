@@ -1,0 +1,24 @@
+beep_counter — sets ST=7 (beep), then leaves a trail of dots at (DT,0) as the
+delay timer counts 8->1, and marks (0,3) when DT hits zero. Beep ends after
+7 ticks, before the trail finishes. Course-original.
+200: 67 08   LD V7,8
+202: 61 00   LD V1,0
+204: A2 28   LD I,$228
+206: 68 07   LD V8,7
+208: F8 18   LD ST,V8
+20A: 63 09   LD V3,9      ; prev sentinel
+20C: F7 15   LD DT,V7
+20E: F0 07   LD V0,DT     ; wait loop
+210: 90 30   SNE V0,V3    ; skip next when DT changed
+212: 12 0E   JP $20E
+214: D0 11   DRW V0,V1,1  ; new value -> draw trail dot
+216: 83 00   LD V3,V0     ; prev = current
+218: F0 07   LD V0,DT
+21A: 30 00   SE V0,0
+21C: 12 0E   JP $20E
+21E: 60 00   LD V0,0
+220: 61 03   LD V1,3
+222: D0 11   DRW V0,V1,1  ; end marker at (0,3)
+224: 12 24   JP $224      ; halt
+226: 00 00   padding
+228: 80      dot sprite

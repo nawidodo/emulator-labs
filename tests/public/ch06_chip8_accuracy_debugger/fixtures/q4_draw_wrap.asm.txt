@@ -1,0 +1,14 @@
+; q4_draw_wrap -- DXYN edge-wrap quirk differential (hand-assembled)
+; 0200: 60AA    LD   V0, 0xAA     \ sprite row bytes
+; 0202: 61AA    LD   V1, 0xAA     /
+; 0204: A400    LD   I, 0x400
+; 0206: F155    LD   [I], V1      ; mem[400]=mem[401]=AA
+; 0208: 6000    LD   V0, 0
+; 020A: 6100    LD   V1, 0
+; 020C: A400    LD   I, 0x400
+; 020E: D012    DRW  V0, V1, 2    ; sets cols 0..7 rows 0..1
+; 0210: 603E    LD   V0, 62
+; 0212: A400    LD   I, 0x400
+; 0214: D012    DRW  V0, V1, 2    ; VIP wraps onto cols 0..1: VF=1,
+;                              ; clipped profiles never collide: VF=0
+; assembled by hand; provenance in ../provenance.md

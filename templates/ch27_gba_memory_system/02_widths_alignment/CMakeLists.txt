@@ -1,0 +1,3 @@
+add_executable(ch27_02_widths_tests main.cpp)
+target_link_libraries(ch27_02_widths_tests PRIVATE labstest)
+add_test(NAME ch27_02_widths COMMAND ch27_02_widths_tests)

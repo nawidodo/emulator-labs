@@ -1,0 +1,5 @@
+# unseen_boot_b companion script: device pokes at cycle 0
+# (grammar: templates/ch49_ps1_system_scheduling/03_boot_runner/SPEC.md)
+DMA 3
+GPUCMD 00100800
+CDREAD

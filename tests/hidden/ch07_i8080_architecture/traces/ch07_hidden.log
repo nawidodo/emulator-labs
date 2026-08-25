@@ -1,0 +1,13 @@
+pc=0000 op=3E af=0002 bc=0000 de=0000 hl=0000 sp=0000 cyc=0
+pc=0002 op=06 af=3002 bc=0000 de=0000 hl=0000 sp=0000 cyc=7
+pc=0004 op=0E af=3002 bc=1200 de=0000 hl=0000 sp=0000 cyc=14
+pc=0006 op=21 af=3002 bc=120F de=0000 hl=0000 sp=0000 cyc=21
+pc=0009 op=77 af=3002 bc=120F de=0000 hl=5000 sp=0000 cyc=31
+pc=000A op=35 af=3002 bc=120F de=0000 hl=5000 sp=0000 cyc=38
+pc=000B op=7E af=3002 bc=120F de=0000 hl=5000 sp=0000 cyc=48
+pc=000C op=80 af=2F02 bc=120F de=0000 hl=5000 sp=0000 cyc=55
+pc=000D op=C6 af=4116 bc=120F de=0000 hl=5000 sp=0000 cyc=59
+pc=000F op=32 af=4206 bc=120F de=0000 hl=5000 sp=0000 cyc=66
+pc=0012 op=3A af=4206 bc=120F de=0000 hl=5000 sp=0000 cyc=79
+pc=0015 op=90 af=4206 bc=120F de=0000 hl=5000 sp=0000 cyc=92
+pc=0016 op=76 af=3016 bc=120F de=0000 hl=5000 sp=0000 cyc=96

@@ -1,0 +1,24 @@
+pc=00000000 op=wr addr=04000100 val=FFFB cyc=5
+pc=00000000 op=wr addr=04000102 val=00C0 cyc=6
+pc=00000000 op=wr addr=04000200 val=0008 cyc=10
+pc=00000000 op=wr addr=04000208 val=0001 cyc=10
+pc=00000000 op=tmr tm=0 cyc=11
+pc=00000000 op=irq src=t0 cyc=11
+pc=00000000 op=tmr tm=0 cyc=16
+pc=00000000 op=irq src=t0 cyc=16
+pc=00000000 op=tmr tm=0 cyc=21
+pc=00000000 op=irq src=t0 cyc=21
+pc=00000000 op=tmr tm=0 cyc=26
+pc=00000000 op=irq src=t0 cyc=26
+pc=00000000 op=tmr tm=0 cyc=31
+pc=00000000 op=irq src=t0 cyc=31
+pc=00000000 op=tmr tm=0 cyc=36
+pc=00000000 op=irq src=t0 cyc=36
+pc=00000000 op=tmr tm=0 cyc=41
+pc=00000000 op=irq src=t0 cyc=41
+pc=00000000 op=tmr tm=0 cyc=46
+pc=00000000 op=irq src=t0 cyc=46
+pc=00000000 op=tmr tm=0 cyc=51
+pc=00000000 op=irq src=t0 cyc=51
+pc=00000000 op=tmr tm=0 cyc=56
+pc=00000000 op=irq src=t0 cyc=56

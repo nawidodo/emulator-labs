@@ -1,0 +1,112 @@
+{
+  "description": "ch09 hidden gates: SI-compatible diagnostic boot (state + frame hash), cadence trace determinism, Arcade-8080-B unseen-board bring-up (ports, IRQ cadence, video), debug regression",
+  "cases": [
+    {
+      "name": "challenge_diag_state",
+      "binary": "build/skels/ch09_space_invaders_machine/91_challenge/ch09_91_si_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch09_space_invaders_machine/roms/ch09_si_diag.bin",
+        "--frames",
+        "6",
+        "--input-file",
+        "tests/public/ch09_space_invaders_machine/input/ch09_si_diag.inputs"
+      ],
+      "expect_stdout_contains": "AF=0046 BC=0000 DE=0000 HL=0000 SP=2100 PC=007E cyc=161702"
+    },
+    {
+      "name": "challenge_diag_frame_hash",
+      "binary": "build/skels/ch09_space_invaders_machine/91_challenge/ch09_91_si_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch09_space_invaders_machine/roms/ch09_si_diag.bin",
+        "--frames",
+        "6",
+        "--input-file",
+        "tests/public/ch09_space_invaders_machine/input/ch09_si_diag.inputs",
+        "--hash-frame",
+        "{{tmp}}/diag.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/diag.rgba",
+        "fnv64": "7B652C7D5C382925"
+      }
+    },
+    {
+      "name": "cadence_trace_golden",
+      "binary": "build/skels/ch09_space_invaders_machine/04_interrupts_frame/ch09_04_cadence_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch09_space_invaders_machine/roms/ch09_cadence.bin",
+        "--cpf",
+        "500",
+        "--frames",
+        "6",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "9914B5E36957A739"
+      }
+    },
+    {
+      "name": "pattern_frame_hash",
+      "binary": "build/skels/ch09_space_invaders_machine/05_video_render/ch09_05_si_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch09_space_invaders_machine/roms/ch09_pattern.bin",
+        "--frames",
+        "9",
+        "--hash-frame",
+        "{{tmp}}/pattern.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/pattern.rgba",
+        "fnv64": "3709E7FC1B51FC35"
+      }
+    },
+    {
+      "name": "debug_regression_suite",
+      "binary": "build/skels/ch09_space_invaders_machine/90_debug/ch09_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "sib_ports_final_state",
+      "binary": "build/skels/ch09_space_invaders_machine/99_coding_test/ch09_99_si_b_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch09_space_invaders_machine/roms/sib_ports.bin"
+      ],
+      "expect_stdout_contains": "AF=2202 BC=0000 DE=0000 HL=0000 SP=4200 PC=002D cyc=196"
+    },
+    {
+      "name": "sib_irq_cadence_state",
+      "binary": "build/skels/ch09_space_invaders_machine/99_coding_test/ch09_99_si_b_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch09_space_invaders_machine/roms/sib_irq.bin",
+        "--frames",
+        "7"
+      ],
+      "expect_stdout_contains": "AF=0046 BC=0000 DE=0000 HL=0000 SP=4200 PC=0060 cyc=182961"
+    },
+    {
+      "name": "sib_video_frame_hash",
+      "binary": "build/skels/ch09_space_invaders_machine/99_coding_test/ch09_99_si_b_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch09_space_invaders_machine/roms/sib_video.bin",
+        "--frames",
+        "9",
+        "--hash-frame",
+        "{{tmp}}/sib.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/sib.rgba",
+        "fnv64": "A00CD2A9E86A9304"
+      }
+    }
+  ]
+}

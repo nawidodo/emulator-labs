@@ -1,0 +1,66 @@
+{
+  "description": "ch28_gba_ppu hidden grading: compositor golden frame, snapshot coding test, conformance suites, optional mGBA gate",
+  "cases": [
+    {
+      "name": "ppu_script_frame_golden",
+      "binary": "build/skels/ch28_gba_ppu/05_compositor/ch28_ppu_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch28_gba_ppu/fixtures/mode4_blend.pps",
+        "--frames",
+        "1",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/frame.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/frame.txt",
+        "fnv64": "195028C24DD1C5DA"
+      }
+    },
+    {
+      "name": "snapshot_render_hidden",
+      "binary": "build/skels/ch28_gba_ppu/99_coding_test/ch28_snapshot_tool",
+      "args": [
+        "tests/hidden/ch28_gba_ppu/snapshots/hidden.snap",
+        "{{tmp}}/out.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/out.rgba",
+        "fnv64": "FFDB7D1312C7EAA5"
+      }
+    },
+    {
+      "name": "compositor_conformance",
+      "binary": "build/skels/ch28_gba_ppu/05_compositor/ch28_05_compositor_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_test_conformance",
+      "binary": "build/skels/ch28_gba_ppu/99_coding_test/ch28_coding_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "challenge_scene_golden",
+      "binary": "build/skels/ch28_gba_ppu/91_challenge/ch28_91_challenge_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "mgba_graphics_suite_optional",
+      "binary": "build/skels/ch28_gba_ppu/05_compositor/ch28_ppu_runner",
+      "args": [
+        "--rom",
+        "roms/gba/mgba-suite/suite.gba",
+        "--frames",
+        "60",
+        "--hash-frame",
+        "{{tmp}}/mgba.txt"
+      ],
+      "requires_rom": "roms/gba/mgba-suite/suite.gba",
+      "optional": true
+    }
+  ]
+}

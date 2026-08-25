@@ -1,0 +1,27 @@
+# ch24 hidden coding test - unseen drift probe over the repaired machine.
+chrpat 3 96 69
+nt 5 03
+nt 42 03
+pal 0 0F
+pal 1 16
+pal 2 2A
+wr 4015 FF
+wr 4003 30
+wr 4007 30
+wr 400B 18
+wr 400C 00
+wr 400F 30
+wr 4004 B0
+wr 4006 60
+wr 4008 80
+wr 400A 48
+wr 2001 08
+wr 2005 02
+wr 2005 10
+wr 4017 00
+frame 15
+wr 4014 07
+wr 2005 0B
+frame 15
+wr 2005 06
+frame 10

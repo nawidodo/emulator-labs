@@ -1,0 +1,27 @@
+# drift.bin — synthetic CHIP-8 program (hand-assembled, HIDDEN fixture)
+
+Author: ch35 authoring, 2026-08. Not derived from any commercial ROM.
+
+```
+addr  bytes     insn            ; meaning
+200   A2 20     LD   I,$220     ; sprite
+202   60 00     LD   V0,$00     ; x = 0
+204   61 00     LD   V1,$00     ; y = 0
+206   C0 FF     RND  V0,$FF     ; consume xorshift state EVERY frame!
+208   D0 15     DRW  V0,V1,5
+20A   70 05     ADD  V0,$05
+20C   71 33     ADD  V1,$33
+20E   80 12     AND  V0,V2      ; NOTE: V2 is 0 here -> x always 0 (intended)
+210   81 32     AND  V1,V3      ; V3 = 0 -> y always 0 (intended)
+212   12 06     JP   $206
+
+220   F0 90 F0 90 F0            ; sprite rows
+```
+
+Behavior: consumes the seeded RNG each frame, so any save/load path that
+drops the `rng` field desyncs immediately. The AND-with-zero quirk pins
+the draw position to (0,0) — the framebuffer is a single XOR-flickering
+sprite, which makes hashes extremely sensitive to RNG desync.
+
+NOTE for maintainers: if you edit this program, regenerate every ch35
+golden hash and update provenance + manifest.

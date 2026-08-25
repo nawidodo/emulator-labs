@@ -1,0 +1,69 @@
+# transfer wrap + copy roundtrip
+# offset   word       disassembly
+
+0000     E6000000  GP1: GP0(E6h) mask bits off
+0004     E3000000  GP1: GP0(E3h) drawing area TL (0,0)
+0008     E407FFFF  GP1: GP0(E4h) drawing area BR (1023,511)
+000C     E5000000  GP1: GP0(E5h) drawing offset (0,0)
+0010     A0000000  GP1: GP0(A0h) CPU->VRAM upload
+0014     000193F2  GP0:          dest (1010,100): 30-wide rows cross col 1023 and wrap
+0018     0003001E  GP0:          size 30x3 (90 halfwords = 45 words)
+001C     001D0007  GP0:          pixel data
+0020     005600DA  GP0:          pixel data
+0024     008F01AD  GP0:          pixel data
+0028     00C80280  GP0:          pixel data
+002C     01010353  GP0:          pixel data
+0030     013A0426  GP0:          pixel data
+0034     017304F9  GP0:          pixel data
+0038     01AC05CC  GP0:          pixel data
+003C     01E5069F  GP0:          pixel data
+0040     021E0772  GP0:          pixel data
+0044     02570845  GP0:          pixel data
+0048     02900918  GP0:          pixel data
+004C     02C909EB  GP0:          pixel data
+0050     03020ABE  GP0:          pixel data
+0054     033B0B91  GP0:          pixel data
+0058     03740C64  GP0:          pixel data
+005C     03AD0D37  GP0:          pixel data
+0060     03E60E0A  GP0:          pixel data
+0064     041F0EDD  GP0:          pixel data
+0068     04580FB0  GP0:          pixel data
+006C     04911083  GP0:          pixel data
+0070     04CA1156  GP0:          pixel data
+0074     05031229  GP0:          pixel data
+0078     053C12FC  GP0:          pixel data
+007C     057513CF  GP0:          pixel data
+0080     05AE14A2  GP0:          pixel data
+0084     05E71575  GP0:          pixel data
+0088     06201648  GP0:          pixel data
+008C     0659171B  GP0:          pixel data
+0090     069217EE  GP0:          pixel data
+0094     06CB18C1  GP0:          pixel data
+0098     07041994  GP0:          pixel data
+009C     073D1A67  GP0:          pixel data
+00A0     07761B3A  GP0:          pixel data
+00A4     07AF1C0D  GP0:          pixel data
+00A8     07E81CE0  GP0:          pixel data
+00AC     08211DB3  GP0:          pixel data
+00B0     085A1E86  GP0:          pixel data
+00B4     08931F59  GP0:          pixel data
+00B8     08CC202C  GP0:          pixel data
+00BC     090520FF  GP0:          pixel data
+00C0     093E21D2  GP0:          pixel data
+00C4     097722A5  GP0:          pixel data
+00C8     09B02378  GP0:          pixel data
+00CC     09E9244B  GP0:          pixel data
+00D0     80000000  GP1: GP0(80h) copy the wrapped block to mid-VRAM
+00D4     000193F2  GP0:          src (1010,100)
+00D8     0004B0C8  GP0:          dst (200,300)
+00DC     0003001E  GP0:          size 30x3
+00E0     A0000000  GP1: GP0(A0h) small upload at origin
+00E4     00000000  GP0:          dest (0,0)
+00E8     00020004  GP0:          size 4x2
+00EC     00030001  GP0:          pixel data
+00F0     00140020  GP0:          pixel data
+00F4     0025003F  GP0:          pixel data
+00F8     0036005E  GP0:          pixel data
+00FC     C0000000  GP1: GP0(C0h) VRAM->CPU download of the copied block
+0100     0004B0C8  GP0:          src (200,300)
+0104     0003001E  GP0:          size 30x3 (even: no odd-halfword padding)

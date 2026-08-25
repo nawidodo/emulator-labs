@@ -1,0 +1,3 @@
+add_executable(ch36_03_tiles_tests main.cpp)
+target_link_libraries(ch36_03_tiles_tests PRIVATE labstest)
+add_test(NAME ch36_03_tiles COMMAND ch36_03_tiles_tests)

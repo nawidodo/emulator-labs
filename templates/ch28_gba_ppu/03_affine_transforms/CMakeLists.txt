@@ -1,0 +1,3 @@
+add_executable(ch28_03_affine_tests main.cpp)
+target_link_libraries(ch28_03_affine_tests PRIVATE labstest)
+add_test(NAME ch28_03_affine COMMAND ch28_03_affine_tests)

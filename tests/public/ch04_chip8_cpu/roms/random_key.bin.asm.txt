@@ -1,0 +1,14 @@
+# random_key: seeded CXNN + EX9E/EXA1 with scripted keys
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  6001   LD  V0,#01
+0202:  C1F0   RND V1,#F0  ; default-seeded LCG -> B0
+0204:  6204   LD  V2,#04
+0206:  7105   ADD V1,#05  ; -> B5
+0208:  E2A1   SKNP V2     ; key4 UP -> taken
+020A:  63AA   LD  V3,#AA  ; witness (executes)
+020C:  E49E   SKP V4      ; V4=0 -> key0 DOWN -> taken
+020E:  65CC   LD  V5,#CC  ; trap (skipped)
+0210:  6611   LD  V6,#11
+0212:  0000   halt

@@ -1,0 +1,68 @@
+{
+  "description": "ch12 hidden grading: routing, attach isolation, echo alias, boot unmap, debug regressions, plus grader-only corners of both unseen-map suites",
+  "cases": [
+    {
+      "name": "range_routing",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/01_range_table/ch12_01_range_tests",
+      "args": [
+        "routing."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "attach_isolation",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/02_device_attach/ch12_02_attach_tests",
+      "args": [
+        "attach."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "echo_alias_roundtrip",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/03_echo_alias/ch12_03_echo_tests",
+      "args": [
+        "echo."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "echo_boot_unmap",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/04_boot_rom/ch12_04_boot_tests",
+      "args": [
+        "boot."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_regression_all_three_fixed",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/90_debug/ch12_90_debug_tests",
+      "args": [
+        "debug_"
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "conformance_hidden",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/91_challenge/ch12_91_conformance_tests",
+      "args": [
+        "hidden."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_variant_hidden",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/99_coding_test/ch12_99_coding_test_tests",
+      "args": [
+        "hidden."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "mooneye_mem_timing_optional",
+      "binary": "build/skels/ch12_gameboy_bus_memory_map/04_boot_rom/ch12_04_boot_tests",
+      "args": [],
+      "requires_rom": "roms/gb/mooneye/mem_timing.bin",
+      "optional": true
+    }
+  ]
+}

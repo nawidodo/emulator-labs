@@ -1,0 +1,3 @@
+add_executable(ch36_02_trace_tests main.cpp)
+target_link_libraries(ch36_02_trace_tests PRIVATE labstest)
+add_test(NAME ch36_02_trace COMMAND ch36_02_trace_tests)

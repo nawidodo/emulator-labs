@@ -1,0 +1,3 @@
+add_executable(ch25_04_loadstore_tests main.cpp)
+target_link_libraries(ch25_04_loadstore_tests PRIVATE labstest)
+add_test(NAME ch25_04_loadstore COMMAND ch25_04_loadstore_tests)

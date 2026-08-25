@@ -1,0 +1,3 @@
+add_executable(ch35_02_registry_tests main.cpp)
+target_link_libraries(ch35_02_registry_tests PRIVATE labstest)
+add_test(NAME ch35_02_registry COMMAND ch35_02_registry_tests)

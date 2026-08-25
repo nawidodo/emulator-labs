@@ -1,0 +1,3 @@
+add_executable(ch30_04_eeprom_tests main.cpp)
+target_link_libraries(ch30_04_eeprom_tests PRIVATE labstest)
+add_test(NAME ch30_04_eeprom COMMAND ch30_04_eeprom_tests)

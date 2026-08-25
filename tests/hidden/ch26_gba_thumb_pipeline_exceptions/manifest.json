@@ -1,0 +1,89 @@
+{
+  "description": "ch26 Thumb pipeline/exceptions hidden grading: runner trace/dump goldens against scratch-built solution binaries plus conformance suites",
+  "cases": [
+    {
+      "name": "switch_interleave_trace_golden",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/03_mode_switch/ch26_switch_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch26_gba_thumb_pipeline_exceptions/roms/interleave.bin",
+        "--headless",
+        "--cycles",
+        "21",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "6EF35F0285C7946E"
+      }
+    },
+    {
+      "name": "challenge_callret_dump_golden",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/91_challenge/ch26_challenge_runner",
+      "args": [
+        "--rom",
+        "tests/public/ch26_gba_thumb_pipeline_exceptions/roms/callret.bin",
+        "--headless",
+        "--cycles",
+        "20",
+        "--dump",
+        "{{tmp}}/d.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/d.txt",
+        "fnv64": "13731B82476E670E"
+      }
+    },
+    {
+      "name": "coding_hidden_trace_golden",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/99_coding_test/ch26_coding_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch26_gba_thumb_pipeline_exceptions/roms/coding_trace.bin",
+        "--headless",
+        "--cycles",
+        "9",
+        "--trace",
+        "{{tmp}}/t.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/t.log",
+        "fnv64": "C0277BE8CA1658A8"
+      }
+    },
+    {
+      "name": "exceptions_conformance",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/04_exceptions/ch26_04_exceptions_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_conformance",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/90_debug/ch26_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_conformance",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/99_coding_test/ch26_99_coding_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "mgba_thumb_suite_optional",
+      "binary": "build/skels/ch26_gba_thumb_pipeline_exceptions/02_pipeline/ch26_pipeline_runner",
+      "args": [
+        "--rom",
+        "roms/gba/mgba-suite/suite.gba",
+        "--headless",
+        "--cycles",
+        "10000",
+        "--dump",
+        "{{tmp}}/mgba.txt"
+      ],
+      "requires_rom": "roms/gba/mgba-suite/suite.gba",
+      "optional": true
+    }
+  ]
+}

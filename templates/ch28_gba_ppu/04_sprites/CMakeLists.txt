@@ -1,0 +1,3 @@
+add_executable(ch28_04_sprites_tests main.cpp)
+target_link_libraries(ch28_04_sprites_tests PRIVATE labstest)
+add_test(NAME ch28_04_sprites COMMAND ch28_04_sprites_tests)

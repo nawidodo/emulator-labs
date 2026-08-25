@@ -1,0 +1,16 @@
+# bench — rx8 benchmark workload for ch37 (performance & dynarec).
+# Loop-heavy: 6 iterations of an 8-instruction body full of optimizer
+# bait (identity copies, a dead constant) around one live accumulator.
+        addi r7, r0, 12       # outer counter = 12 (6 iterations at step -2)
+        addi r6, r0, 3        # loop-invariant constant
+        addi r1, r0, 0        # accumulator = 0
+loop:   add  r1, r1, r6       # acc += 3                    (live)
+        add  r3, r1, r0       # identity copy r3 = r1       (optimizer bait)
+        mov  r4, r3           # dead copy chain             (optimizer bait)
+        add  r5, r4, r1       # r5 = acc + acc              (consumer exposes copies)
+        sw   r5, 512(r0)      # mem[512] = 2*acc            (observable store)
+        addi r2, r0, 1        # dead constant, never read   (optimizer bait)
+        addi r7, r7, -2       # outer -= 2                  (fusion candidate)
+        bnez r7, loop         # loop while outer != 0
+        out  r1               # emit final accumulator (18)
+        halt

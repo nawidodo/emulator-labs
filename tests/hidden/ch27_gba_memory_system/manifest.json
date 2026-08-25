@@ -1,0 +1,63 @@
+{
+  "description": "ch27 GBA memory-system hidden grading: timing reports and conformance suites against scratch-built solution binaries",
+  "cases": [
+    {
+      "name": "calc_report_golden",
+      "binary": "build/skels/ch27_gba_memory_system/91_challenge/ch27_calc_runner",
+      "args": [
+        "{{tmp}}/calc.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/calc.txt",
+        "fnv64": "0936E168947AA005"
+      }
+    },
+    {
+      "name": "flash_report_golden",
+      "binary": "build/skels/ch27_gba_memory_system/99_coding_test/ch27_flash_report",
+      "args": [
+        "{{tmp}}/flash.txt"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/flash.txt",
+        "fnv64": "C8806471B843B535"
+      }
+    },
+    {
+      "name": "region_conformance",
+      "binary": "build/skels/ch27_gba_memory_system/01_region_routing/ch27_01_region_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "widths_conformance",
+      "binary": "build/skels/ch27_gba_memory_system/02_widths_alignment/ch27_02_widths_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "waitstate_conformance",
+      "binary": "build/skels/ch27_gba_memory_system/03_waitstates/ch27_03_waitstate_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "bus_conformance",
+      "binary": "build/skels/ch27_gba_memory_system/04_bus_result/ch27_04_bus_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "debug_conformance",
+      "binary": "build/skels/ch27_gba_memory_system/90_debug/ch27_90_debug_tests",
+      "args": [],
+      "expect_exit": 0
+    },
+    {
+      "name": "coding_conformance",
+      "binary": "build/skels/ch27_gba_memory_system/99_coding_test/ch27_99_coding_tests",
+      "args": [],
+      "expect_exit": 0
+    }
+  ]
+}

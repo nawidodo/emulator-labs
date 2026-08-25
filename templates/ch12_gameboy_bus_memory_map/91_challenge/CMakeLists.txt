@@ -1,0 +1,3 @@
+add_executable(ch12_91_conformance_tests main.cpp)
+target_link_libraries(ch12_91_conformance_tests PRIVATE labstest)
+add_test(NAME ch12_91_conformance COMMAND ch12_91_conformance_tests)

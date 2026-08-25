@@ -1,0 +1,155 @@
+{
+  "description": "ch05 CHIP-8 graphics/input/timers: hidden behavioural cases (frame hashes from the reference solution; see tests/public/ch05_chip8_graphics_input_timers/goldens/provenance.md)",
+  "cases": [
+    {
+      "name": "dxyn_collision_frame_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/06_display_hash_runner/ch05_06_hash_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch05_chip8_graphics_input_timers/roms/overlap.bin",
+        "--frames",
+        "3",
+        "--hash-frame",
+        "{{tmp}}/overlap.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/overlap.rgba",
+        "fnv64": "405CE9998B29A7F5"
+      }
+    },
+    {
+      "name": "dxyn_clip_edge_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/06_display_hash_runner/ch05_06_hash_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch05_chip8_graphics_input_timers/roms/edge_clip.bin",
+        "--frames",
+        "2",
+        "--hash-frame",
+        "{{tmp}}/edge.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/edge.rgba",
+        "fnv64": "EB8156121A602505"
+      }
+    },
+    {
+      "name": "animated_frame_sequence_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/06_display_hash_runner/ch05_06_hash_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch05_chip8_graphics_input_timers/roms/orbit.bin",
+        "--frames",
+        "24",
+        "--frame-hashes",
+        "{{tmp}}/orbit.seq.txt"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/orbit.seq.txt",
+        "fnv64": "FC833DCDB200FD7D"
+      }
+    },
+    {
+      "name": "run_for_exact_cycles_and_ticks_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/05_run_for/ch05_05_run_for_tests",
+      "args": [
+        "run_for."
+      ],
+      "expect_exit": 0
+    },
+    {
+      "name": "keypad_scripted_feed_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/06_display_hash_runner/ch05_06_hash_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch05_chip8_graphics_input_timers/roms/keys.bin",
+        "--input-file",
+        "tests/hidden/ch05_chip8_graphics_input_timers/inputs/keys_feed.txt",
+        "--frames",
+        "40",
+        "--hash-frame",
+        "{{tmp}}/keys.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/keys.rgba",
+        "fnv64": "DE04A0D8FC8EDA31"
+      }
+    },
+    {
+      "name": "beep_log_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/06_display_hash_runner/ch05_06_hash_runner",
+      "args": [
+        "--rom",
+        "tests/hidden/ch05_chip8_graphics_input_timers/roms/beeps.bin",
+        "--frames",
+        "20",
+        "--beep-log",
+        "{{tmp}}/beeps.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_hash": {
+        "file": "{{tmp}}/beeps.log",
+        "fnv64": "C68DF79B354F9112"
+      }
+    },
+    {
+      "name": "dxy0_scroll_basic_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/99_coding_test/ch05_99_dxy0_tool",
+      "args": [
+        "--pattern",
+        "row_top",
+        "--scroll",
+        "3",
+        "--hash-frame",
+        "{{tmp}}/scroll3.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "vf=1",
+      "expect_file_hash": {
+        "file": "{{tmp}}/scroll3.rgba",
+        "fnv64": "B9D103FD6854A325"
+      }
+    },
+    {
+      "name": "dxy0_scroll_vf_checker_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/99_coding_test/ch05_99_dxy0_tool",
+      "args": [
+        "--pattern",
+        "checker",
+        "--scroll",
+        "5"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "vf=1"
+    },
+    {
+      "name": "dxy0_scroll_zero_amount_hidden",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/99_coding_test/ch05_99_dxy0_tool",
+      "args": [
+        "--pattern",
+        "bottom_row",
+        "--scroll",
+        "32",
+        "--hash-frame",
+        "{{tmp}}/scroll32.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_stdout_contains": "vf=0",
+      "expect_file_hash": {
+        "file": "{{tmp}}/scroll32.rgba",
+        "fnv64": "0756ECD94C696C25"
+      }
+    },
+    {
+      "name": "timendus_suite_optional",
+      "binary": "build/skels/ch05_chip8_graphics_input_timers/06_display_hash_runner/ch05_06_hash_runner",
+      "args": [],
+      "requires_rom": "roms/chip8/timendus/test-suite.bin",
+      "optional": true
+    }
+  ]
+}

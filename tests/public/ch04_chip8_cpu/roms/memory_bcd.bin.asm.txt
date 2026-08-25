@@ -1,0 +1,15 @@
+# memory_bcd: FX29/FX33/FX55/FX65 with default quirks
+# Hand-assembled course fixture (no commercial ROM content).
+# Program base 0x0200. Canonical source of truth for the .bin.
+
+0200:  A500   LD  I,#500
+0202:  6A07   LD  VA,#07
+0204:  FA33   BCD VA      ; [500]=0 [501]=0 [502]=7
+0206:  6BFF   LD  VB,#FF
+0208:  FB33   BCD VB      ; [503]=2 [504]=5 [505]=5
+020A:  FB29   FONT VB     ; I = glyph F = #4B
+020C:  FC55   STORE V0-VC ; mem[4B..57]; I -> #58
+020E:  A500   LD  I,#500
+0210:  F065   LOAD V0-VF  ; V0..V5 = 00 00 07 02 05 05
+0212:  FD29   FONT VD     ; VD=0 -> I = 0
+0214:  0000   halt

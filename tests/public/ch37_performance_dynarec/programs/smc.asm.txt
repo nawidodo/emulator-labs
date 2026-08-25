@@ -1,0 +1,14 @@
+# smc — self-modifying-code fixture for ch37.
+# The instruction at `site` executes as OUT on pass 1; the program then
+# patches it into ADDI r2,r0,9 and jumps back. A decode cache that does
+# not invalidate on stores keeps executing the stale OUT and the output
+# log gains spurious entries (111 instead of nothing on later passes).
+        addi r4, r0, 2        # pass counter
+        addi r2, r0, 111      # value printed by the un-patched site
+entry:  out  r2               # <- site: pass 1 prints 111; later passes it is ADDI
+        beqz r4, done         # all passes done?
+        addi r4, r4, -1       # one fewer pass remaining
+        addi r3, r0, 9        # payload for the patch
+        sw   r3, 8(r0)        # mem[8] (the site) := ADDI r2, r0, 9
+        jmp  entry            # re-execute the patched word
+done:   halt                  # r2 == 9, out log == [111]

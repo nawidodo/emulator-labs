@@ -4,9 +4,10 @@ PYTHON3   ?= python3
 COMMA     := ,
 BUILD_DIR ?= build
 BUILD_TYPE ?= Release
-# Conservative default (comprehensive-review-2055 #28/29): hundreds of
-# generated targets can exhaust process slots at full parallelism.
-JOBS      ?= 4
+# SERIAL BY DEFAULT (correctness-first policy): parallel builds masked a
+# real portability failure and caused resource-exhaustion flakes. Override
+# explicitly when you want speed: make build JOBS=8
+JOBS      ?= 1
 NPROC     := $(JOBS)
 CMAKE_EXTRA ?=
 CTEST_EXTRA ?=

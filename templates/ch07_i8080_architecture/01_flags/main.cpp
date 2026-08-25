@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <bit>
 
 #include "flags.hpp"
 
@@ -17,7 +18,7 @@ TEST(parity, even_counts_set_flag) {
 TEST(parity, all_byte_values) {
     unsigned even = 0, odd = 0;
     for (int v = 0; v < 256; ++v) {
-        int bits = __builtin_popcount(unsigned(v));
+        int bits = std::popcount(unsigned(v));
         if (even_parity(uint8_t(v)))
             EXPECT_EQ(bits % 2, 0);
         else

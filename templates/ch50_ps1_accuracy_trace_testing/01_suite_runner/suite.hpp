@@ -1,6 +1,10 @@
 #pragma once
-#include <sys/wait.h>
-#include <unistd.h>
+#ifdef _WIN32
+#  include <process.h>   // _spawnvp / _cwait (MSVC)
+#else
+#  include <sys/wait.h>  // POSIX: fork / exec / waitpid
+#  include <unistd.h>
+#endif
 
 #include <cstddef>
 #include <cstdint>
@@ -116,6 +120,11 @@ inline int run_bin(const std::string& path,
         argv.push_back(const_cast<char*>(a.c_str()));
     argv.push_back(nullptr);
 
+#ifdef _WIN32
+    // MSVC: _spawnvp with _P_WAIT returns the child exit code directly.
+    const intptr_t rc = ::_spawnvp(_P_WAIT, path.c_str(), argv.data());
+    return rc == -1 ? -1 : static_cast<int>(rc);
+#else
     const pid_t pid = ::fork();
     if (pid < 0) return -1;
     if (pid == 0) {
@@ -126,6 +135,7 @@ inline int run_bin(const std::string& path,
     ::waitpid(pid, &status, 0);
     if (WIFEXITED(status)) return WEXITSTATUS(status);
     return -1;
+#endif
 }
 
 // Execute one parsed case, appending exactly one Result.

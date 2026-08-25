@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <bit>
 
 class Bus {
 public:
@@ -114,7 +115,7 @@ inline DaaResult daa(uint8_t a, bool cy, bool ac) {
     if (fix_high) correction |= 0x60;
     const uint16_t sum = uint16_t(a) + correction;
     const uint8_t res = uint8_t(sum);
-    const int bits = __builtin_popcount(unsigned(res));
+    const int bits = std::popcount(unsigned(res));
     return {res,
             fix_high ? true : cy,
             fix_low,

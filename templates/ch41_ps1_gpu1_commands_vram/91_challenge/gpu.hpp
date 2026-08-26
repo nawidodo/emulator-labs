@@ -6,6 +6,7 @@
 #include "../shared/vram.hpp"
 #include <array>
 #include <cstdint>
+#include <memory>
 #include <span>
 #include <vector>
 
@@ -195,9 +196,11 @@ void Gpu::drain() {
 void Gpu::write_gp1(uint32_t word) {
     switch (word >> 24) {
         case 0x00: {  // full reset: flush FIFO, abort packet, default regs
-            const Vram keep = vram;  // reset does NOT clear VRAM
+            // Heap snapshot: a by-value Vram local would put 1 MiB on the
+            // stack and overflow MSVC's 1 MiB default stack.
+            const auto keep = std::make_unique<Vram>(vram);
             reset();
-            vram = keep;
+            vram = *keep;
             break;
         }
         case 0x01:  // reset command buffer: flush FIFO, abort current packet

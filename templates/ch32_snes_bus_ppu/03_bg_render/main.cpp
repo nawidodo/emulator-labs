@@ -257,36 +257,36 @@ TEST(colormath, add_sub_half_clamp_vectors) {
 }
 
 TEST(frame, mode1_layer_order_baseline) {
-    const Baseline bl = make_baseline();
-    std::array<uint8_t, kFbBytes> fb{};
-    render_frame(bl.cfg, bl.vram, bl.cgram, fb);
+    auto bl = std::make_unique<Baseline>(make_baseline());
+    std::vector<uint8_t> fb(kFbBytes);
+    render_frame(bl->cfg, bl->vram, bl->cgram, fb);
     // BG1 wins everywhere despite lower-priority BG2 underneath.
     EXPECT_EQ(pixel_rgba(fb, 0, 0), bgr555_to_rgba8(0x03E0));
     EXPECT_EQ(pixel_rgba(fb, 255, 223), bgr555_to_rgba8(0x03E0));
 }
 
 TEST(frame, window_shows_masked_layers_inside_rect) {
-    std::array<uint8_t, kFbBytes> fb{};
-    render_frame(make_windowed().cfg, make_windowed().vram,
-                 make_windowed().cgram, fb);
+    auto win = std::make_unique<Baseline>(make_windowed());
+    std::vector<uint8_t> fb(kFbBytes);
+    render_frame(win->cfg, win->vram, win->cgram, fb);
     // Window [100,155] with mask 0b0001: BG1 shows ONLY inside the rect;
     // outside nothing passes -> backdrop.
     EXPECT_EQ(pixel_rgba(fb, 50, 10), bgr555_to_rgba8(0x3800));
     EXPECT_EQ(pixel_rgba(fb, 120, 10), bgr555_to_rgba8(0x03E0));
 
-    Baseline alt = make_windowed();
-    alt.cfg.window.layer_mask = 0b1110;  // inside: BG2 survives, not BG1
-    std::array<uint8_t, kFbBytes> fb2{};
-    render_frame(alt.cfg, alt.vram, alt.cgram, fb2);
+    auto alt = std::make_unique<Baseline>(*win);
+    alt->cfg.window.layer_mask = 0b1110;
+    std::vector<uint8_t> fb2(kFbBytes);
+    render_frame(alt->cfg, alt->vram, alt->cgram, fb2);
     EXPECT_EQ(pixel_rgba(fb2, 120, 10), bgr555_to_rgba8(0x001F));  // BG2 red
     EXPECT_EQ(pixel_rgba(fb2, 156, 10), bgr555_to_rgba8(0x3800));  // backdrop
 }
 
 TEST(frame, window_invert_moves_visible_region_outside) {
-    Baseline inv = make_windowed();
-    inv.cfg.window.invert = true;  // effective window becomes OUTSIDE rect
-    std::array<uint8_t, kFbBytes> fb{};
-    render_frame(inv.cfg, inv.vram, inv.cgram, fb);
+    auto inv = std::make_unique<Baseline>(*win);
+    inv->cfg.window.invert = true;
+    std::vector<uint8_t> fb(kFbBytes);
+    render_frame(inv->cfg, inv->vram, inv->cgram, fb);
     EXPECT_EQ(pixel_rgba(fb, 130, 5), bgr555_to_rgba8(0x3800));  // inside
     EXPECT_EQ(pixel_rgba(fb, 5, 5), bgr555_to_rgba8(0x03E0));    // outside
 }
@@ -296,29 +296,29 @@ TEST(frame, color_math_and_window_gate) {
     const int px = 120;
     // Add-half: winner green (g=31) vs backdrop 0x3800 (b=14) gives
     // (r,g,b) = (0,15,7) -> BGR555 (7<<10)|(15<<5).
-    Baseline bl = make_windowed();
-    bl.cfg.color_math = true;
-    bl.cfg.window.color_math_enable = true;
-    bl.cfg.math_half = true;
-    std::array<uint8_t, kFbBytes> fb{};
-    render_frame(bl.cfg, bl.vram, bl.cgram, fb);
+    auto bl = std::make_unique<Baseline>(*win);
+    bl->cfg.color_math = true;
+    bl->cfg.window.color_math_enable = true;
+    bl->cfg.math_half = true;
+    std::vector<uint8_t> fb(kFbBytes);
+    render_frame(bl->cfg, bl->vram, bl->cgram, fb);
     EXPECT_EQ(pixel_rgba(fb, px, 60),
               bgr555_to_rgba8(static_cast<uint16_t>((7u << 10) | (15u << 5))));
 
     // Window active but color-math enable clear: math never applies.
-    Baseline gated = make_windowed();
-    gated.cfg.color_math = true;
-    gated.cfg.window.color_math_enable = false;
-    std::array<uint8_t, kFbBytes> fb2{};
-    render_frame(gated.cfg, gated.vram, gated.cgram, fb2);
+    auto gated = std::make_unique<Baseline>(*win);
+    gated->cfg.color_math = true;
+    gated->cfg.window.color_math_enable = false;
+    std::vector<uint8_t> fb2(kFbBytes);
+    render_frame(gated->cfg, gated->vram, gated->cgram, fb2);
     EXPECT_EQ(pixel_rgba(fb2, px, 60), bgr555_to_rgba8(0x03E0));
 
     // Window active and color-math enable set: plain add applies —
     // green + backdrop = (r,g,b) = (0,31,14) -> BGR555 (14<<10)|(31<<5).
-    Baseline armed = gated;
-    armed.cfg.window.color_math_enable = true;
-    std::array<uint8_t, kFbBytes> fb3{};
-    render_frame(armed.cfg, armed.vram, armed.cgram, fb3);
+    auto armed = std::make_unique<Baseline>(*gated);
+    armed->cfg.window.color_math_enable = true;
+    std::vector<uint8_t> fb3(kFbBytes);
+    render_frame(armed->cfg, armed->vram, armed->cgram, fb3);
     EXPECT_EQ(pixel_rgba(fb3, px, 60),
               bgr555_to_rgba8(static_cast<uint16_t>((14u << 10) | (31u << 5))));
 }

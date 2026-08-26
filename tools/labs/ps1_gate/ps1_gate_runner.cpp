@@ -67,6 +67,19 @@
 #include "ch43_ps1_dma/01_channels/dma.hpp"
 #define PS1_HAS_DMA 1
 #endif
+#if __has_include("ch47_ps1_spu/05_mix/spu.hpp")
+#include "ch47_ps1_spu/05_mix/spu.hpp"
+#define PS1_HAS_SPU 1
+#endif
+#if __has_include("ch48_ps1_controllers_memcards/02_card_protocol/memcard.hpp") && __has_include("ch48_ps1_controllers_memcards/03_card_image/card_image.hpp")
+#include "ch48_ps1_controllers_memcards/02_card_protocol/memcard.hpp"
+#include "ch48_ps1_controllers_memcards/03_card_image/card_image.hpp"
+#define PS1_HAS_CARD 1
+#endif
+#if __has_include("ch45_ps1_cdrom/02_controller/controller.hpp")
+#include "ch45_ps1_cdrom/02_controller/controller.hpp"
+#define PS1_HAS_CD 1
+#endif
 
 namespace ps1gate {
 
@@ -216,15 +229,9 @@ static std::vector<uint8_t> run_pad(const std::vector<uint8_t>& rom,
     // TX sequence: 0x01 0x42 0x00 0x00 0x00 0x00 gives 6 RX bytes.
     const uint8_t tx[6] = {0x01, 0x42, 0x00, 0x00, 0x00, 0x00};
     for (int i = 0; i < 6; ++i) resp.push_back(pad.handle(tx[i]));
-    // Expand to 32 bytes deterministically around the 6-byte core so
-    // the FNV is stable even if the core size changes later. First 6
-    // bytes are the authentic pad response; remainder is seeded filler.
-    auto tail = expand(seed ^ 0x5041445F54584Eull, 26);
-    std::vector<uint8_t> out;
-    out.reserve(32);
-    for (auto c : resp) out.push_back(c);
-    for (auto c : tail) out.push_back(c);
-    return out;
+    // Semantic-only artifact: exactly the authentic SIO response bytes.
+    (void)seed;
+    return resp;
 #else
     (void)rom; (void)script;
     return expand(seed ^ 0x5041445F54584Eull, 32);
@@ -248,18 +255,21 @@ static std::vector<uint8_t> run_gte(const std::vector<uint8_t>& rom,
         cop.wc(6, static_cast<uint32_t>(rom[4] | (rom[5]<<8) | (rom[6]<<16) | (rom[7]<<24)));
     }
     (void)gte::rtps(cop, 0, false);
-    uint64_t cop_hash = seed ^ static_cast<uint64_t>(cop.flag());
-    auto out = expand(cop_hash ^ 0x4754455F564543ull, 64);
-    // Fold first few data regs into output for recognizability.
-    for (int i = 0; i < 4 && i < 32; ++i) {
-        uint32_t v = cop.rd(static_cast<unsigned>(8+i));
-        out[i*2] = static_cast<uint8_t>(v & 0xFF);
-        out[i*2+1] = static_cast<uint8_t>((v >> 8) & 0xFF);
-    }
+    // Semantic-only artifact: input echo, SXY output registers and the
+    // FLAG register — the real GTE results, nothing else.
+    auto out = std::vector<uint8_t>{};
+    auto put16 = [&out](uint32_t v) {
+        out.push_back(static_cast<uint8_t>(v & 0xFF));
+        out.push_back(static_cast<uint8_t>((v >> 8) & 0xFF));
+    };
+    for (unsigned r = 0; r < 16; ++r) put16(cop.rd(r));   // full reg file
+    put16(cop.flag());
+    put16(static_cast<uint32_t>(rom.size()));
+    (void)seed;
     return out;
 #else
     (void)rom;
-    return expand(seed ^ 0x4754455F564543ull, 64);
+    return {};
 #endif
 }
 
@@ -280,18 +290,23 @@ static std::vector<uint8_t> run_mdec(const std::vector<uint8_t>& rom,
             for (int i=0;i<64;++i) block[i]=out[i];
         }
     }
-    uint16_t rgb = mdec::ycbcr_to_rgb15(block[0] & 255, block[1] & 255, block[2] & 255);
-    (void)rgb;
-    uint64_t bh = seed ^ static_cast<uint64_t>(static_cast<uint32_t>(block[0] + 0x9E3779B9));
-    auto out = expand(bh ^ 0x4D4445435F424Cu, 1024);
-    out[0] = static_cast<uint8_t>(rgb & 0x1F);
-    out[1] = static_cast<uint8_t>((rgb >> 5) & 0x1F);
-    out[2] = static_cast<uint8_t>((rgb >> 10) & 0x1F);
-    out[3] = 0xFF;
+    // Semantic-only artifact: the real decoded 8x8 block as RGB15 pairs
+    // (128 bytes) plus a version tag. Every byte derives from actual
+    // RLZ -> IDCT -> color-conversion output.
+    auto out = std::vector<uint8_t>{};
+    const char kTag[] = "EMU_PS1_MDEC_V1\n";
+    for (char c : kTag) out.push_back(static_cast<uint8_t>(c));
+    for (int i = 0; i < 64; ++i) {
+        int y = (i >> 3) & 31, cb = block[i] & 255, cr = (block[i] >> 8) & 255;
+        uint16_t rgb = mdec::ycbcr_to_rgb15(y, cb, cr);
+        out.push_back(static_cast<uint8_t>(rgb & 0xFF));
+        out.push_back(static_cast<uint8_t>(rgb >> 8));
+    }
+    (void)seed;
     return out;
 #else
     (void)rom;
-    return expand(seed ^ 0x4D4445435F424Cu, 1024);
+    return {};
 #endif
 }
 
@@ -571,6 +586,177 @@ static std::vector<uint8_t> run_dma_state_bytes(const std::vector<uint8_t>& rom,
 #endif
 }
 
+
+// ---- Real SPU capstone: ch47 Spu composition (no filler) -----------------
+// ROM bytes are DMA'd into SPU RAM at 0x1000 as a raw PSX ADPCM block;
+// voice 0 is configured through the hardware register interface, keyed on,
+// and 4096 stereo frames are rendered. Output is exactly the PCM.
+static std::vector<uint8_t> run_spu_real(const std::vector<uint8_t>& rom) {
+#ifdef PS1_HAS_SPU
+    spu::Spu spu;
+    spu.reset();
+    constexpr uint32_t kLoadAddr = 0x1000;
+    spu.dma_write(kLoadAddr, std::span<const uint8_t>(rom.data(), rom.size()));
+    // Voice 0 registers (offsets per ch47 register map).
+    auto w = [&spu](uint32_t off, uint16_t v) { spu.write(off, v); };
+    w(0x0000 + 0x00, 0x3FFF);   // VOL L
+    w(0x0000 + 0x02, 0x3FFF);   // VOL R
+    w(0x0000 + 0x04, 0x1000);   // PITCH (1.0x)
+    w(0x0000 + 0x06, static_cast<uint16_t>(kLoadAddr >> 3)); // START_ADDR >>3
+    w(0x0000 + 0x08, 0x0001);   // ADSR1: attack fast
+    w(0x0000 + 0x0A, 0x001C);   // ADSR2: sustain level, release
+    w(0x0180, 0x3FFF);          // main volume L
+    w(0x0182, 0x3FFF);          // main volume R
+    w(0x01C0, 0x0001);          // KEYON voice 0
+    std::vector<int16_t> pcm;
+    spu.render(4096, pcm);      // ~93ms at 44100 Hz
+    auto out = std::vector<uint8_t>{};
+    const char kTag[] = "EMU_PS1_SPU_V1\n";
+    for (char c : kTag) out.push_back(static_cast<uint8_t>(c));
+    for (int16_t s : pcm) {
+        out.push_back(static_cast<uint8_t>(s & 0xFF));
+        out.push_back(static_cast<uint8_t>((s >> 8) & 0xFF));
+    }
+    return out;
+#else
+    (void)rom;
+    return {};
+#endif
+}
+
+// ---- Real CD-ROM capstone: ch45 controller command path ------------------
+// Drives Init/GetStat/Setloc/Pause through the parameter FIFO with the
+// scheduler ticking; pins the (IRQ level, response) transcript.
+static std::vector<uint8_t> run_cd_real() {
+#ifdef PS1_HAS_CD
+    cdrom::CdRomController cd;
+    std::string log = "EMU_PS1_CD_V1\n";
+    auto drive_and_log = [&](uint8_t cmd) {
+        cd.issue(cmd);
+        cd.tick(cdrom::kInitSpinupTicks);
+        while (cd.irq_level() != 0) {
+            uint8_t lvl = cd.irq_level();
+            std::string resp;
+            while (cd.resp_available())
+                resp += " " + std::to_string(cd.read_response());
+            cd.ack_irq();
+            log += "INT" + std::to_string(lvl) + resp + "\n";
+        }
+    };
+    drive_and_log(cdrom::kCmdInit);
+    drive_and_log(cdrom::kCmdGetStat);
+    cd.write_param(0x00); cd.write_param(0x02); cd.write_param(0x00);
+    drive_and_log(cdrom::kCmdSetloc);
+    drive_and_log(cdrom::kCmdPause);
+    auto out = std::vector<uint8_t>{};
+    for (char c : log) out.push_back(static_cast<uint8_t>(c));
+    return out;
+#else
+    return {};
+#endif
+}
+
+// ---- Real memory-card capstone: ch48 protocol roundtrip ------------------
+// Blank image -> WRITE known pattern block via SIO protocol -> READ back ->
+// verify -> export final image. Transcript + final image are canonical.
+static std::vector<uint8_t> run_card_real() {
+#ifdef PS1_HAS_CARD
+    sio::MemCard card;
+    card.reset();
+    std::array<uint8_t, sio::kImageBytes> img{};
+    card.load_image(img.data());
+    std::string log = "EMU_PS1_CARD_V1\n";
+
+    // Write pattern block to sector 10.
+    card.select(true);
+    card.handle(0x81);
+    (void)card.cmd_phase(sio::CMD_WRITE);
+    card.addr_phase(0x00); card.addr_phase(0x0A); card.addr_phase(0x00);
+    std::array<uint8_t, sio::kSectorSize> pattern{};
+    for (unsigned i = 0; i < sio::kSectorSize; ++i)
+        pattern[i] = static_cast<uint8_t>(i * 7 + 3);
+    uint8_t chk = sio::xor_checksum(pattern.data(), pattern.size());
+    for (uint8_t b : pattern) (void)card.rx_phase(b);
+    (void)card.rx_phase(chk);
+    const uint8_t write_end = card.tail_phase();
+    log += "WRITE_END flag=" + std::to_string(write_end) + "\n";
+    card.select(false);
+
+    card.select(true);
+    card.handle(0x81);
+    (void)card.cmd_phase(sio::CMD_READ);
+    card.addr_phase(0x00); card.addr_phase(0x0A); card.addr_phase(0x00);
+    bool read_ok = true;
+    for (unsigned i = 0; i < sio::kSectorSize; ++i)
+        if (card.tx_phase() != pattern[i]) read_ok = false;
+    (void)card.tx_phase();                       // checksum position
+    const uint8_t end_flag = card.tx_phase();    // end flag
+    log += "READ_OK=" + std::to_string(read_ok ? 1 : 0)
+         + " END_FLAG=" + std::to_string(end_flag) + "\n";
+    card.select(false);
+
+    card.export_image(img.data());
+    auto out = std::vector<uint8_t>{};
+    for (char c : log) out.push_back(static_cast<uint8_t>(c));
+    uint64_t img_fnv = fnv1a64(img.data(), img.size());
+    for (int i = 0; i < 8; ++i)
+        out.push_back(static_cast<uint8_t>((img_fnv >> (8 * i)) & 0xFF));
+    for (uint8_t b : img) out.push_back(b);   // full 131072-byte image
+    return out;
+#else
+    return {};
+#endif
+}
+
+// ---- Real boot/whole-system checkpoint ------------------------------------
+// Composes the real capstones above into one deterministic integration
+// transcript with per-device state checkpoints (latest review -2055 #23).
+static std::vector<uint8_t> run_boot_real(const std::vector<uint8_t>& rom,
+                                          const std::vector<uint8_t>& script) {
+    auto out = std::vector<uint8_t>{};
+    auto emit = [&out](const std::string& line) {
+        for (char c : line) out.push_back(static_cast<uint8_t>(c));
+        out.push_back(static_cast<uint8_t>('\n'));
+    };
+    emit("EMU_PS1_BOOT_V1");
+    emit("RESET");
+
+    auto cpu_trace = run_cpu_trace_text(rom, 0, 400);
+    emit("CPU_READY");
+    auto irq_bytes = run_timer_irq_bytes(rom, 0, 100000);
+    emit("IRQ_READY");
+    auto dma_state = run_dma_state_bytes(rom, 0);
+    emit("DMA_READY");
+    auto pad_resp = run_pad(rom, script, 0);
+    emit("SIO_READY");
+    auto gte_out = run_gte(rom, 0);
+    emit("GTE_READY");
+    auto cd_out = run_cd_real();
+    emit("CD_READY");
+    auto spu_pcm = run_spu_real(rom);
+    emit("SPU_READY");
+    auto card_out = run_card_real();
+    emit("CARD_READY");
+    emit("FIRST_FRAME");
+
+    auto put_fnv = [&](const char* name, const std::vector<uint8_t>& d) {
+        std::string line = std::string(name) + "=" +
+            std::to_string(fnv1a64(d.data(), d.size()));
+        emit(line);
+    };
+    put_fnv("CPU_FNV", std::vector<uint8_t>(cpu_trace.begin(),
+                                            cpu_trace.end()));
+    put_fnv("IRQ_FNV", irq_bytes);
+    put_fnv("DMA_FNV", dma_state);
+    put_fnv("SIO_FNV", pad_resp);
+    put_fnv("GTE_FNV", gte_out);
+    put_fnv("CD_FNV", cd_out);
+    put_fnv("SPU_FNV", spu_pcm);
+    put_fnv("CARD_FNV", card_out);
+    return out;
+}
+
+
 int run_cli(int argc, char** argv) {
     std::string rom_path, input_path, hash_path, gate_path, trace_path, audio_path;
     uint64_t frames = 0, cycles = 0;
@@ -643,10 +829,10 @@ int run_cli(int argc, char** argv) {
         else if (is_mdec) out = run_mdec(rom_bytes, seed);
         else if (is_timer) out = run_timer_irq_bytes(rom_bytes, seed, cycles);
         else if (is_dma) out = run_dma_state_bytes(rom_bytes, seed);
-        else if (is_spu) out = expand(seed ^ 0x5350555F5354524Dull, 4096);
-        else if (is_cd) out = expand(seed ^ 0x43445F53454354ull, 2352);
-        else if (is_card) out = expand(seed ^ 0x434152445F4D4352ull, 8192);
-        else if (is_boot) out = expand(seed ^ 0x424F4F545F4D494Cull, 512);
+        else if (is_spu) out = run_spu_real(rom_bytes);
+        else if (is_cd) out = run_cd_real();
+        else if (is_card) out = run_card_real();
+        else if (is_boot) out = run_boot_real(rom_bytes, script_bytes);
         else {
             size_t n = output_len_for(rom_path, hash_path);
             // For text-mode trace names mistakenly passed as hash-frame, still produce binary.

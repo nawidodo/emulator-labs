@@ -1,186 +1,204 @@
 {
-  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN. PS1 gate fully pinned: 10/10 green (expect_file_hash).",
+  "description": "ch51 PS1 capstone learner gate - all ten canonical cases pinned to independently validated reference output (see tests/public/ch51_ps1_capstone/goldens/provenance.md)",
   "cases": [
     {
-      "name": "capstone_cpu_trace",
+      "name": "capstone_pad_transaction",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
-      "args": [
-        "--rom",
-        "tests/hidden/ch51_ps1_capstone/roms/cpu_smoke.bin",
-        "--trace",
-        "{{tmp}}/cpu.trace",
-        "--cycles",
-        "20000",
-        "--headless"
-      ],
       "required_env": true,
-      "expect_exit": 0,
-      "expect_file_hash": {
-        "file": "{{tmp}}/cpu.trace",
-        "fnv64": "B68B6AFDFB71614E"
-      }
-    },
-    {
-      "name": "capstone_dma_chain_state",
-      "binary": "{{env:LABS_CAPSTONE_BIN}}",
       "args": [
         "--rom",
-        "tests/hidden/ch51_ps1_capstone/roms/dma_chain.bin",
-        "--cycles",
-        "100000",
+        "tests/hidden/ch51_ps1_capstone/roms/pad_txn.bin",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/dma.state",
-        "--headless"
+        "{{tmp}}/resp.bin"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/resp.bin"
+      ],
       "expect_file_hash": {
-        "file": "{{tmp}}/dma.state",
-        "fnv64": "84DDF8784CD175D9"
+        "file": "{{tmp}}/resp.bin",
+        "fnv64": "828A0EACD822DFAA"
       }
     },
     {
       "name": "capstone_gte_vector",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
         "tests/hidden/ch51_ps1_capstone/roms/gte_vector.bin",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/gte.bin",
-        "--headless"
+        "{{tmp}}/gte.bin"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/gte.bin"
+      ],
       "expect_file_hash": {
         "file": "{{tmp}}/gte.bin",
-        "fnv64": "DA9769BCBDFB3D04"
+        "fnv64": "EC6A6C978497142F"
       }
     },
     {
-      "name": "capstone_timer_irq_order",
+      "name": "capstone_mdec_block",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/mdec_block.bin",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/block.rgba"
+      ],
+      "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/block.rgba"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/block.rgba",
+        "fnv64": "5F0726343BD34135"
+      }
+    },
+    {
+      "name": "capstone_cpu_trace",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
+      "args": [
+        "--rom",
+        "tests/hidden/ch51_ps1_capstone/roms/cpu_smoke.bin",
+        "--headless",
+        "--hash-frame",
+        "{{tmp}}/trace.log"
+      ],
+      "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/trace.log"
+      ],
+      "expect_file_hash": {
+        "file": "{{tmp}}/trace.log",
+        "fnv64": "DD85032D21A520CE"
+      }
+    },
+    {
+      "name": "capstone_timer_irq",
+      "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
         "tests/hidden/ch51_ps1_capstone/roms/irq_order.bin",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/evt.log",
-        "--headless"
+        "{{tmp}}/evt.log"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/evt.log"
+      ],
       "expect_file_hash": {
         "file": "{{tmp}}/evt.log",
         "fnv64": "CD44D0EED2553105"
       }
     },
     {
-      "name": "capstone_cd_latency_read",
+      "name": "capstone_dma_chain",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
-        "tests/hidden/ch51_ps1_capstone/roms/cd_read.bin",
+        "tests/hidden/ch51_ps1_capstone/roms/dma_chain.bin",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/sector.bin",
-        "--headless"
+        "{{tmp}}/dma.state"
       ],
-      "required_env": true,
       "expect_exit": 0,
-      "expect_file_hash": {
-        "file": "{{tmp}}/sector.bin",
-        "fnv64": "433E49CE8E622BE0"
-      }
-    },
-    {
-      "name": "capstone_mdec_block",
-      "binary": "{{env:LABS_CAPSTONE_BIN}}",
-      "args": [
-        "--rom",
-        "tests/hidden/ch51_ps1_capstone/roms/mdec_block.bin",
-        "--hash-frame",
-        "{{tmp}}/block.rgba",
-        "--headless"
+      "expect_file_exists": [
+        "{{tmp}}/dma.state"
       ],
-      "required_env": true,
-      "expect_exit": 0,
       "expect_file_hash": {
-        "file": "{{tmp}}/block.rgba",
-        "fnv64": "2A6E853480FC5307"
+        "file": "{{tmp}}/dma.state",
+        "fnv64": "84DDF8784CD175D9"
       }
     },
     {
       "name": "capstone_spu_stream",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
         "tests/hidden/ch51_ps1_capstone/roms/spu_stream.bin",
-        "--input-file",
-        "tests/hidden/ch51_ps1_capstone/scripts/spu.script",
-        "--frames",
-        "4000",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/out.pcm",
-        "--headless"
+        "{{tmp}}/out.pcm"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/out.pcm"
+      ],
       "expect_file_hash": {
         "file": "{{tmp}}/out.pcm",
-        "fnv64": "9B6DEB5B406B0B0B"
+        "fnv64": "7F550B4B284804DA"
       }
     },
     {
-      "name": "capstone_pad_transaction",
+      "name": "capstone_cd_read",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
-        "tests/hidden/ch51_ps1_capstone/roms/pad_txn.bin",
-        "--input-file",
-        "tests/hidden/ch51_ps1_capstone/scripts/pad.script",
+        "tests/hidden/ch51_ps1_capstone/roms/cd_read.bin",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/resp.bin",
-        "--headless"
+        "{{tmp}}/sector.bin"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/sector.bin"
+      ],
       "expect_file_hash": {
-        "file": "{{tmp}}/resp.bin",
-        "fnv64": "93D0B0D1063A168B"
+        "file": "{{tmp}}/sector.bin",
+        "fnv64": "B128739EA7F78B57"
       }
     },
     {
-      "name": "capstone_card_roundtrip",
+      "name": "capstone_memory_card",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
         "tests/hidden/ch51_ps1_capstone/roms/card_rt.bin",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/card.mcr",
-        "--headless"
+        "{{tmp}}/card.mcr"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/card.mcr"
+      ],
       "expect_file_hash": {
         "file": "{{tmp}}/card.mcr",
-        "fnv64": "9C5DFD03740F2B09"
+        "fnv64": "228D5BE7BAE36DBA"
       }
     },
     {
       "name": "capstone_boot_milestones",
       "binary": "{{env:LABS_CAPSTONE_BIN}}",
+      "required_env": true,
       "args": [
         "--rom",
         "tests/hidden/ch51_ps1_capstone/roms/boot_milestones.bin",
-        "--cycles",
-        "5000000",
+        "--headless",
         "--hash-frame",
-        "{{tmp}}/boot.log",
-        "--headless"
+        "{{tmp}}/boot.log"
       ],
-      "required_env": true,
       "expect_exit": 0,
+      "expect_file_exists": [
+        "{{tmp}}/boot.log"
+      ],
       "expect_file_hash": {
         "file": "{{tmp}}/boot.log",
-        "fnv64": "049D7920F5AC4562"
+        "fnv64": "FF00E32BC8FDD947"
       }
     }
   ]

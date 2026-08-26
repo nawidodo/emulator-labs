@@ -13,7 +13,9 @@ if(NOT DEFINED LABS_SOLUTIONS_ROOT)
   set(LABS_SOLUTIONS_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../solutions")
 endif()
 
-add_executable(ps1_gate_runner ps1_gate_runner.cpp)
+add_executable(ps1_gate_runner
+  ps1_gate_runner.cpp
+  "${LABS_SOLUTIONS_ROOT}/ch47_ps1_spu/01_adpcm/adpcm.cpp")
 target_include_directories(ps1_gate_runner PRIVATE
   "${LABS_SOLUTIONS_ROOT}"
 )

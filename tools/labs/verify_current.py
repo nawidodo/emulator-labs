@@ -10,7 +10,7 @@ Rules (governing principle: "missing evidence is not a passing result"):
   grader_self_tests: green|error with ran/failed from unittest
   external_courses : foundations-c17 audit + DERIVED verified count
   integration_reference: ch52/ch51 pending|green|error (derived once a
-                    canonical reference binary is made available)
+                     canonical reference binary is made available)
 
 Fail-closed gate (v008 #18/#19): exits nonzero iff any REQUIRED dimension
 (reference_ctest, unseen_grade, pipeline_grade when --pipeline,
@@ -124,47 +124,82 @@ def _ch51_status(repo: Path, build_dir: Path) -> str:
     # If still not all 10 present, stay pending (pre-pin state); once all 10 exist, require green/error
     if not has_new or not has_final4:
         # Not yet fully pinned — keep previous behavior (green on available cases)
-        pass
+        try:
+            for rom, script, golden, tag, is_trace, extra in cases:
+                want = golden.read_text().strip().upper()
+                out = Path(f"/tmp/ch51_verify_{tag}.bin")
+                if is_trace:
+                    out = Path(f"/tmp/ch51_verify_{tag}.trace")
+                    cmd = [str(runner), "--rom", str(rom), "--trace", str(out), "--headless"]
+                    if extra:
+                        cmd += extra
+                else:
+                    cmd = [str(runner), "--rom", str(rom), "--hash-frame", str(out), "--headless"]
+                    if extra:
+                        cmd += extra
+                if script is not None and script.is_file():
+                    cmd += ["--input-file", str(script)]
+                subprocess.run(cmd, check=True, capture_output=True, timeout=10)
+                got = fnv1a(out.read_bytes())
+                if got.upper() != want:
+                    return "error"
+                out2 = Path(f"/tmp/ch51_verify_{tag}2.bin")
+                if is_trace:
+                    out2 = Path(f"/tmp/ch51_verify_{tag}2.trace")
+                    cmd2 = [str(runner), "--rom", str(rom), "--trace", str(out2), "--headless"]
+                    if extra:
+                        cmd2 += extra
+                else:
+                    cmd2 = [str(runner), "--rom", str(rom), "--hash-frame", str(out2), "--headless"]
+                    if extra:
+                        cmd2 += extra
+                if script is not None and script.is_file():
+                    cmd2 += ["--input-file", str(script)]
+                subprocess.run(cmd2, check=True, capture_output=True, timeout=10)
+                if out.read_bytes() != out2.read_bytes():
+                    return "error"
+            return "green"
+        except Exception:
+            return "error"
     else:
         # All 10 goldens present: require all cases to pass for green
-        pass
-    try:
-        for rom, script, golden, tag, is_trace, extra in cases:
-            want = golden.read_text().strip().upper()
-            out = Path(f"/tmp/ch51_verify_{tag}.bin")
-            if is_trace:
-                out = Path(f"/tmp/ch51_verify_{tag}.trace")
-                cmd = [str(runner), "--rom", str(rom), "--trace", str(out), "--headless"]
-                if extra:
-                    cmd += extra
-            else:
-                cmd = [str(runner), "--rom", str(rom), "--hash-frame", str(out), "--headless"]
-                if extra:
-                    cmd += extra
-            if script is not None and script.is_file():
-                cmd += ["--input-file", str(script)]
-            subprocess.run(cmd, check=True, capture_output=True, timeout=10)
-            got = fnv1a(out.read_bytes())
-            if got.upper() != want:
-                return "error"
-            out2 = Path(f"/tmp/ch51_verify_{tag}2.bin")
-            if is_trace:
-                out2 = Path(f"/tmp/ch51_verify_{tag}2.trace")
-                cmd2 = [str(runner), "--rom", str(rom), "--trace", str(out2), "--headless"]
-                if extra:
-                    cmd2 += extra
-            else:
-                cmd2 = [str(runner), "--rom", str(rom), "--hash-frame", str(out2), "--headless"]
-                if extra:
-                    cmd2 += extra
-            if script is not None and script.is_file():
-                cmd2 += ["--input-file", str(script)]
-            subprocess.run(cmd2, check=True, capture_output=True, timeout=10)
-            if out.read_bytes() != out2.read_bytes():
-                return "error"
-        return "green"
-    except Exception:
-        return "error"
+        try:
+            for rom, script, golden, tag, is_trace, extra in cases:
+                want = golden.read_text().strip().upper()
+                out = Path(f"/tmp/ch51_verify_{tag}.bin")
+                if is_trace:
+                    out = Path(f"/tmp/ch51_verify_{tag}.trace")
+                    cmd = [str(runner), "--rom", str(rom), "--trace", str(out), "--headless"]
+                    if extra:
+                        cmd += extra
+                else:
+                    cmd = [str(runner), "--rom", str(rom), "--hash-frame", str(out), "--headless"]
+                    if extra:
+                        cmd += extra
+                if script is not None and script.is_file():
+                    cmd += ["--input-file", str(script)]
+                subprocess.run(cmd, check=True, capture_output=True, timeout=10)
+                got = fnv1a(out.read_bytes())
+                if got.upper() != want:
+                    return "error"
+                out2 = Path(f"/tmp/ch51_verify_{tag}2.bin")
+                if is_trace:
+                    out2 = Path(f"/tmp/ch51_verify_{tag}2.trace")
+                    cmd2 = [str(runner), "--rom", str(rom), "--trace", str(out2), "--headless"]
+                    if extra:
+                        cmd2 += extra
+                else:
+                    cmd2 = [str(runner), "--rom", str(rom), "--hash-frame", str(out2), "--headless"]
+                    if extra:
+                        cmd2 += extra
+                if script is not None and script.is_file():
+                    cmd2 += ["--input-file", str(script)]
+                subprocess.run(cmd2, check=True, capture_output=True, timeout=10)
+                if out.read_bytes() != out2.read_bytes():
+                    return "error"
+            return "green"
+        except Exception:
+            return "error"
 
 
 

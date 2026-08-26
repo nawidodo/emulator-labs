@@ -7,7 +7,7 @@
 
 TEST(conf, runs_records_and_emits_lines) {
     // Write a tiny conformance file to a fixed temp path under /tmp.
-    const char* path = "/tmp/labs_ch44_conf_case.txt";
+    const char* path = "labs_ch44_conf_case.txt";
     {
         FILE* f = fopen(path, "w");
         EXPECT_TRUE(f != nullptr);

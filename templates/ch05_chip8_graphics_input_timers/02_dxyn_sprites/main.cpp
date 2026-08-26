@@ -39,7 +39,7 @@ TEST(dxyn, full_row_sprite) {
 TEST(dxyn, zero_bits_in_row_draw_nothing) {
     chip8::Display d;
     chip8::Chip8Quirks q;
-    const std::array<uint8_t, 1> sprite{0x00};
+    const std::array<uint8_t, 3> sprite{0x00, 0x00, 0x00};
     EXPECT_FALSE(chip8::draw_sprite(d, sprite.data(), 3, 0, 0, q));
     EXPECT_EQ(lit_count(d), 0);
 }

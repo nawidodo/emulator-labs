@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <algorithm>
 #include <cstddef>
 
 #include <cstdio>
@@ -65,7 +66,9 @@ TEST(challenge, bank_cross_program_meets_contract) {
     // Full golden trace comparison.
     const std::string want = [&] {
         const auto b = read_bytes(base + "/golden/challenge.trace");
-        return std::string(b.begin(), b.end());
+        std::string s(b.begin(), b.end());
+        s.erase(std::remove(s.begin(), s.end(), '\r'), s.end());
+        return s;
     }();
     EXPECT_EQ(trace, want);
 }

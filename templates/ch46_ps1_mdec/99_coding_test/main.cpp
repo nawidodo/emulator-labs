@@ -77,7 +77,7 @@ TEST(ct, hash_of_flat_stream_matches_reference) {
         push16(mdec::kEndOfBlock);
     }
     if (bytes.size() % 4) bytes.push_back(0);
-    const std::string path = "/tmp/labs_ch46_ct.bin";
+    const std::string path = "labs_ch46_ct.bin";
     FILE* f = fopen(path.c_str(), "wb");
     EXPECT_TRUE(f != nullptr);
     if (!f) return;

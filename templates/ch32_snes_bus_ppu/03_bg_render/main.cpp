@@ -9,12 +9,6 @@ using namespace snesbus;
 
 namespace {
 
-static int init_log() {
-    std::printf("Starting render tests\n");
-    std::fflush(stdout);
-    return 0;
-}
-static int dummy = init_log();
 // Write one byte into the word-addressed VRAM image.
 void vb(Vram& v, size_t byte_addr, uint8_t value) {
     uint16_t& w = v.w[(byte_addr >> 1) & 0x7FFFu];
@@ -58,9 +52,7 @@ void fill_tile_4bpp(Vram& v, size_t byte_base, uint8_t color) {
     }
 }
 
-uint32_t pixel_rgba(
-    const std::array<uint8_t, kScreenWidth * kScreenHeight * 4>& f, int x,
-    int y) {
+uint32_t pixel_rgba(std::span<const uint8_t> f, int x, int y) {
     const size_t o = (static_cast<size_t>(y) * kScreenWidth + x) * 4u;
     return f[o] | (f[o + 1] << 8) | (f[o + 2] << 16) | (f[o + 3] << 24);
 }

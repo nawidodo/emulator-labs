@@ -28,8 +28,7 @@ void build_map(Vram& v, uint16_t map_base) {
     }
 }
 
-uint32_t pixel_rgba(const std::array<uint8_t, kScreenWidth * kScreenHeight * 4>& f,
-                    int x, int y) {
+uint32_t pixel_rgba(std::span<const uint8_t> f, int x, int y) {
     const size_t o = (static_cast<size_t>(y) * kScreenWidth + x) * 4u;
     return f[o] | (f[o + 1] << 8) | (f[o + 2] << 16) | (f[o + 3] << 24);
 }
@@ -143,7 +142,7 @@ TEST(mode7frame, identity_passthrough_matches_map) {
     build_map(s.vram, 0x1800);
     Mode7Params p;
     p.wrap = true;
-    std::array<uint8_t, kFbBytes> fb{};
+    std::vector<uint8_t> fb(kFbBytes);
     render_mode7_frame(p, s.vram, s.cgram, 0x1800, fb);
     // With wrap the whole screen is inside the map: pixel (x,y) shows
     // cgram.e[tile(x>>3, y>>3)] regardless of sub-tile position.
@@ -171,7 +170,7 @@ TEST(mode7frame, out_of_range_backdrop_vs_wrap) {
 
     // Unwrapped: (200,111) -> map px 1600, out of range -> backdrop red.
     q.wrap = false;
-    std::array<uint8_t, kFbBytes> fb{};
+    std::vector<uint8_t> fb(kFbBytes);
     render_mode7_frame(q, s.vram, s.cgram, 0, fb);
     EXPECT_EQ(pixel_rgba(fb, 200, 111), bgr555_to_rgba8(0x001F));
     // (40,40) -> map px 320, still on the map -> some non-backdrop color.
@@ -180,7 +179,7 @@ TEST(mode7frame, out_of_range_backdrop_vs_wrap) {
     // Wrapped: the same coordinates fold back into real tiles, so the
     // backdrop disappears entirely from the frame.
     q.wrap = true;
-    std::array<uint8_t, kFbBytes> fbw{};
+    std::vector<uint8_t> fbw(kFbBytes);
     render_mode7_frame(q, s.vram, s.cgram, 0, fbw);
     EXPECT_NE(pixel_rgba(fbw, 200, 111), bgr555_to_rgba8(0x001F));
     bool differs = false;
@@ -199,7 +198,7 @@ TEST(mode7frame, color_zero_is_backdrop) {
     }
     s.cgram.e[0] = 0x7C00u;  // blue backdrop
     Mode7Params p;
-    std::array<uint8_t, kFbBytes> fb{};
+    std::vector<uint8_t> fb(kFbBytes);
     render_mode7_frame(p, s.vram, s.cgram, 0x1800, fb);
     EXPECT_EQ(pixel_rgba(fb, 0, 0), bgr555_to_rgba8(0x7C00));
     EXPECT_EQ(pixel_rgba(fb, 255, 223), bgr555_to_rgba8(0x7C00));

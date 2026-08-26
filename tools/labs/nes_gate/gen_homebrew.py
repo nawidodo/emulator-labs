@@ -114,6 +114,103 @@ ATTRIBUTES = bytes(
 # The init program runs directly from PRG at $8000 (the reset vector
 # jumps there). Data tables follow at fixed PRG offsets: palette at
 # $8180, nametable at $8280, attributes at $8380.
+# The input-probe program uses identical palette/nametable/attribute tables
+# but adds per-frame controller polling. After the same init it enters a loop
+# that strobes $4016, shifts 8 bits into RAM $0201, derives A-pressed
+# flag at $0200, updates RAM $0020 and palette entry $3F01 on A press,
+# then polls $2002 for vblank before repeating. PPUCTRL stays 0 (no NMI).
+def build_input_probe_program() -> bytes:
+    prog = bytearray()
+    # Palette: $2006 -> $3F00, 32 bytes from $8180.
+    prog += bytes([0xA9, 0x3F, 0x8D, 0x06, 0x20])
+    prog += bytes([0xA2, 0x00])
+    prog += bytes([0xBD, 0x80, 0x81, 0x8D, 0x07, 0x20,
+                   0xE8, 0xE0, 0x20, 0xD0, 0xF5])
+    # Nametable: $2006 -> $2000, 256 bytes from $8280.
+    prog += bytes([0xA9, 0x20, 0x8D, 0x06, 0x20])
+    prog += bytes([0xA9, 0x00, 0x8D, 0x06, 0x20])
+    prog += bytes([0xA2, 0x00])
+    prog += bytes([0xBD, 0x80, 0x82, 0x8D, 0x07, 0x20,
+                   0xE8, 0xD0, 0xF7])
+    # Attributes: $2006 -> $23C0, 64 bytes from $8380.
+    prog += bytes([0xA9, 0x23, 0x8D, 0x06, 0x20])
+    prog += bytes([0xA2, 0x00])
+    prog += bytes([0xBD, 0x80, 0x83, 0x8D, 0x07, 0x20,
+                   0xE8, 0xE0, 0x40, 0xD0, 0xF5])
+    # Scroll 0,0; PPUMASK bg on, PPUCTRL 0.
+    prog += bytes([0xA9, 0x00, 0x8D, 0x05, 0x20])
+    prog += bytes([0xA9, 0x00, 0x8D, 0x05, 0x20])
+    prog += bytes([0xA9, 0x08, 0x8D, 0x01, 0x20])
+    prog += bytes([0xA9, 0x00, 0x8D, 0x00, 0x20])
+    # APU same as gate (keep audio identical when input idle).
+    prog += bytes([0xA9, 0x3F, 0x8D, 0x17, 0x40])
+    prog += bytes([0xA9, 0x41, 0x8D, 0x00, 0x40])
+    prog += bytes([0xA9, 0x08, 0x8D, 0x02, 0x40])
+    prog += bytes([0xA9, 0x00, 0x8D, 0x03, 0x40])
+    prog += bytes([0xA9, 0x01, 0x8D, 0x15, 0x40])
+    # --- main input-poll loop ---
+    loop_start = len(prog)
+    # strobe $4016: LDA #1; STA $4016; LDA #0; STA $4016
+    prog += bytes([0xA9, 0x01, 0x8D, 0x16, 0x40,
+                   0xA9, 0x00, 0x8D, 0x16, 0x40])
+    # clear shift temp $0201
+    prog += bytes([0xA9, 0x00, 0x8D, 0x01, 0x02])
+    # 8x: LDA $4016; LSR; ROL $0201
+    for _ in range(8):
+        prog += bytes([0xAD, 0x16, 0x40, 0x4A, 0x2E, 0x01, 0x02])
+    # derive A-pressed flag at $0200: LDA $0201; AND #$80 (bit7 after ROL reversal); STA $0200
+    prog += bytes([0xAD, 0x01, 0x02, 0x29, 0x80, 0x8D, 0x00, 0x02])
+    # also mirror the latched byte logic simpler for flag: if A then ...
+    # branch on flag: LDA $0200; BEQ no_press
+    prog += bytes([0xAD, 0x00, 0x02])
+    beq_pos = len(prog)  # opcode position
+    prog += bytes([0xF0, 0x00])  # placeholder
+    # pressed path: RAM $0020 = $A5; palette $3F01 = $30
+    pressed_start = len(prog)
+    prog += bytes([0xA9, 0xA5, 0x85, 0x20])  # LDA #$A5; STA $20 (zero-page $0020)
+    prog += bytes([0xA9, 0x3F, 0x8D, 0x06, 0x20,
+                   0xA9, 0x01, 0x8D, 0x06, 0x20,
+                   0xA9, 0x30, 0x8D, 0x07, 0x20])
+    jmp_after_pressed = len(prog)
+    prog += bytes([0x4C, 0x00, 0x00])  # JMP after (placeholder)
+    # no_press: keep palette as-is (already $16, or $30 if previously pressed)
+    no_press = len(prog)
+    # patch BEQ to no_press (relative = target - (beq_pos+2))
+    prog[beq_pos + 1] = (no_press - (beq_pos + 2)) & 0xFF
+    after = len(prog)
+    # patch JMP after pressed -> after
+    jmp_target = 0x8000 + after
+    prog[jmp_after_pressed + 1] = jmp_target & 0xFF
+    prog[jmp_after_pressed + 2] = (jmp_target >> 8) & 0xFF
+    # vblank poll: LDA $2002; BPL wait
+    vblank_wait = len(prog)
+    prog += bytes([0xAD, 0x02, 0x20])
+    bpl_pos = len(prog)
+    prog += bytes([0x10, 0x00])  # BPL placeholder
+    prog[bpl_pos + 1] = (vblank_wait - (bpl_pos + 2)) & 0xFF
+    # JMP loop_start
+    loop_target = 0x8000 + loop_start
+    prog += bytes([0x4C, loop_target & 0xFF, (loop_target >> 8) & 0xFF])
+    # padding to keep structure similar
+    prog += bytes([0xEA] * 2)
+    return bytes(prog)
+
+
+def build_input_probe_rom() -> bytes:
+    prog = build_input_probe_program()
+    prg = bytearray(16384)
+    prg[0x0000:len(prog)] = prog
+    prg[0x180:0x180 + 32] = PALETTE
+    prg[0x280:0x280 + 256] = NAMETABLE
+    prg[0x380:0x380 + 64] = ATTRIBUTES
+    prg[0x3FFC:0x3FFE] = struct.pack("<H", 0x8000)
+    prg[0x3FFA:0x3FFB] = bytes([0x02])
+    tile = bytes([0x3C, 0x7E, 0xFF, 0xFF, 0xFF, 0xFF, 0x7E, 0x3C])
+    chr_data = tile * 1024
+    header = NES_MAGIC + bytes([1, 1, 0x01, 0x00]) + bytes(8)
+    return header + bytes(prg) + chr_data
+
+
 def build_program() -> bytes:
     prog = bytearray()
 
@@ -176,12 +273,45 @@ def build_rom() -> bytes:
 
 
 def main() -> int:
-    if len(sys.argv) != 2:
-        print("usage: gen_homebrew.py OUT.nes", file=sys.stderr)
+    # CLI: gen_homebrew.py OUT.nes  -> gate_homebrew
+    #      gen_homebrew.py --variant input_probe OUT.nes
+    #      gen_homebrew.py OUT.nes --variant input_probe
+    #      gen_homebrew.py --variant input_probe  (legacy) -> build both if no OUT)
+    args = sys.argv[1:]
+    variant = "gate"
+    out_arg = None
+    # parse --variant
+    i = 0
+    filtered = []
+    while i < len(args):
+        if args[i] == "--variant" and i + 1 < len(args):
+            variant = args[i + 1]
+            i += 2
+        elif args[i] in ("input_probe", "input-probe"):
+            variant = "input_probe"
+            i += 1
+        else:
+            filtered.append(args[i])
+            i += 1
+    # also detect variant as bare second arg
+    if len(filtered) == 2 and filtered[1] == "input_probe":
+        variant = "input_probe"
+        filtered = [filtered[0]]
+    if len(filtered) == 1:
+        out_arg = filtered[0]
+    elif len(filtered) == 0 and variant == "input_probe":
+        # allow `gen_homebrew.py --variant input_probe` with default implied path? require OUT
+        print("usage: gen_homebrew.py [--variant input_probe] OUT.nes", file=sys.stderr)
         return 2
-    out = Path(sys.argv[1])
-    out.write_bytes(build_rom())
-    print(f"wrote {out} ({out.stat().st_size} bytes)")
+    elif len(filtered) != 1:
+        print("usage: gen_homebrew.py [--variant input_probe] OUT.nes", file=sys.stderr)
+        return 2
+    out = Path(out_arg)
+    if variant == "input_probe":
+        out.write_bytes(build_input_probe_rom())
+    else:
+        out.write_bytes(build_rom())
+    print(f"wrote {out} ({out.stat().st_size} bytes) variant={variant}")
     return 0
 
 

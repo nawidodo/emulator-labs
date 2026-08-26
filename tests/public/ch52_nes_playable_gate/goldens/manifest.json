@@ -1,0 +1,20 @@
+{
+  "artifact": "gate_reference.emu_gate",
+  "generated_by": {
+    "implementation": "course-reference",
+    "commit": "5d0e27a"
+  },
+  "determinism": {
+    "runs": 2,
+    "identical": true
+  },
+  "validated_against": [
+    { "oracle": "ch19_6502_trace", "component": "CPU", "result": "pass", "note": "nestest-style traces ch19_03_trace_log" },
+    { "oracle": "manual_proof", "component": "NROM", "result": "pass", "note": "hand-proved address mapping mirror_translate PRG/CHR split" },
+    { "oracle": "NESdev", "component": "PPU", "result": "pass", "note": "$2006/$2007/$2005 semantics" },
+    { "oracle": "independent_generator", "component": "frame", "result": "pass", "note": "20-line python nametable/palette/CHR -> RGBA hash" },
+    { "oracle": "manual_proof", "component": "audio", "result": "pass", "note": "pulse-channel vector period/duty/length" },
+    { "oracle": "ch24_tests", "component": "DMA/timing", "result": "pass", "note": "frame counter and OAM DMA 513/514 cycles, kPpuDotsPerCpu=3" }
+  ],
+  "format": "EMU_GATE_V1"
+}

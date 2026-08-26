@@ -1012,16 +1012,16 @@
   "schema_version": 3,
   "tracks_meta": {
     "foundations-c17": {
-      "kind": "external-course-blueprint-seed",
+      "kind": "external-course-in-progress",
       "manifest": "tracks/foundations-c17/manifest.json",
-      "seed_lab": "tracks/foundations-c17/templates/c17_002_integer_model"
+      "verified_through": "c17_003"
     }
   },
   "external_courses": {
     "foundations-c17": {
       "manifest": "tracks/foundations-c17/manifest.json",
       "templates": "tracks/foundations-c17/templates",
-      "implementation": "seed",
+      "implementation": "partial",
       "usage": "TRACK=foundations-c17 make list | LABS=<chapter> make skels"
     }
   }

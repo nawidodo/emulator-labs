@@ -35,6 +35,31 @@ from pathlib import Path
 
 def _run(cmd: list[str], cwd: Path) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+def _ch52_status(repo: Path, build_dir: Path) -> str:
+    runner = build_dir / "tools/labs/nes_gate/nes_gate_runner"
+    golden = repo / "tests/public/ch52_nes_playable_gate/goldens/gate_reference.emu_gate"
+    rom = repo / "tests/public/ch52_nes_playable_gate/roms/gate_homebrew.nes"
+    if not runner.is_file() or not golden.is_file() or not rom.is_file():
+        return "pending"
+    try:
+        cur = Path("/tmp/cur_gate_verify.emu_gate")
+        subprocess.run(
+            [str(runner), "--rom", str(rom), "--frames", "180",
+             "--gate", str(cur)], check=True, capture_output=True,
+            timeout=30)
+        want = golden.read_text().strip().splitlines()
+        got = cur.read_text().strip().splitlines()
+        # Compare the pinned hashes (ROM/FRAME/AUDIO/PPU/RAM) — ignore REPLAY_FNV.
+        def kv(lines):
+            return {k: v for k, v in (l.split("=", 1) for l in lines if "=" in l)}
+        a, b = kv(want), kv(got)
+        for k in ("ROM_FNV", "FRAME_FNV", "AUDIO_FNV", "PPU_FNV", "RAM_FNV"):
+            if a.get(k) != b.get(k):
+                return "error"
+        return "green"
+    except Exception:
+        return "error"
+
 
 
 def _verdict(required: dict[str, str],
@@ -171,30 +196,6 @@ def main() -> int:
     if args.pipeline:
         required["pipeline_grade"] = pipeline["status"]
 
-    def _ch52_status(repo: Path, build_dir: Path) -> str:
-        runner = build_dir / "tools/labs/nes_gate/nes_gate_runner"
-        golden = repo / "tests/public/ch52_nes_playable_gate/goldens/gate_reference.emu_gate"
-        rom = repo / "tests/public/ch52_nes_playable_gate/roms/gate_homebrew.nes"
-        if not runner.is_file() or not golden.is_file() or not rom.is_file():
-            return "pending"
-        try:
-            cur = Path("/tmp/cur_gate_verify.emu_gate")
-            subprocess.run(
-                [str(runner), "--rom", str(rom), "--frames", "180",
-                 "--gate", str(cur)], check=True, capture_output=True,
-                 timeout=30)
-            want = golden.read_text().strip().splitlines()
-            got = cur.read_text().strip().splitlines()
-            # Compare the pinned hashes (ROM/FRAME/AUDIO/PPU/RAM) — ignore REPLAY_FNV.
-            def kv(lines):
-                return {k: v for k, v in (l.split("=", 1) for l in lines if "=" in l)}
-            a, b = kv(want), kv(got)
-            for k in ("ROM_FNV", "FRAME_FNV", "AUDIO_FNV", "PPU_FNV", "RAM_FNV"):
-                if a.get(k) != b.get(k):
-                    return "error"
-            return "green"
-        except Exception:
-            return "error"
     integration = {
         "ch52": _ch52_status(repo, ct),
         "ch51": "pending",

@@ -30,10 +30,7 @@ Playable NES gate → engineering (scheduler/save-states/debugger) → PS1.
 Game Boy / GBA / SNES are optional depth branches and never block PS1.
 Advanced NES mappers and dynarec are optional side-quests.
 
-**Strict-C17 route (blueprint + seed):** `tracks/foundations-c17/` —
-a separate executable track (CHIP-8 → 6502 → NES) with its own manifest;
-today it carries the integer-model seed lab and the full curriculum
-document as `docs/CURRICULUM-foundations-c17.md`.
+**Strict-C17 route (in-progress executable track): c17_002 integer model, c17_003 pointers/arrays/structs/ownership, with the remaining curriculum planned.**
 
 Pick one answer to "what do I do first?":
 

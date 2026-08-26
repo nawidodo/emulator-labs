@@ -47,6 +47,23 @@
       ],
       "expect_exit": 0,
       "required_env": true
+    },
+    {
+      "name": "gate_controller_script",
+      "binary": "{{env:LABS_NES_GATE_BIN}}",
+      "args": [
+        "--rom",
+        "tests/public/ch52_nes_playable_gate/roms/input_probe.nes",
+        "--input-file",
+        "tests/public/ch52_nes_playable_gate/scripts/press_a.input",
+        "--frames",
+        "120",
+        "--gate",
+        "{{tmp}}/controller.emu_gate"
+      ],
+      "expect_exit": 0,
+      "required_env": true,
+      "expect_file_hash": { "file": "{{tmp}}/controller.emu_gate", "fnv64": "A578E7C046D22623" }
     }
   ]
 }

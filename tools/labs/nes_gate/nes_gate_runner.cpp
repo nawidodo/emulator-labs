@@ -64,6 +64,43 @@ std::string fnv_hex(uint64_t h) {
     return buf;
 }
 
+// Parse input-file lines "NNN XX" (hex byte per frame). Returns empty on failure.
+static std::vector<uint8_t> load_input_script(const std::string& path, std::string& err) {
+    std::vector<uint8_t> out;
+    if (path.empty()) return out;
+    FILE* f = std::fopen(path.c_str(), "r");
+    if (!f) { err = "cannot open input-file " + path; return out; }
+    char line[256];
+    while (std::fgets(line, sizeof line, f)) {
+        // trim leading ws
+        char* p = line;
+        while (*p==' '||*p=='\t'||*p=='\r'||*p=='\n') ++p;
+        if (*p=='\0' || *p=='#') continue;
+        // find last token (hex)
+        char* end = p + std::strlen(p);
+        while (end>p && (end[-1]=='\n'||end[-1]=='\r'||end[-1]==' '||end[-1]=='\t')) --end;
+        *end='\0';
+        char* last_sp = std::strrchr(p, ' ');
+        char* hex = last_sp ? last_sp+1 : p;
+        while (*hex==' '||*hex=='\t') ++hex;
+        if (*hex=='\0') continue;
+        // skip frame number token case: if we had "000 00", last_sp points to " 00"
+        // but if line is "060 01", hex="01"
+        char* e = nullptr;
+        long v = std::strtol(hex, &e, 16);
+        if (e==hex || v<0 || v>255) {
+            // try decimal fallback
+            v = std::strtol(hex, &e, 10);
+            if (e==hex) continue;
+        }
+        out.push_back(uint8_t(v & 0xFF));
+    }
+    std::fclose(f);
+    return out;
+}
+
+
+
 // ---------------------------------------------------------------------------
 // PPU machine: scanline/dot counters, vblank flag, loopy latch registers.
 // Rendering is delegated to nes22prio::render_frame once per completed
@@ -117,6 +154,23 @@ struct GateBus final : nes6502::Bus {
     uint8_t dma_page = 0;
     int dma_elapsed = 0, dma_dummy = 0;
 
+    // Controller input (ch52 input-reactive fixture).
+    std::vector<uint8_t> input_script;
+    uint8_t pad_buttons = 0;
+    uint8_t pad_latch = 0;
+    bool pad_strobe = false;
+
+    void set_input_script(const std::vector<uint8_t>& s) {
+        input_script = s;
+        pad_buttons = input_script.empty() ? 0 : input_script[0];
+        pad_latch = pad_buttons;
+    }
+    void on_frame_boundary() {
+        if (!input_script.empty()) {
+            pad_buttons = input_script[ppu.frames % input_script.size()];
+        }
+    }
+
     uint8_t read(uint16_t addr) override {
         if (addr < 0x2000) {
             return ram[addr & 0x7FF];
@@ -140,7 +194,17 @@ struct GateBus final : nes6502::Bus {
                            (apu.dmc.enabled ? 16 : 0));
         }
         if (addr == 0x4016 || addr == 0x4017) {
-            return 0;  // no input device (deterministic run)
+            uint8_t v;
+            if (pad_strobe) {
+                v = uint8_t((pad_buttons & 1) | 0x40);
+            } else {
+                v = uint8_t((pad_latch & 1) | 0x40);
+                pad_latch >>= 1;
+                pad_latch |= 0x80;  // after 8 reads it stays 1 (open bus)
+            }
+            if (addr == 0x4017) v = uint8_t(0x40); // second controller always 0 + open bus
+            // For $4016 with pad_strobe, keep latch refreshed; for $4017 always 0
+            return (addr == 0x4016) ? v : uint8_t(0x40);
         }
         if (addr >= 0x8000 && cart) {
             return cart->cpu_read(addr);
@@ -176,8 +240,14 @@ struct GateBus final : nes6502::Bus {
         } else if (addr == 0x4014) {
             dma_page = v;
             dma_pending = true;
-        } else if (addr == 0x4015 || addr == 0x4017 ||
-                   (addr >= 0x4000 && addr <= 0x4013)) {
+        } else if (addr == 0x4016) {
+            bool new_strobe = (v & 1) != 0;
+            if (new_strobe) pad_latch = pad_buttons;
+            pad_strobe = new_strobe;
+        } else if (addr == 0x4017) {
+            // second controller strobe ignored (always 0) — also APU frame counter
+            apu.write_reg(addr, v);
+        } else if (addr == 0x4015 || (addr >= 0x4000 && addr <= 0x4013)) {
             apu.write_reg(addr, v);
         } else if (addr >= 0x8000 && cart) {
             cart->cpu_write(addr, v);  // NROM: dropped
@@ -204,7 +274,9 @@ struct GateBus final : nes6502::Bus {
             if (dma_elapsed >= dma_dummy + 512) dma_active = false;
         }
         const int q0 = apu.frame.quarters, h0 = apu.frame.halves;
+        const uint64_t frames_before = ppu.frames;
         for (int i = 0; i < kPpuDotsPerCpu; ++i) ppu.tick();
+        if (ppu.frames != frames_before) on_frame_boundary();
         apu.tick_devices();
         audio.push_back(int16_t(apu.mix() * 512));
         if (apu.frame.quarters != q0) apu.quarter();
@@ -402,6 +474,19 @@ int run_cli(int argc, char** argv) {
         }
         std::fclose(f);
     }
+    // Load input script if given (each line "NNN XX" hex, one byte per frame).
+    std::vector<uint8_t> input_script;
+    std::string input_err;
+    if (!input_path.empty()) {
+        input_script = load_input_script(input_path, input_err);
+        if (!input_err.empty()) {
+            std::fprintf(stderr, "error: %s\n", input_err.c_str());
+            return 1;
+        }
+        if (input_script.empty()) {
+            std::fprintf(stderr, "warn: input-file '%s' produced 0 entries (treated as all-zero)\n", input_path.c_str());
+        }
+    }
 
     auto write_file = [](const char* path, const void* data, size_t n) -> bool {
         FILE* f = std::fopen(path, "wb");
@@ -414,6 +499,7 @@ int run_cli(int argc, char** argv) {
     if (selfcheck) {
         RunResult r1, r2;
         GateBus b1, b2;
+        if (!input_script.empty()) { b1.set_input_script(input_script); b2.set_input_script(input_script); }
         std::string err;
         if (!run_rom(rom, frames, b1, r1, err) ||
             !run_rom(rom, frames, b2, r2, err)) {
@@ -449,6 +535,7 @@ int run_cli(int argc, char** argv) {
 
     RunResult r;
     GateBus bus;
+    if (!input_script.empty()) bus.set_input_script(input_script);
     std::string err;
     if (!run_rom(rom, frames, bus, r, err)) {
         std::fprintf(stderr, "error: %s\n", err.c_str());

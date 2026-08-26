@@ -106,6 +106,97 @@ class CtestParser(unittest.TestCase):
     def test_unparseable_output_is_error_not_green(self):
         st = verify_current._ctest_state(0, "some other tool output\n")
         self.assertEqual(st["status"], "error")
+class Ch52Status(unittest.TestCase):
+    """Extraction testability: _ch52_status runner/golden/rom handling."""
+
+    def _make_layout(self, tmp, *, have_runner=True, have_golden=True, have_rom=True):
+        import tempfile
+        repo = Path(tmp) / "repo"
+        build = Path(tmp) / "build"
+        # ensure dirs
+        if have_golden or have_rom:
+            (repo / "tests/public/ch52_nes_playable_gate/goldens").mkdir(parents=True, exist_ok=True)
+            (repo / "tests/public/ch52_nes_playable_gate/roms").mkdir(parents=True, exist_ok=True)
+        if have_runner:
+            (build / "tools/labs/nes_gate").mkdir(parents=True, exist_ok=True)
+            (build / "tools/labs/nes_gate/nes_gate_runner").write_text("#!/bin/sh\nexit 0\n")
+            (build / "tools/labs/nes_gate/nes_gate_runner").chmod(0o755)
+        else:
+            build.mkdir(parents=True, exist_ok=True)
+        golden = repo / "tests/public/ch52_nes_playable_gate/goldens/gate_reference.emu_gate"
+        rom = repo / "tests/public/ch52_nes_playable_gate/roms/gate_homebrew.nes"
+        if have_golden:
+            golden.write_text(
+                "EMU_GATE_V1\nROM_FNV=AAA\nFRAME_FNV=BBB\nAUDIO_FNV=CCC\nPPU_FNV=DDD\nRAM_FNV=EEE\nREPLAY_FNV=\n"
+            )
+        if have_rom:
+            rom.write_text("fake-rom")
+        return repo, build
+
+    def test_ch52_status_runner_missing_is_pending(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, build = self._make_layout(tmp, have_runner=False, have_golden=True, have_rom=True)
+            self.assertEqual(verify_current._ch52_status(repo, build), "pending")
+
+    def test_ch52_status_golden_missing_is_pending(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, build = self._make_layout(tmp, have_runner=True, have_golden=False, have_rom=True)
+            # ensure runner file exists
+            self.assertTrue((build / "tools/labs/nes_gate/nes_gate_runner").is_file())
+            self.assertEqual(verify_current._ch52_status(repo, build), "pending")
+
+    def test_ch52_status_hash_mismatch_is_error(self):
+        import subprocess
+        import tempfile
+        from unittest.mock import patch
+
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, build = self._make_layout(tmp, have_runner=True, have_golden=True, have_rom=True)
+
+            def fake_run(*args, **kwargs):
+                cur = Path("/tmp/cur_gate_verify.emu_gate")
+                cur.write_text(
+                    "EMU_GATE_V1\nROM_FNV=AAA\nFRAME_FNV=DIFFERENT\nAUDIO_FNV=CCC\nPPU_FNV=DDD\nRAM_FNV=EEE\nREPLAY_FNV=\n"
+                )
+                return subprocess.CompletedProcess(args=args[0], returncode=0)
+
+            with patch("verify_current.subprocess.run", side_effect=fake_run):
+                self.assertEqual(verify_current._ch52_status(repo, build), "error")
+
+    def test_ch52_status_matching_checkpoint_is_green(self):
+        import subprocess
+        import tempfile
+        from unittest.mock import patch
+
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, build = self._make_layout(tmp, have_runner=True, have_golden=True, have_rom=True)
+
+            def fake_run(*args, **kwargs):
+                cur = Path("/tmp/cur_gate_verify.emu_gate")
+                # copy golden exactly -> green
+                want = (repo / "tests/public/ch52_nes_playable_gate/goldens/gate_reference.emu_gate").read_text()
+                cur.write_text(want)
+                return subprocess.CompletedProcess(args=args[0], returncode=0)
+
+            with patch("verify_current.subprocess.run", side_effect=fake_run):
+                self.assertEqual(verify_current._ch52_status(repo, build), "green")
+
+    def test_ch52_status_runner_crash_is_error(self):
+        import subprocess
+        import tempfile
+        from unittest.mock import patch
+
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, build = self._make_layout(tmp, have_runner=True, have_golden=True, have_rom=True)
+
+            def fake_run(*args, **kwargs):
+                raise subprocess.CalledProcessError(returncode=1, cmd=args[0])
+
+            with patch("verify_current.subprocess.run", side_effect=fake_run):
+                self.assertEqual(verify_current._ch52_status(repo, build), "error")
+
 
 
 

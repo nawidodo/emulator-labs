@@ -60,6 +60,56 @@ def _ch52_status(repo: Path, build_dir: Path) -> str:
     except Exception:
         return "error"
 
+def _ch51_status(repo: Path, build_dir: Path) -> str:
+    runner = build_dir / "tools/labs/ps1_gate/ps1_gate_runner"
+    goldens_dir = repo / "tests/public/ch51_ps1_capstone/goldens"
+    # Goldens for the 3 green cases (pad/GTE/MDEC). Check existence.
+    pad_golden = goldens_dir / "pad_resp.fnv"
+    gte_golden = goldens_dir / "gte_vector.fnv"
+    mdec_golden = goldens_dir / "mdec_block.fnv"
+    pad_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/pad_txn.bin"
+    gte_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/gte_vector.bin"
+    mdec_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/mdec_block.bin"
+    pad_script = repo / "tests/hidden/ch51_ps1_capstone/scripts/pad.script"
+    if not runner.is_file() or not pad_golden.is_file() or not gte_golden.is_file() or not mdec_golden.is_file():
+        return "pending"
+    if not pad_rom.is_file() or not gte_rom.is_file() or not mdec_rom.is_file():
+        return "pending"
+    # FNV helper matching hash_frame.py (and runner).
+    def fnv1a(data: bytes) -> str:
+        h = 0xCBF29CE484222325
+        for b in data:
+            h ^= b
+            h = (h * 0x100000001B3) & 0xFFFFFFFFFFFFFFFF
+        return f"{h:016X}"
+    cases = [
+        (pad_rom, pad_script, pad_golden, "pad"),
+        (gte_rom, None, gte_golden, "gte"),
+        (mdec_rom, None, mdec_golden, "mdec"),
+    ]
+    try:
+        for rom, script, golden, tag in cases:
+            want = golden.read_text().strip().upper()
+            out = Path(f"/tmp/ch51_verify_{tag}.bin")
+            cmd = [str(runner), "--rom", str(rom), "--hash-frame", str(out), "--headless"]
+            if script is not None and script.is_file():
+                cmd += ["--input-file", str(script)]
+            subprocess.run(cmd, check=True, capture_output=True, timeout=10)
+            got = fnv1a(out.read_bytes())
+            if got.upper() != want:
+                return "error"
+            # Determinism: run twice, require byte-identical.
+            out2 = Path(f"/tmp/ch51_verify_{tag}2.bin")
+            cmd2 = [str(runner), "--rom", str(rom), "--hash-frame", str(out2), "--headless"]
+            if script is not None and script.is_file():
+                cmd2 += ["--input-file", str(script)]
+            subprocess.run(cmd2, check=True, capture_output=True, timeout=10)
+            if out.read_bytes() != out2.read_bytes():
+                return "error"
+        return "green"
+    except Exception:
+        return "error"
+
 
 
 def _verdict(required: dict[str, str],
@@ -198,7 +248,7 @@ def main() -> int:
 
     integration = {
         "ch52": _ch52_status(repo, ct),
-        "ch51": "pending",
+        "ch51": _ch51_status(repo, ct),
     }
     overall, gate_ok = _verdict(required, integration)
 

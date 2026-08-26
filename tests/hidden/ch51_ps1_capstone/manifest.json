@@ -1,5 +1,5 @@
 {
-  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN Hash pinning: pending canonical reference.",
+  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN. PS1 gate partially pinned: pad/GTE/MDEC green (expect_file_hash), others pending (expect_file_exists/exit 0).",
   "cases": [
     {
       "name": "capstone_cpu_trace",
@@ -44,9 +44,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/gte.bin"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/gte.bin",
+        "fnv64": "DA9769BCBDFB3D04"
+      }
     },
     {
       "name": "capstone_timer_irq_order",
@@ -92,9 +93,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/block.rgba"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/block.rgba",
+        "fnv64": "2A6E853480FC5307"
+      }
     },
     {
       "name": "capstone_spu_stream",
@@ -130,9 +132,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/resp.bin"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/resp.bin",
+        "fnv64": "93D0B0D1063A168B"
+      }
     },
     {
       "name": "capstone_card_roundtrip",

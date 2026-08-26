@@ -78,6 +78,7 @@ jobs:
           mkdir -p build
           ln -s "$(pwd)/build-solutions/solutions" build/skels
           export LABS_NES_GATE_BIN="$(pwd)/build-solutions/tools/labs/nes_gate/nes_gate_runner"
+          export LABS_CAPSTONE_BIN="$(pwd)/build-solutions/tools/labs/ps1_gate/ps1_gate_runner"
           python3 tools/labs/grade.py --allow-missing-env --repo .
           python3 tools/labs/grade.py --pipeline --repo .
       # Fail-closed live verification (v008 #17/#18): generates

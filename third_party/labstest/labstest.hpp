@@ -63,6 +63,9 @@ void check_eq(bool ok, const char* file, int line, const char* expr,
 }
 
 inline void run_all(std::string_view filter = {}) {
+    // Unbuffered: a crash or external kill (e.g. ctest timeout) must not
+    // lose the [ RUN ] lines that say which test was executing.
+    std::setvbuf(stdout, nullptr, _IONBF, 0);
     int ran = 0;
     for (const auto& tc : registry()) {
         std::string full = std::string(tc.suite) + "." + tc.name;

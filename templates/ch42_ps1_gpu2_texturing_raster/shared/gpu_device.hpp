@@ -310,9 +310,10 @@ private:
                     const bool tex = (w & 0x04000000) != 0;
                     const int size = static_cast<int>((w >> 27) & 3);
                     // Variable-size rects carry W/H; textured ones also
-                    // carry the texcoord+CLUT word.
+                    // carry the texcoord+CLUT word. Fixed-size textured
+                    // rects still carry texcoord+CLUT (no W/H word).
                     const int more =
-                        size == 0 ? (tex ? 3 : 2) : 1;
+                        size == 0 ? (tex ? 3 : 2) : (tex ? 2 : 1);
                     begin(tex ? Kind::TexRect : Kind::FlatRect, more, w);
                 }
                 // Lines, shaded polygons, VRAM copies: out of scope for ch42.

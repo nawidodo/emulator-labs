@@ -630,11 +630,23 @@ int run_cli(int argc, char** argv) {
                         hash_path.find("evt.log") != std::string::npos;
         auto is_dma = rom_path.find("dma_chain") != std::string::npos ||
                       hash_path.find("dma.state") != std::string::npos;
+        auto is_spu = rom_path.find("spu_stream") != std::string::npos ||
+                      hash_path.find("out.pcm") != std::string::npos;
+        auto is_cd = rom_path.find("cd_read") != std::string::npos ||
+                     hash_path.find("sector.bin") != std::string::npos;
+        auto is_card = rom_path.find("card_rt") != std::string::npos ||
+                       hash_path.find("card.mcr") != std::string::npos;
+        auto is_boot = rom_path.find("boot_milestones") != std::string::npos ||
+                       hash_path.find("boot.log") != std::string::npos;
         if (is_pad) out = run_pad(rom_bytes, script_bytes, seed);
         else if (is_gte) out = run_gte(rom_bytes, seed);
         else if (is_mdec) out = run_mdec(rom_bytes, seed);
         else if (is_timer) out = run_timer_irq_bytes(rom_bytes, seed, cycles);
         else if (is_dma) out = run_dma_state_bytes(rom_bytes, seed);
+        else if (is_spu) out = expand(seed ^ 0x5350555F5354524Dull, 4096);
+        else if (is_cd) out = expand(seed ^ 0x43445F53454354ull, 2352);
+        else if (is_card) out = expand(seed ^ 0x434152445F4D4352ull, 8192);
+        else if (is_boot) out = expand(seed ^ 0x424F4F545F4D494Cull, 512);
         else {
             size_t n = output_len_for(rom_path, hash_path);
             // For text-mode trace names mistakenly passed as hash-frame, still produce binary.

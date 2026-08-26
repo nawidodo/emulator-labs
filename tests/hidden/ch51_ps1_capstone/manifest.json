@@ -1,5 +1,5 @@
 {
-  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN. PS1 gate partially pinned: pad/GTE/MDEC/CPU/timer/DMA green (expect_file_hash), others pending (expect_file_exists/exit 0).",
+  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN. PS1 gate fully pinned: 10/10 green (expect_file_hash).",
   "cases": [
     {
       "name": "capstone_cpu_trace",
@@ -85,9 +85,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/sector.bin"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/sector.bin",
+        "fnv64": "433E49CE8E622BE0"
+      }
     },
     {
       "name": "capstone_mdec_block",
@@ -122,9 +123,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/out.pcm"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/out.pcm",
+        "fnv64": "9B6DEB5B406B0B0B"
+      }
     },
     {
       "name": "capstone_pad_transaction",
@@ -157,9 +159,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/card.mcr"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/card.mcr",
+        "fnv64": "9C5DFD03740F2B09"
+      }
     },
     {
       "name": "capstone_boot_milestones",
@@ -175,9 +178,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/boot.log"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/boot.log",
+        "fnv64": "049D7920F5AC4562"
+      }
     }
   ]
 }

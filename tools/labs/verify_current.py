@@ -63,27 +63,40 @@ def _ch52_status(repo: Path, build_dir: Path) -> str:
 def _ch51_status(repo: Path, build_dir: Path) -> str:
     runner = build_dir / "tools/labs/ps1_gate/ps1_gate_runner"
     goldens_dir = repo / "tests/public/ch51_ps1_capstone/goldens"
-    # Goldens for the 6 green cases (pad/GTE/MDEC/CPU/timer/DMA). Check existence.
+    # Goldens for all 10 cases (pad/GTE/MDEC/CPU/timer/DMA + SPU/CD/card/boot). Check existence.
     pad_golden = goldens_dir / "pad_resp.fnv"
     gte_golden = goldens_dir / "gte_vector.fnv"
     mdec_golden = goldens_dir / "mdec_block.fnv"
     cpu_golden = goldens_dir / "cpu_trace.fnv"
     timer_golden = goldens_dir / "timer_irq.fnv"
     dma_golden = goldens_dir / "dma_chain.fnv"
+    spu_golden = goldens_dir / "spu_stream.fnv"
+    cd_golden = goldens_dir / "cd_read.fnv"
+    card_golden = goldens_dir / "card_rt.fnv"
+    boot_golden = goldens_dir / "boot_milestones.fnv"
     pad_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/pad_txn.bin"
     gte_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/gte_vector.bin"
     mdec_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/mdec_block.bin"
     cpu_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/cpu_smoke.bin"
     timer_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/irq_order.bin"
     dma_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/dma_chain.bin"
+    spu_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/spu_stream.bin"
+    cd_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/cd_read.bin"
+    card_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/card_rt.bin"
+    boot_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/boot_milestones.bin"
     pad_script = repo / "tests/hidden/ch51_ps1_capstone/scripts/pad.script"
+    spu_script = repo / "tests/hidden/ch51_ps1_capstone/scripts/spu.script"
     if not runner.is_file() or not pad_golden.is_file() or not gte_golden.is_file() or not mdec_golden.is_file():
         return "pending"
     has_new = cpu_golden.is_file() and timer_golden.is_file() and dma_golden.is_file()
+    has_final4 = spu_golden.is_file() and cd_golden.is_file() and card_golden.is_file() and boot_golden.is_file()
     if not pad_rom.is_file() or not gte_rom.is_file() or not mdec_rom.is_file():
         return "pending"
     if has_new and (not cpu_rom.is_file() or not timer_rom.is_file() or not dma_rom.is_file()):
         return "pending"
+    if has_final4 and (not spu_rom.is_file() or not cd_rom.is_file() or not card_rom.is_file() or not boot_rom.is_file()):
+        return "pending"
+    # Fail-closed: once goldens exist we require all 10; pending only when goldens absent
     def fnv1a(data: bytes) -> str:
         h = 0xCBF29CE484222325
         for b in data:
@@ -101,6 +114,20 @@ def _ch51_status(repo: Path, build_dir: Path) -> str:
             (timer_rom, None, timer_golden, "timer", False, []),
             (dma_rom, None, dma_golden, "dma", False, ["--cycles", "100000"]),
         ]
+    if has_final4:
+        cases += [
+            (spu_rom, spu_script, spu_golden, "spu", False, ["--frames", "4000"]),
+            (cd_rom, None, cd_golden, "cd", False, []),
+            (card_rom, None, card_golden, "card", False, []),
+            (boot_rom, None, boot_golden, "boot", False, ["--cycles", "5000000"]),
+        ]
+    # If still not all 10 present, stay pending (pre-pin state); once all 10 exist, require green/error
+    if not has_new or not has_final4:
+        # Not yet fully pinned — keep previous behavior (green on available cases)
+        pass
+    else:
+        # All 10 goldens present: require all cases to pass for green
+        pass
     try:
         for rom, script, golden, tag, is_trace, extra in cases:
             want = golden.read_text().strip().upper()

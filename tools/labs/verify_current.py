@@ -63,19 +63,27 @@ def _ch52_status(repo: Path, build_dir: Path) -> str:
 def _ch51_status(repo: Path, build_dir: Path) -> str:
     runner = build_dir / "tools/labs/ps1_gate/ps1_gate_runner"
     goldens_dir = repo / "tests/public/ch51_ps1_capstone/goldens"
-    # Goldens for the 3 green cases (pad/GTE/MDEC). Check existence.
+    # Goldens for the 6 green cases (pad/GTE/MDEC/CPU/timer/DMA). Check existence.
     pad_golden = goldens_dir / "pad_resp.fnv"
     gte_golden = goldens_dir / "gte_vector.fnv"
     mdec_golden = goldens_dir / "mdec_block.fnv"
+    cpu_golden = goldens_dir / "cpu_trace.fnv"
+    timer_golden = goldens_dir / "timer_irq.fnv"
+    dma_golden = goldens_dir / "dma_chain.fnv"
     pad_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/pad_txn.bin"
     gte_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/gte_vector.bin"
     mdec_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/mdec_block.bin"
+    cpu_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/cpu_smoke.bin"
+    timer_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/irq_order.bin"
+    dma_rom = repo / "tests/hidden/ch51_ps1_capstone/roms/dma_chain.bin"
     pad_script = repo / "tests/hidden/ch51_ps1_capstone/scripts/pad.script"
     if not runner.is_file() or not pad_golden.is_file() or not gte_golden.is_file() or not mdec_golden.is_file():
         return "pending"
+    has_new = cpu_golden.is_file() and timer_golden.is_file() and dma_golden.is_file()
     if not pad_rom.is_file() or not gte_rom.is_file() or not mdec_rom.is_file():
         return "pending"
-    # FNV helper matching hash_frame.py (and runner).
+    if has_new and (not cpu_rom.is_file() or not timer_rom.is_file() or not dma_rom.is_file()):
+        return "pending"
     def fnv1a(data: bytes) -> str:
         h = 0xCBF29CE484222325
         for b in data:
@@ -83,24 +91,45 @@ def _ch51_status(repo: Path, build_dir: Path) -> str:
             h = (h * 0x100000001B3) & 0xFFFFFFFFFFFFFFFF
         return f"{h:016X}"
     cases = [
-        (pad_rom, pad_script, pad_golden, "pad"),
-        (gte_rom, None, gte_golden, "gte"),
-        (mdec_rom, None, mdec_golden, "mdec"),
+        (pad_rom, pad_script, pad_golden, "pad", False, []),
+        (gte_rom, None, gte_golden, "gte", False, []),
+        (mdec_rom, None, mdec_golden, "mdec", False, []),
     ]
+    if has_new:
+        cases += [
+            (cpu_rom, None, cpu_golden, "cpu", True, ["--cycles", "20000"]),
+            (timer_rom, None, timer_golden, "timer", False, []),
+            (dma_rom, None, dma_golden, "dma", False, ["--cycles", "100000"]),
+        ]
     try:
-        for rom, script, golden, tag in cases:
+        for rom, script, golden, tag, is_trace, extra in cases:
             want = golden.read_text().strip().upper()
             out = Path(f"/tmp/ch51_verify_{tag}.bin")
-            cmd = [str(runner), "--rom", str(rom), "--hash-frame", str(out), "--headless"]
+            if is_trace:
+                out = Path(f"/tmp/ch51_verify_{tag}.trace")
+                cmd = [str(runner), "--rom", str(rom), "--trace", str(out), "--headless"]
+                if extra:
+                    cmd += extra
+            else:
+                cmd = [str(runner), "--rom", str(rom), "--hash-frame", str(out), "--headless"]
+                if extra:
+                    cmd += extra
             if script is not None and script.is_file():
                 cmd += ["--input-file", str(script)]
             subprocess.run(cmd, check=True, capture_output=True, timeout=10)
             got = fnv1a(out.read_bytes())
             if got.upper() != want:
                 return "error"
-            # Determinism: run twice, require byte-identical.
             out2 = Path(f"/tmp/ch51_verify_{tag}2.bin")
-            cmd2 = [str(runner), "--rom", str(rom), "--hash-frame", str(out2), "--headless"]
+            if is_trace:
+                out2 = Path(f"/tmp/ch51_verify_{tag}2.trace")
+                cmd2 = [str(runner), "--rom", str(rom), "--trace", str(out2), "--headless"]
+                if extra:
+                    cmd2 += extra
+            else:
+                cmd2 = [str(runner), "--rom", str(rom), "--hash-frame", str(out2), "--headless"]
+                if extra:
+                    cmd2 += extra
             if script is not None and script.is_file():
                 cmd2 += ["--input-file", str(script)]
             subprocess.run(cmd2, check=True, capture_output=True, timeout=10)
@@ -109,6 +138,7 @@ def _ch51_status(repo: Path, build_dir: Path) -> str:
         return "green"
     except Exception:
         return "error"
+
 
 
 

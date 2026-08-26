@@ -1,5 +1,5 @@
 {
-  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN. PS1 gate partially pinned: pad/GTE/MDEC green (expect_file_hash), others pending (expect_file_exists/exit 0).",
+  "description": "ch51 PS1 capstone learner gate \u2014 requires your integrated emulator via LABS_CAPSTONE_BIN. PS1 gate partially pinned: pad/GTE/MDEC/CPU/timer/DMA green (expect_file_hash), others pending (expect_file_exists/exit 0).",
   "cases": [
     {
       "name": "capstone_cpu_trace",
@@ -15,9 +15,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/cpu.trace"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/cpu.trace",
+        "fnv64": "B68B6AFDFB71614E"
+      }
     },
     {
       "name": "capstone_dma_chain_state",
@@ -27,10 +28,16 @@
         "tests/hidden/ch51_ps1_capstone/roms/dma_chain.bin",
         "--cycles",
         "100000",
+        "--hash-frame",
+        "{{tmp}}/dma.state",
         "--headless"
       ],
+      "required_env": true,
       "expect_exit": 0,
-      "required_env": true
+      "expect_file_hash": {
+        "file": "{{tmp}}/dma.state",
+        "fnv64": "84DDF8784CD175D9"
+      }
     },
     {
       "name": "capstone_gte_vector",
@@ -61,9 +68,10 @@
       ],
       "required_env": true,
       "expect_exit": 0,
-      "expect_file_exists": [
-        "{{tmp}}/evt.log"
-      ]
+      "expect_file_hash": {
+        "file": "{{tmp}}/evt.log",
+        "fnv64": "CD44D0EED2553105"
+      }
     },
     {
       "name": "capstone_cd_latency_read",

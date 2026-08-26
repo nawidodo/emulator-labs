@@ -283,7 +283,7 @@ TEST(frame, window_shows_masked_layers_inside_rect) {
 }
 
 TEST(frame, window_invert_moves_visible_region_outside) {
-    auto inv = std::make_unique<Baseline>(*win);
+    auto inv = std::make_unique<Baseline>(make_windowed());
     inv->cfg.window.invert = true;
     std::vector<uint8_t> fb(kFbBytes);
     render_frame(inv->cfg, inv->vram, inv->cgram, fb);
@@ -296,7 +296,7 @@ TEST(frame, color_math_and_window_gate) {
     const int px = 120;
     // Add-half: winner green (g=31) vs backdrop 0x3800 (b=14) gives
     // (r,g,b) = (0,15,7) -> BGR555 (7<<10)|(15<<5).
-    auto bl = std::make_unique<Baseline>(*win);
+    auto bl = std::make_unique<Baseline>(make_windowed());
     bl->cfg.color_math = true;
     bl->cfg.window.color_math_enable = true;
     bl->cfg.math_half = true;
@@ -306,7 +306,7 @@ TEST(frame, color_math_and_window_gate) {
               bgr555_to_rgba8(static_cast<uint16_t>((7u << 10) | (15u << 5))));
 
     // Window active but color-math enable clear: math never applies.
-    auto gated = std::make_unique<Baseline>(*win);
+    auto gated = std::make_unique<Baseline>(make_windowed());
     gated->cfg.color_math = true;
     gated->cfg.window.color_math_enable = false;
     std::vector<uint8_t> fb2(kFbBytes);
@@ -324,8 +324,8 @@ TEST(frame, color_math_and_window_gate) {
 }
 
 TEST(frame, mode0_palette_bands) {
-    Vram vram;
-    Cgram cgram;
+    auto vram = std::make_unique<Vram>();
+    auto cgram = std::make_unique<Cgram>();
     FrameCfg cfg;
     cfg.mode = Mode::Mode0;
     for (int l = 0; l < 4; ++l) {
@@ -336,20 +336,21 @@ TEST(frame, mode0_palette_bands) {
     }
     // One shared opaque tile (color 3) at word 0.
     for (int r = 0; r < 8; ++r) {
-        vb(vram, r * 2u, 0xFF);      // plane 0
-        vb(vram, r * 2u + 1, 0xFF);  // plane 1
+        vb(*vram, r * 2u, 0xFF);      // plane 0
+        vb(*vram, r * 2u + 1, 0xFF);  // plane 1
     }
     for (int l = 0; l < 4; ++l) {
-        vram.w[2048u + static_cast<unsigned>(l)] =
+        vram->w[2048u + static_cast<unsigned>(l)] =
             static_cast<uint16_t>(0x2000u | (1u << 10));  // prio, palette 1
     }
     // Band mapping: layer n, palette 1, color 3 -> entry n*32 + 4 + 3.
-    cgram.e[0 * 32 + 4 + 3] = 0x001Fu;
-    cgram.e[1 * 32 + 4 + 3] = 0x03E0u;
-    cgram.e[2 * 32 + 4 + 3] = 0x7C00u;
-    cgram.e[3 * 32 + 4 + 3] = 0x7FFFu;
+    cgram->e[0 * 32 + 4 + 3] = 0x001Fu;
+    cgram->e[1 * 32 + 4 + 3] = 0x03E0u;
+    cgram->e[2 * 32 + 4 + 3] = 0x7C00u;
+    cgram->e[3 * 32 + 4 + 3] = 0x7FFFu;
 
-    std::array<uint8_t, kFbBytes> fb{};
-    render_frame(cfg, vram, cgram, fb);
+    std::vector<uint8_t> fb(kFbBytes);
+    render_frame(cfg, *vram, *cgram, fb);
     EXPECT_EQ(pixel_rgba(fb, 0, 0), bgr555_to_rgba8(0x001F));  // BG1 wins
 }
+

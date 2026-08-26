@@ -1,7 +1,7 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
 #include <cstddef>
-
+#include <vector>
 #include "mode7.hpp"
 
 using namespace snesbus;

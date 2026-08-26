@@ -1,8 +1,9 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
-#include <cstdio>
 #include <cstddef>
-
+#include <cstdio>
+#include <memory>
+#include <vector>
 #include "render.hpp"
 
 using namespace snesbus;

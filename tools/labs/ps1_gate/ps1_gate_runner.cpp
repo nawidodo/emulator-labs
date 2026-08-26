@@ -422,19 +422,26 @@ static std::vector<uint8_t> run_timer_irq_bytes(const std::vector<uint8_t>& rom,
     ps1::sysdev::TimerSignals sig{};
     sig.hblank_level = false;
     sig.vblank_level = false;
+    std::vector<std::pair<uint64_t,int>> observed;   // real (cycle,timer)
+    struct Ctx { ps1::sysdev::IrqController* irq;
+                 std::vector<std::pair<uint64_t,int>>* evs; uint64_t cyc; };
+    Ctx ctx{&irq, &observed, 0};
     auto sink = [](void* user, int timer, bool asserted) {
-        auto* ctl = static_cast<ps1::sysdev::IrqController*>(user);
-        uint32_t bit = 0;
-        if (timer == 0) bit = ps1::sysdev::kIrqTimer0;
-        else if (timer == 1) bit = ps1::sysdev::kIrqTimer1;
-        else if (timer == 2) bit = ps1::sysdev::kIrqTimer2;
-        if (asserted) ctl->raise(bit);
-        else ctl->lower(bit);
+        auto* c = static_cast<Ctx*>(user);
+        if (asserted) {
+            uint32_t bit = 0;
+            if (timer == 0) bit = ps1::sysdev::kIrqTimer0;
+            else if (timer == 1) bit = ps1::sysdev::kIrqTimer1;
+            else if (timer == 2) bit = ps1::sysdev::kIrqTimer2;
+            c->irq->raise(bit);
+            c->evs->push_back({c->cyc, timer});
+        }
     };
-    for (int i = 0; i < 64; ++i) {
+    for (uint64_t i = 0; i < 64; ++i) {
         sig.dot_pulse = (i % 2 == 0);
         sig.hblank_pulse = (i % 10 == 0);
-        bank.tick(sig, sink, &irq);
+        ctx.cyc = i;
+        bank.tick(sig, sink, &ctx);
     }
     log += "IRQ_STAT=" + fnv_hex(irq.status()) + "\n";
     log += "IRQ_MASK=" + fnv_hex(irq.read_mask()) + "\n";
@@ -450,21 +457,12 @@ static std::vector<uint8_t> run_timer_irq_bytes(const std::vector<uint8_t>& rom,
     (void)cycles;
 #endif
 #endif
-    // Deterministic ordered fake events: generate cycles, sort, emit lines like "TMR0 IRQ @ 1234"
-    auto blob = expand(seed ^ 0x54494D45525F4952ull ^ 0x4556544C4F47ull, 64);
-    struct Ev { uint32_t cycle; int tmr; };
-    std::vector<Ev> evs;
-    evs.reserve(16);
-    for (int i = 0; i < 16; ++i) {
-        uint32_t c = static_cast<uint32_t>(blob[i*4] | (blob[i*4+1]<<8) | (blob[i*4+2]<<16) | (blob[i*4+3]<<24));
-        c = c % 100000; // keep within 100k
-        int t = i % 3;
-        evs.push_back({c, t});
-    }
-    std::sort(evs.begin(), evs.end(), [](const Ev& a, const Ev& b){ return a.cycle < b.cycle; });
-    for (auto &e : evs) {
-        char line[32];
-        std::snprintf(line, sizeof line, "TMR%d IRQ @ %u\n", e.tmr, e.cycle);
+    // Real observed events: captured from actual timer assertions during
+    // bank.tick() above — no synthetic generation.
+    for (const auto& e : observed) {
+        char line[40];
+        std::snprintf(line, sizeof line, "TMR%d IRQ @ %llu\n",
+                      e.second, static_cast<unsigned long long>(e.first));
         log += line;
     }
     // Ensure exactly 256 bytes: truncate or pad with spaces (deterministic, not path-dependent)
@@ -491,98 +489,48 @@ static std::vector<uint8_t> run_dma_state_bytes(const std::vector<uint8_t>& rom,
                                                 uint64_t seed) {
 #ifdef PS1_HAS_DMA
     ps1::DmaController dma;
-    // Seed channel registers deterministically from ROM+seed
-    auto blob = expand(seed ^ 0x444D415F43484149ull, 128);
-    for (unsigned ch = 0; ch < ps1::kChannelCount; ++ch) {
-        auto &r = dma.channel(ch);
-        size_t off = ch * 12;
-        uint32_t madr = static_cast<uint32_t>(blob[off]) |
-                        (static_cast<uint32_t>(blob[off+1])<<8) |
-                        (static_cast<uint32_t>(blob[off+2])<<16) |
-                        (static_cast<uint32_t>(blob[off+3])<<24);
-        madr &= 0xFFFFFFu; // 24-bit address
-        uint32_t bcr = static_cast<uint32_t>(blob[off+4]) |
-                       (static_cast<uint32_t>(blob[off+5])<<8) |
-                       (static_cast<uint32_t>(blob[off+6])<<16) |
-                       (static_cast<uint32_t>(blob[off+7])<<24);
-        uint32_t chcr = static_cast<uint32_t>(blob[off+8]) |
-                        (static_cast<uint32_t>(blob[off+9])<<8) |
-                        (static_cast<uint32_t>(blob[off+10])<<16) |
-                        (static_cast<uint32_t>(blob[off+11])<<24);
-        // Keep sync mode in valid range, ensure deterministic but varied
-        chcr &= 0xFF00FF00u;
-        chcr |= (blob[off+8] & 0x01u); // from_ram
-        chcr |= ((blob[off+9] & 0x03u) << 8); // sync_mode
-        if (ch % 2 == 0) chcr |= (1u << 24); // start_busy for some
-        r.madr = madr;
-        r.bcr = bcr;
-        r.chcr = chcr;
-        if (ch < 3) dma.set_completion_flag(ch);
-    }
-    uint32_t dpcr = static_cast<uint32_t>(blob[84]) |
-                    (static_cast<uint32_t>(blob[85])<<8) |
-                    (static_cast<uint32_t>(blob[86])<<16) |
-                    (static_cast<uint32_t>(blob[87])<<24);
-    dma.set_dpcr(dpcr);
-    // Exercise write_dicr path
-    uint32_t dicr_val = static_cast<uint32_t>(blob[88]) |
-                        (static_cast<uint32_t>(blob[89])<<8) |
-                        (static_cast<uint32_t>(blob[90])<<16) |
-                        (static_cast<uint32_t>(blob[91])<<24);
-    dma.write_reg(0x1F8010F4u, dicr_val);
-    // Serialize to 128 bytes: channel regs + dpcr/dicr + irq state + filler
+    (void)seed;   // no seeded register values: config is explicit below
+
+    // Channel 0 (MDEC in): from-RAM burst of 16 words from a known base.
+    dma.channel(0).madr = 0x00100000u;
+    dma.channel(0).bcr = (1u << 16) | 16u;
+    dma.channel(0).chcr = 0x00000201u;          // from RAM, start
+
+    // Channel 6 (OTC): linked-list clear rooted at a fixed base.
+    dma.channel(6).madr = 0x00110010u;
+    dma.channel(6).bcr = (1u << 16) | 4u;
+    dma.channel(6).chcr = 0x00000201u;
+
+    dma.set_dpcr(0x0B777777u);
+    dma.write_reg(0x1F8010F4u, 0x00000000u);
+
+    // Serialize only real controller state (no filler).
+    auto push32 = [&](std::vector<uint8_t>& v, uint32_t x) {
+        for (int i = 0; i < 4; ++i)
+            v.push_back(static_cast<uint8_t>((x >> (8 * i)) & 0xFF));
+    };
     std::vector<uint8_t> out;
-    out.reserve(128);
-    for (unsigned ch = 0; ch < ps1::kChannelCount; ++ch) {
-        const auto &r = dma.channel(ch);
-        auto push32 = [&](uint32_t v){
-            out.push_back(static_cast<uint8_t>(v & 0xFF));
-            out.push_back(static_cast<uint8_t>((v>>8) & 0xFF));
-            out.push_back(static_cast<uint8_t>((v>>16) & 0xFF));
-            out.push_back(static_cast<uint8_t>((v>>24) & 0xFF));
-        };
-        push32(r.madr);
-        push32(r.bcr);
-        push32(r.chcr);
+    out.reserve(7 * 12 + 8 + 9);
+    for (unsigned c = 0; c < ps1::kChannelCount; ++c) {
+        const auto& r = dma.channel(c);
+        push32(out, r.madr);
+        push32(out, r.bcr);
+        push32(out, r.chcr);
     }
-    // dpcr + dicr (8 bytes) -> now 7*12=84 +8 =92
-    {
-        auto push32 = [&](uint32_t v){
-            out.push_back(static_cast<uint8_t>(v & 0xFF));
-            out.push_back(static_cast<uint8_t>((v>>8) & 0xFF));
-            out.push_back(static_cast<uint8_t>((v>>16) & 0xFF));
-            out.push_back(static_cast<uint8_t>((v>>24) & 0xFF));
-        };
-        push32(dma.dpcr());
-        push32(dma.dicr());
-    }
-    // IRQ state (if available) + RAM FNV
-    uint64_t ram_fn = rom.empty() ? seed : fnv1a64(rom.data(), rom.size());
-    for (int i = 0; i < 8; ++i) out.push_back(static_cast<uint8_t>((ram_fn >> (i*8)) & 0xFF));
-    // irq_active flag
+    push32(out, dma.dpcr());
+    push32(out, dma.dicr());
     out.push_back(dma.irq_active() ? 1 : 0);
-    // Pad to 128 with deterministic filler
-    while (out.size() < 128) {
-        auto pad = expand(seed ^ 0x444D415F43484149ull ^ out.size(), 1);
-        out.push_back(pad[0]);
-    }
-    if (out.size() > 128) out.resize(128);
 #ifdef PS1_HAS_IRQ
-    // Fold IRQ controller state into last bytes for cross-subsystem provenance
-    {
-        ps1::sysdev::IrqController irq;
-        irq.write_mask(ps1::sysdev::kIrqDma);
-        if (dma.irq_active()) irq.raise(ps1::sysdev::kIrqDma);
-        out[120] ^= static_cast<uint8_t>(irq.status() & 0xFF);
-        out[121] ^= static_cast<uint8_t>((irq.status()>>8) & 0xFF);
-        out[122] ^= static_cast<uint8_t>(irq.read_mask() & 0xFF);
-        out[123] ^= static_cast<uint8_t>(irq.irq_out() ? 0xA5 : 0x5A);
-    }
+    ps1::sysdev::IrqController irq;
+    irq.write_mask(ps1::sysdev::kIrqDma);
+    if (dma.irq_active()) irq.raise(ps1::sysdev::kIrqDma);
+    push32(out, irq.status());
+    push32(out, irq.read_mask());
 #endif
     return out;
 #else
     (void)rom;
-    return expand(seed ^ 0x444D415F43484149ull, 128);
+    return {};
 #endif
 }
 

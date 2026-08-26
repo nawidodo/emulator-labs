@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <cstdio>
 #include <cstddef>
 
 #include "render.hpp"
@@ -8,6 +9,12 @@ using namespace snesbus;
 
 namespace {
 
+static int init_log() {
+    std::printf("Starting render tests\n");
+    std::fflush(stdout);
+    return 0;
+}
+static int dummy = init_log();
 // Write one byte into the word-addressed VRAM image.
 void vb(Vram& v, size_t byte_addr, uint8_t value) {
     uint16_t& w = v.w[(byte_addr >> 1) & 0x7FFFu];

@@ -83,17 +83,20 @@ def _ctest_state(returncode: int, stdout: str) -> dict:
     m = re.search(
         r"(\d+)% tests passed(?:,\s*(\d+) tests failed)? out of (\d+)",
         stdout)
-    if returncode != 0 or not m:
-        return {"status": "error",
-                "reason": returncode != 0 and f"ctest exited {returncode}"
-                or "ctest output unparseable",
+    if not m:
+        return {"status": "error", "reason": "ctest output unparseable",
                 "ran": 0, "passed": 0, "failed": -1}
     total = int(m.group(3))
-    failed = int(m.group(2)) if m.group(2) is not None else (
-        0 if returncode == 0 else -1)
-    status = "green" if returncode == 0 and failed == 0 else "error"
-    return {"status": status, "ran": total,
-            "passed": total - max(failed, 0), "failed": failed}
+    failed = int(m.group(2)) if m.group(2) is not None else 0
+    passed = total - max(failed, 0)
+    if returncode != 0:
+        # Keep the parseable summary so a failing run records its real
+        # counts instead of sentinels (P2: rc!=0 discarded them).
+        return {"status": "error", "reason": f"ctest exited {returncode}",
+                "ran": total, "passed": passed, "failed": failed}
+    status = "green" if failed == 0 else "error"
+    return {"status": status, "ran": total, "passed": passed,
+            "failed": failed}
 
 
 def main() -> int:
@@ -168,8 +171,32 @@ def main() -> int:
     if args.pipeline:
         required["pipeline_grade"] = pipeline["status"]
 
+    def _ch52_status(repo: Path, build_dir: Path) -> str:
+        runner = build_dir / "tools/labs/nes_gate/nes_gate_runner"
+        golden = repo / "tests/public/ch52_nes_playable_gate/goldens/gate_reference.emu_gate"
+        rom = repo / "tests/public/ch52_nes_playable_gate/roms/gate_homebrew.nes"
+        if not runner.is_file() or not golden.is_file() or not rom.is_file():
+            return "pending"
+        try:
+            cur = Path("/tmp/cur_gate_verify.emu_gate")
+            subprocess.run(
+                [str(runner), "--rom", str(rom), "--frames", "180",
+                 "--gate", str(cur)], check=True, capture_output=True,
+                 timeout=30)
+            want = golden.read_text().strip().splitlines()
+            got = cur.read_text().strip().splitlines()
+            # Compare the pinned hashes (ROM/FRAME/AUDIO/PPU/RAM) — ignore REPLAY_FNV.
+            def kv(lines):
+                return {k: v for k, v in (l.split("=", 1) for l in lines if "=" in l)}
+            a, b = kv(want), kv(got)
+            for k in ("ROM_FNV", "FRAME_FNV", "AUDIO_FNV", "PPU_FNV", "RAM_FNV"):
+                if a.get(k) != b.get(k):
+                    return "error"
+            return "green"
+        except Exception:
+            return "error"
     integration = {
-        "ch52": "pending",   # derived once canonical reference runs
+        "ch52": _ch52_status(repo, ct),
         "ch51": "pending",
     }
     overall, gate_ok = _verdict(required, integration)

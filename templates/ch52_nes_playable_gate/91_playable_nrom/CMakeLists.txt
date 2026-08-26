@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.21)
+project(ch52_91_playable_nrom CXX)
+add_executable(playable_nes main.cpp)
+target_compile_features(playable_nes PRIVATE cxx_std_20)
+add_test(NAME ch52_91_playable_nes COMMAND playable_nes --help)

@@ -88,9 +88,20 @@ class CtestParser(unittest.TestCase):
         self.assertEqual(st["status"], "error")
         self.assertEqual(st["failed"], 8)
 
-    def test_nonzero_returncode_is_error(self):
-        st = verify_current._ctest_state(1, self.MODERN)
+
+    def test_nonzero_returncode_keeps_parsed_failure_counts(self):
+        # P2: a failing ctest (rc=8) must still record its real counts
+        # instead of discarding the parseable summary for sentinels.
+        st = verify_current._ctest_state(8, self.FAILING)
         self.assertEqual(st["status"], "error")
+        self.assertEqual((st["ran"], st["passed"], st["failed"]),
+                         (414, 406, 8))
+
+    def test_nonzero_returncode_legacy_keeps_counts(self):
+        st = verify_current._ctest_state(1, self.LEGACY)
+        self.assertEqual(st["status"], "error")
+        self.assertEqual((st["ran"], st["passed"], st["failed"]),
+                         (414, 414, 0))
 
     def test_unparseable_output_is_error_not_green(self):
         st = verify_current._ctest_state(0, "some other tool output\n")

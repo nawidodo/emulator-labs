@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.21)
+add_executable(c17_ch003_tests ptr_arrays.c ptr_arrays_tests.c)
+target_include_directories(c17_ch003_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_options(c17_ch003_tests PRIVATE -pedantic)
+add_test(NAME c17_ch003 COMMAND c17_ch003_tests)

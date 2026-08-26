@@ -1,5 +1,5 @@
 {
-  "description": "ch52 playable-NES learner gate \u2014 requires your composed machine via LABS_NES_GATE_BIN Hash pinning: pending canonical reference.",
+  "description": "ch52 playable-NES learner gate — requires your composed machine via LABS_NES_GATE_BIN.",
   "cases": [
     {
       "name": "gate_boot_and_video_golden",
@@ -17,10 +17,8 @@
       ],
       "expect_exit": 0,
       "required_env": true,
-      "expect_file_exists": [
-        "{{tmp}}/f.rgba"
-      ],
-      "note": "frame/audio hash pinning activates when the canonical reference integration lands; today the gate structurally proves your machine runs and emits outputs"
+      "expect_file_hash": { "file": "{{tmp}}/f.rgba", "fnv64": "9907513AFD961865" },
+      "note": "pinned to the canonical reference checkpoint (EMU_GATE_V1) at goldens/gate_reference.emu_gate"
     },
     {
       "name": "gate_audio_segment_golden",
@@ -38,10 +36,8 @@
       ],
       "expect_exit": 0,
       "required_env": true,
-      "expect_file_exists": [
-        "{{tmp}}/a.pcm"
-      ],
-      "note": "frame/audio hash pinning activates when the canonical reference integration lands; today the gate structurally proves your machine runs and emits outputs"
+      "expect_file_hash": { "file": "{{tmp}}/a.pcm", "fnv64": "8B9F456C57B82565" },
+      "note": "pinned to the canonical reference checkpoint (EMU_GATE_V1) at goldens/gate_reference.emu_gate"
     },
     {
       "name": "gate_replay_determinism",

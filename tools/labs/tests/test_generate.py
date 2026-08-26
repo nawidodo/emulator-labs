@@ -36,6 +36,32 @@ class GeneratorResolution(unittest.TestCase):
         cid = generate.manifest_id_for_dir("c17_003_pointers", tchapters)
         self.assertNotEqual(tchapters.get(cid, {}).get("implementation"), "verified")
 
+    def test_planned_external_chapter_rejected_end_to_end(self):
+        # End-to-end: --track --targets all --force on an external track
+        # whose manifest marks a chapter "planned" must abort with a
+        # nonzero exit (via SystemExit) and must NOT generate the dir.
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td)
+            track = "ext17"
+            tdir = repo / "tracks" / track
+            (tdir / "templates" / "c17_004_foo").mkdir(parents=True)
+            (tdir / "templates" / "c17_004_foo" / "CMakeLists.txt").write_text(
+                "cmake_minimum_required(VERSION 3.21)\n")
+            (tdir / "manifest.json").write_text(
+                '{"course": "ext17", '
+                '"chapters": {"c17_004": {"implementation": "planned"}}}\n')
+            out = repo / "out"
+
+            with self.assertRaises(SystemExit) as cm:
+                generate.main(["--repo", str(repo), "--track", track,
+                               "--force", "--targets", "all",
+                               "--out", str(out)])
+            self.assertNotEqual(cm.exception.code, 0)
+
+            # The rejected chapter dir must NOT have been generated.
+            self.assertFalse((out / "templates" / "c17_004_foo").exists())
+            self.assertFalse(list(out.rglob("CMakeLists.txt")))
+
     def test_external_exercise_resolution_stays_under_track_root(self):
         # Regression pin (review v011 §15/§16): an external
         # chapter/exercise target must resolve inside the track's own

@@ -802,7 +802,7 @@ your-submission/
 ```
 
 ```bash
-cmake -S . -B build && cmake --build build -j
+cmake -S . -B build && cmake --build build --parallel 4
 # produces ./build/mc32
 ```
 

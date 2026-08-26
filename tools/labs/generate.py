@@ -298,9 +298,6 @@ def main(argv: list[str] | None = None) -> int:
     repo = Path(args.repo).resolve() if args.repo else \
         Path(__file__).resolve().parents[2]
 
-    track_root = None
-    track = (args.track or os.environ.get("TRACK", "")).strip() or None         if hasattr(args, "track") else os.environ.get("TRACK", "").strip() or None
-    del track
     if args.list:
         list_root = repo / "templates"
         track_name = getattr(args, "track", None) \

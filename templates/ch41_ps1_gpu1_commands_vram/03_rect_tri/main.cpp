@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 
 #include <cstdint>
 
@@ -22,7 +23,8 @@ RasterVert vert(int x, int y, uint32_t rgb = 0) {
 }  // namespace
 
 TEST(rect, zero_size_degenerates_to_maximum) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     psx::gpu::draw_rectangle(v, cfg, 0xFFFFFF, 10, 20, 0, 0);
     EXPECT_EQ(v.at(10, 20), 0x7FFFu);
@@ -30,7 +32,8 @@ TEST(rect, zero_size_degenerates_to_maximum) {
 }
 
 TEST(rect, drawing_offset_and_area_clip) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     cfg.area_x1 = 100;
     cfg.area_y1 = 50;
@@ -49,7 +52,8 @@ TEST(rect, drawing_offset_and_area_clip) {
 }
 
 TEST(rect, check_mask_protects_set_mask_forces_bit15) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     v.at(5, 5) = 0x8001;  // pre-marked pixel
     DrawConfig cfg;
     cfg.check_mask = true;
@@ -63,7 +67,8 @@ TEST(rect, check_mask_protects_set_mask_forces_bit15) {
 }
 
 TEST(raster, signed_area_sign_drives_culling) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     const RasterVert a = vert(2, 2, 0xFF);
     const RasterVert b = vert(6, 2, 0xFF);
@@ -72,7 +77,8 @@ TEST(raster, signed_area_sign_drives_culling) {
     psx::gpu::draw_triangle_flat(v, cfg, 0xFF, a, b, c);
     EXPECT_EQ(v.at(3, 2), 0x001Fu);
     // Reverse the winding: same geometry, culled.
-    Vram v2;
+    auto v2_storage = std::make_unique<Vram>();
+    Vram& v2 = *v2_storage;
     psx::gpu::draw_triangle_flat(v2, cfg, 0xFF, a, c, b);
     EXPECT_EQ(v2.at(3, 2), 0u);
 }
@@ -81,7 +87,8 @@ TEST(raster, flat_triangle_exact_pixel_set_top_left_rule) {
     // Right triangle (2,2)-(6,2)-(2,6): rows hold 4/3/2/1 pixels; the
     // hypotenuse centres belong to the primitive (dy>0 edge), while the
     // right column and bottom row are excluded.
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     psx::gpu::draw_triangle_flat(v, cfg, 0xFF, vert(2, 2), vert(6, 2),
                                  vert(2, 6));
@@ -103,7 +110,12 @@ TEST(raster, shared_edge_drawn_exactly_once) {
     // Two front-facing triangles tile the square (0,0)-(4,4). The shared
     // diagonal is traversed DOWNWARD-LEFT by tri1 (not top/left: excluded)
     // and UPWARD-RIGHT by tri2 (top/left: included) -> exactly one owner.
-    Vram t1, t2, both;
+    auto t1_storage = std::make_unique<Vram>();
+    Vram& t1 = *t1_storage;
+    auto t2_storage = std::make_unique<Vram>();
+    Vram& t2 = *t2_storage;
+    auto both_storage = std::make_unique<Vram>();
+    Vram& both = *both_storage;
     DrawConfig cfg;
     psx::gpu::draw_triangle_flat(t1, cfg, 0xFF, vert(0, 0), vert(4, 0),
                                  vert(4, 4));
@@ -128,7 +140,8 @@ TEST(raster, gouraud_gradient_matches_q12_spec) {
     // A(0,0)/black, B(10,0)/black, C(0,10)/blue250. Pixel (1,1):
     // lambda_c = 60<<12/400 = 614 -> channel (614*250+2048)>>12 = 37 ->
     // 5bit 37>>3 = 4. Deterministic golden for the coding-test contract.
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     psx::gpu::draw_triangle_gouraud(v, cfg, vert(0, 0), vert(10, 0),
                                     vert(0, 10, 0xFA0000));
@@ -148,7 +161,8 @@ TEST(packet, mono_quad_rasterizes_both_halves) {
     // splits into (1,2,3)+(2,3,4). The upper-left sliver between the two
     // halves stays UNDRAWN — a documented consequence of the literal
     // PSX-SPX split combined with our fill convention.
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     const uint32_t prm[5] = {
         0x280000FFu,                    // opaque mono quad, red
@@ -169,7 +183,8 @@ TEST(packet, mono_quad_rasterizes_both_halves) {
 }
 
 TEST(packet, shaded_tri_packet_wires_colors_to_vertices) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     DrawConfig cfg;
     const uint32_t prm[6] = {
         0x300000FFu,                    // cmd 30h, color1 = pure red

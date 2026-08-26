@@ -9,6 +9,7 @@
 // --hash-frame writes "fnv64=<hex>\n" over the full 2 MB RAM image, which is
 // deterministic for a deterministic program.
 #include <cstdint>
+#include <memory>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -79,7 +80,8 @@ int main(int argc, char** argv) {
     const std::vector<uint8_t> bytes((std::istreambuf_iterator<char>(rom)),
                                      std::istreambuf_iterator<char>());
 
-    psx::r3000a::Bus bus;
+    auto bus_storage = std::make_unique<psx::r3000a::Bus>();
+    psx::r3000a::Bus& bus = *bus_storage;
     psx::r3000a::CpuState cpu;
     cpu.load_program(bus, bytes.data(), bytes.size());
 

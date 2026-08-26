@@ -26,7 +26,14 @@ std::vector<uint8_t> read_bytes(const std::string& path) {
 
 std::string read_text(const std::string& path) {
     const auto bytes = read_bytes(path);
-    return std::string(bytes.begin(), bytes.end());
+    std::string s(bytes.begin(), bytes.end());
+    std::string out;
+    out.reserve(s.size());
+    for (size_t i = 0; i < s.size(); ++i) {
+        if (s[i] == '\r' && i + 1 < s.size() && s[i + 1] == '\n') continue;
+        out += s[i];
+    }
+    return out;
 }
 
 // Runs rom bytes from $00:$0000 until halt/cycle cap, returning trace text.

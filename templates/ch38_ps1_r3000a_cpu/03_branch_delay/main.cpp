@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 #include "interp.hpp"
 #include "trace.hpp"
 
@@ -147,7 +148,8 @@ void run(Machine& m, int n) {
 }  // namespace
 
 TEST(step, alu_and_memory_program) {
-    Machine m;
+    auto m_storage = std::make_unique<Machine>();
+    Machine& m = *m_storage;
     const uint32_t prog[] = {
         itype(0x09, 0, 8, 0x1234),        // addiu $t0, $zero, 0x1234
         itype(0x2B, 0, 8, 0x400),         // sw $t0, 0x400($zero)
@@ -162,7 +164,8 @@ TEST(step, alu_and_memory_program) {
 }
 
 TEST(step, delay_slot_instruction_executes_exactly_once) {
-    Machine m;
+    auto m_storage = std::make_unique<Machine>();
+    Machine& m = *m_storage;
     const uint32_t base = kProgramBase;
     // addiu $t0,$zero,0      ; counter of slot executions
     // beq  $zero,$zero,+2    ; always taken, skips the poison addiu below
@@ -184,7 +187,8 @@ TEST(step, delay_slot_instruction_executes_exactly_once) {
 }
 
 TEST(step, jr_returns_through_delay_slot) {
-    Machine m;
+    auto m_storage = std::make_unique<Machine>();
+    Machine& m = *m_storage;
     // 0x00: jal func          ; func = 0x00 + 8*? place func at base+0x20
     // 0x04: nop (delay slot of jal)
     // 0x08: sw $t0,0x400(zero); executed AFTER return proves jr worked

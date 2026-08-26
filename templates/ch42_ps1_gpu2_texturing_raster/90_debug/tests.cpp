@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 
 #include "debug_stages.hpp"
 
@@ -30,7 +31,8 @@ struct Fixture {
 
 // REGRESSION (Bug A): odd texture-page X must mirror nibble lanes.
 TEST(debug, regression_odd_page_lane_flip) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     // Even page: u=0 reads lane 0 -> entry 4.
     EXPECT_EQ(detail::debug_fetch(f.vram, f.even, f.clut, 0, 0), 0x111 * 5);
     // Odd page: u=0 must read lane 3 -> entry 7.
@@ -39,7 +41,8 @@ TEST(debug, regression_odd_page_lane_flip) {
 
 // REGRESSION (Bug A): same quirk on 8bpp byte order.
 TEST(debug, regression_odd_page_byte_flip_8bpp) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     f.clut.y = 101;
     for (int i = 0; i < 256; ++i)
         f.vram.at(i, 101) = static_cast<uint16_t>(0x0101 * (i + 1));

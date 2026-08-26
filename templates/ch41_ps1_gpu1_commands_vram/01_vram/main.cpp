@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 
 #include <cstdint>
 #include <vector>
@@ -31,7 +32,8 @@ TEST(vram, copy_sizes_zero_means_maximum) {
 
 TEST(vram, upload_wraps_across_right_edge_same_row) {
     // src[0]->(1022,10) src[1]->(1023,10) src[2]->(0,10) src[3]->(1,10)
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     const uint16_t src[4] = {0x111, 0x222, 0x333, 0x444};
     psx::gpu::cpu_to_vram(v, 1022, 10, 4, 1, src);
     EXPECT_EQ(v.at(1022, 10), 0x111);
@@ -41,7 +43,8 @@ TEST(vram, upload_wraps_across_right_edge_same_row) {
 }
 
 TEST(vram, upload_wraps_bottom_to_top) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     const uint16_t src[6] = {1, 2, 3, 4, 5, 6};
     psx::gpu::cpu_to_vram(v, 20, 511, 2, 3, src);
     EXPECT_EQ(v.at(20, 511), 1);
@@ -53,7 +56,8 @@ TEST(vram, upload_wraps_bottom_to_top) {
 }
 
 TEST(vram, download_roundtrips_upload) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     std::vector<uint16_t> src(30 * 3);
     for (size_t i = 0; i < src.size(); ++i)
         src[i] = static_cast<uint16_t>(i * 211 + 7);
@@ -71,7 +75,8 @@ TEST(vram, download_roundtrips_upload) {
 TEST(vram, copy_is_overlap_safe_like_hardware_latches) {
     // Shifting a ramp two columns to the right must not smear: the GPU reads
     // a chunk into latches before writing it back.
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     for (int x = 0; x < 16; ++x) v.at(x, 0) = static_cast<uint16_t>(x);
     psx::gpu::vram_to_vram(v, 0, 0, 2, 0, 16, 1);
     EXPECT_EQ(v.at(2, 0), 0);   // destination got the SNAPSHOT, not the
@@ -80,7 +85,8 @@ TEST(vram, copy_is_overlap_safe_like_hardware_latches) {
 }
 
 TEST(vram, copy_wraps_source_rows_without_carry) {
-    Vram v;
+    auto v_storage = std::make_unique<Vram>();
+    Vram& v = *v_storage;
     // Pattern lives at the very right edge of row 5/6: an 8-wide gather at
     // sx=1020 must wrap each source row back to columns 0..3 of THAT row.
     for (int i = 0; i < 8; ++i) {

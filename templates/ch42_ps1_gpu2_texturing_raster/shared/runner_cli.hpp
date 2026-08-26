@@ -10,7 +10,7 @@
 // writes the deterministic "fnv64=<16HEX>" payload over the full VRAM dump.
 #include <cstdint>
 #include <cstdio>
-#include <string>
+#include <memory>
 #include <vector>
 
 #include "gpu_state.hpp"
@@ -105,7 +105,8 @@ int labs_runner_main(int argc, char** argv) {
         return 1;
     }
 
-    Dev dev;
+    auto dev_storage = std::make_unique<Dev>();
+    Dev& dev = *dev_storage;
     for (size_t i = 0; i < words.size(); ++i)
         dev.feed(words[i], static_cast<uint32_t>(i * 4));
 

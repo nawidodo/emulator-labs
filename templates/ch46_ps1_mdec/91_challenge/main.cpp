@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include <cstdio>
+#include <filesystem>
 #include <sstream>
 
 #include "labstest.hpp"
@@ -33,8 +34,9 @@ TEST(mdec, decodes_single_macroblock_deterministically) {
     }
     if (bytes.size() % 4) bytes.push_back(0);
 
-    const std::string path = "/tmp/labs_ch46_one_mb.bin";
-    FILE* f = fopen(path.c_str(), "wb");
+    const std::string path =
+        (std::filesystem::temp_directory_path() / "labs_ch46_one_mb.bin")
+            .string();
     EXPECT_TRUE(f != nullptr);
     if (!f) return;
     fwrite(bytes.data(), 1, bytes.size(), f);

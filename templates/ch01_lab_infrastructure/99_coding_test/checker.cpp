@@ -35,8 +35,17 @@ namespace {
 
 std::vector<uint8_t> read_bytes(const fs::path& p) {
     std::ifstream in(p, std::ios::binary);
-    return {std::istreambuf_iterator<char>(in),
-            std::istreambuf_iterator<char>()};
+    std::vector<uint8_t> bytes{std::istreambuf_iterator<char>(in),
+                               std::istreambuf_iterator<char>()};
+    std::vector<uint8_t> norm;
+    norm.reserve(bytes.size());
+    for (size_t i = 0; i < bytes.size(); ++i) {
+        if (bytes[i] == '\r' && i + 1 < bytes.size() && bytes[i + 1] == '\n') {
+            continue;
+        }
+        norm.push_back(bytes[i]);
+    }
+    return norm;
 }
 
 uint64_t fnv1a64(const std::vector<uint8_t>& data) {

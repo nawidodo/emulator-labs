@@ -30,14 +30,13 @@ if(_ch02_root)
       string(REGEX REPLACE "summem" "sum_mem" _bin "${_prog}")
       add_test(
         NAME ch02_04_trace_${_prog}
-        COMMAND /bin/sh -c
-          "\"$3\" --rom \"$2/programs/${_bin}.bin\" --cycles 400 --trace \"$1\" && \"$4\" \"$5/tools/labs/compare_trace.py\" \"$5/tests/public/ch02_emulator_core/traces/${_prog}.log\" \"$1\""
-        ch02_trace
-        ${CMAKE_CURRENT_BINARY_DIR}/actual_${_prog}.log
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMAND ${Python3_EXECUTABLE} -c
+          "import subprocess, sys; subprocess.check_call([sys.argv[1], '--rom', sys.argv[2], '--cycles', '400', '--trace', sys.argv[3]]); subprocess.check_call([sys.executable, sys.argv[4], sys.argv[5], sys.argv[3]])"
         $<TARGET_FILE:ch02_04_runner>
-        ${Python3_EXECUTABLE}
-        ${_ch02_root})
+        "${CMAKE_CURRENT_SOURCE_DIR}/programs/${_bin}.bin"
+        "${CMAKE_CURRENT_BINARY_DIR}/actual_${_prog}.log"
+        "${_ch02_root}/tools/labs/compare_trace.py"
+        "${_ch02_root}/tests/public/ch02_emulator_core/traces/${_prog}.log")
     endforeach()
   endif()
 endif()

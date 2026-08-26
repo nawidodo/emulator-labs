@@ -12,6 +12,7 @@
 // afterwards --hash-frame writes "fnv64=<16 uppercase hex>\n" computed with
 // FNV-1a-64 over the full little-endian 1024x512x2-byte VRAM image.
 #include <cstdint>
+#include <memory>
 #include <cstdio>
 #include <cstring>
 #include <string>
@@ -93,7 +94,8 @@ int main(int argc, char** argv) {
         }
     }
 
-    psx::gpu::Gpu gpu;
+    auto gpu_storage = std::make_unique<psx::gpu::Gpu>();
+    psx::gpu::Gpu& gpu = *gpu_storage;
     gpu.reset();
     bool gp1_escape = false;
     for (long frame = 0; frame < frames; ++frame) {

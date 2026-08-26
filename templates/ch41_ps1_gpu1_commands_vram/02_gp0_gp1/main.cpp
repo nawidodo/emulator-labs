@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 
 #include <cstdint>
 
@@ -15,13 +16,15 @@ constexpr uint32_t kWH(uint32_t w, uint32_t h) { return (h << 16) | w; }
 }  // namespace
 
 TEST(gpustat, poweron_reads_14802000) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.reset();
     EXPECT_EQ(g.status(), 0x14802000u);
 }
 
 TEST(gpustat, display_enable_clears_bit23) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     EXPECT_EQ((g.status() >> 23) & 1, 1u);  // off at power-on
     g.write_gp1(0x03000000u);               // GP1(03h): on
     EXPECT_EQ((g.status() >> 23) & 1, 0u);
@@ -30,7 +33,8 @@ TEST(gpustat, display_enable_clears_bit23) {
 }
 
 TEST(gpustat, dma_dir_and_drq_follow_gp1_04) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp1(0x04000002u);               // direction 2 (FIFO empty)
     EXPECT_EQ((g.status() >> 29) & 3, 2u);
     EXPECT_EQ((g.status() >> 25) & 1, 1u);  // FIFO drained -> DRQ
@@ -40,7 +44,8 @@ TEST(gpustat, dma_dir_and_drq_follow_gp1_04) {
 }
 
 TEST(gpustat, irq_set_by_gp0_1f_ackd_by_gp1_02) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0x1F000000u);
     EXPECT_EQ((g.status() >> 24) & 1, 1u);
     g.write_gp1(0x02000000u);
@@ -48,7 +53,8 @@ TEST(gpustat, irq_set_by_gp0_1f_ackd_by_gp1_02) {
 }
 
 TEST(gpustat, e6_mask_bits_mirror_to_11_12) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0xE6000003u);
     EXPECT_EQ((g.status() >> 11) & 3, 3u);
 }
@@ -56,14 +62,16 @@ TEST(gpustat, e6_mask_bits_mirror_to_11_12) {
 TEST(gpustat, e1_draw_mode_maps_low_bits) {
     // draw mode 0x4A = 0100.1010b: texpage X=10 (bits 0-3), everything
     // else in bits 4-10 clear.
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0xE100004Au);
     EXPECT_EQ(g.status() & 0xF, 0xAu);
     EXPECT_EQ((g.status() >> 9) & 1, 0u);   // dither still off
 }
 
 TEST(gp1, reset_restores_poweron_but_keeps_vram) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(kFillWhite);
     g.write_gp0(kCoord);
     g.write_gp0(kWH(0x3FF, 0x1FF));         // near-full-screen fill
@@ -74,7 +82,8 @@ TEST(gp1, reset_restores_poweron_but_keeps_vram) {
 }
 
 TEST(gp1, reset_command_buffer_aborts_partial_packet) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     // Start a FILL packet (header + color) but withhold its last parameter:
     // the parser must hold the incomplete packet until GP1(01h) aborts it.
     g.write_gp0(0x02808080u);               // header, cmd 02h
@@ -87,7 +96,8 @@ TEST(gp1, reset_command_buffer_aborts_partial_packet) {
 }
 
 TEST(fill, param_400h_collapses_to_no_fill) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(kFillWhite);
     g.write_gp0(kCoord);
     g.write_gp0(kWH(0x400, 0x200));         // literal max: BOTH wrap to 0
@@ -96,7 +106,8 @@ TEST(fill, param_400h_collapses_to_no_fill) {
 }
 
 TEST(fill, param_3ff_rounds_up_to_full_width) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(kFillWhite);
     g.write_gp0(kCoord);
     g.write_gp0(kWH(0x3FF, 0x1FF));         // width rounds up to 400h
@@ -108,7 +119,8 @@ TEST(fill, param_3ff_rounds_up_to_full_width) {
 
 TEST(fill, xpos_aligns_down_to_16_and_region_wraps) {
     const uint16_t green = 0x03E0u;         // G=FF -> 5bit 11111 << 5
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0x0200FF00u);               // green fill
     g.write_gp0((300u << 16) | 8u);         // xy = (8, 300); x aligns to 0
     // x=8 aligns down to 0; y=300 with height 300 runs past the bottom edge
@@ -123,7 +135,8 @@ TEST(fill, xpos_aligns_down_to_16_and_region_wraps) {
 }
 
 TEST(xfer, cpu_to_vram_stream_wraps_columns) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0xA0000000u);
     g.write_gp0((50u << 10) | 1020u);       // dest (1020, 50)
     g.write_gp0(kWH(8, 2));                 // 16 halfwords
@@ -137,7 +150,8 @@ TEST(xfer, cpu_to_vram_stream_wraps_columns) {
 }
 
 TEST(xfer, odd_halfword_count_takes_low_halves_only) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0xA0000000u);
     g.write_gp0(0u);                        // dest (0,0)
     g.write_gp0(kWH(3, 1));                 // 3 halfwords = odd
@@ -150,7 +164,8 @@ TEST(xfer, odd_halfword_count_takes_low_halves_only) {
 }
 
 TEST(xfer, vram_to_cpu_gpuread_with_odd_padding) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0xA0000000u);
     g.write_gp0(0u);
     g.write_gp0(kWH(3, 1));
@@ -173,7 +188,8 @@ TEST(xfer, vram_to_cpu_gpuread_with_odd_padding) {
 }
 
 TEST(xfer, vram_to_vram_packet_via_fifo) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     // Seed a 4x2 block at (10,20) via an upload, then copy it to (60,40)
     // through a full GP0(80h) packet: header + src + dst + wh.
     g.write_gp0(0xA0000000u);
@@ -192,7 +208,8 @@ TEST(xfer, vram_to_vram_packet_via_fifo) {
 
 
 TEST(xfer, new_download_replaces_pending_read_fifo) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     g.write_gp0(0xA0000000u);
     g.write_gp0(0u);
     g.write_gp0(kWH(2, 1));
@@ -207,7 +224,8 @@ TEST(xfer, new_download_replaces_pending_read_fifo) {
 }
 
 TEST(packet, synchronous_model_drains_fifo_per_write) {
-    Gpu g;
+    auto g_storage = std::make_unique<Gpu>();
+    Gpu& g = *g_storage;
     // Open a large upload (needs 102400 data words) and stream a few words:
     // in this chapter's zero-latency model every write drains immediately,
     // so the 16-word ring never backs up.

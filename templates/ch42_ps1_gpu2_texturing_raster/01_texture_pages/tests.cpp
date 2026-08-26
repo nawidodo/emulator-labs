@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 
 #include "tex_stages.hpp"
 
@@ -67,7 +68,8 @@ TEST(pages, window_wrap_repeat_period) {
 }
 
 TEST(pages, fetch_4bpp_low_nibble_is_leftmost) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     EXPECT_EQ(fetch_texel_4bpp(f.vram, f.mode, f.clut, 0, 0), 0x111 * 5);
     EXPECT_EQ(fetch_texel_4bpp(f.vram, f.mode, f.clut, 1, 0), 0x111 * 6);
     EXPECT_EQ(fetch_texel_4bpp(f.vram, f.mode, f.clut, 6, 0), 0x111 * 3);
@@ -75,13 +77,15 @@ TEST(pages, fetch_4bpp_low_nibble_is_leftmost) {
 }
 
 TEST(pages, fetch_4bpp_row_stride_is_one_vram_line) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     f.vram.at(0, 1) = 0x000F;  // first halfword of page row 1 = next VRAM line
     EXPECT_EQ(fetch_texel_4bpp(f.vram, f.mode, f.clut, 0, 1), 0x111 * 16);
 }
 
 TEST(pages, fetch_4bpp_odd_page_flips_lanes) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     f.mode.page_x_field = 1;             // base X = 64 halfwords (odd field)
     f.vram.px[64] = 0x7654;
     // Lane order mirrors: u=0 now reads nibble 3.
@@ -90,7 +94,8 @@ TEST(pages, fetch_4bpp_odd_page_flips_lanes) {
 }
 
 TEST(pages, fetch_8bpp_byte_lanes) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     f.mode.depth = 1;
     f.clut.y = 101;
     for (int i = 0; i < 256; ++i)
@@ -101,7 +106,8 @@ TEST(pages, fetch_8bpp_byte_lanes) {
 }
 
 TEST(pages, fetch_8bpp_odd_page_flips_bytes) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     f.mode.depth = 1;
     f.mode.page_x_field = 1;  // odd field: byte lanes swap
     f.clut.y = 101;
@@ -113,7 +119,8 @@ TEST(pages, fetch_8bpp_odd_page_flips_bytes) {
 }
 
 TEST(pages, fetch_15bpp_direct) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     f.mode.depth = 2;
     f.mode.page_x_field = 2;  // base X = 128 halfwords
     f.vram.at(128 + 3, 0) = 0x7BCD;
@@ -123,7 +130,8 @@ TEST(pages, fetch_15bpp_direct) {
 }
 
 TEST(pages, stages_fetch_integration) {
-    Fixture f;
+    auto f_storage = std::make_unique<Fixture>();
+    Fixture& f = *f_storage;
     TexEnv env;
     env.win = TexWindow{};
     env.vram = &f.vram;

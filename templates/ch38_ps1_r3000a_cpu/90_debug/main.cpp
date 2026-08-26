@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 #include "interp_debug.hpp"
 
 using namespace psx::r3000a;
@@ -34,7 +35,8 @@ TEST(bug1_advance_polarity, taken_branch_must_transfer_control) {
 }
 
 TEST(bug1_advance_polarity, program_reaches_branch_target) {
-    Machine m;
+    auto m_storage = std::make_unique<Machine>();
+    Machine& m = *m_storage;
     // beq $zero,$zero,+1 -> skip the poison addiu; syscall
     const uint32_t prog[] = {
         itype(0x04, 0, 0, 0x0002),   // beq always taken over the poison
@@ -59,7 +61,8 @@ TEST(bug3_link_address, jal_links_past_the_slot) {
 }
 
 TEST(bug3_link_address, return_does_not_rerun_slot) {
-    Machine m;
+    auto m_storage = std::make_unique<Machine>();
+    Machine& m = *m_storage;
     // jal func ; nop(slot) ; sw $t0,0x400 ; syscall ... func: $t0+=5 ; jr $ra ; $t0+=1 (slot)
     const uint32_t base = kProgramBase;
     const uint32_t prog[] = {
@@ -83,7 +86,8 @@ TEST(bug3_link_address, return_does_not_rerun_slot) {
 }
 
 TEST(bug4_jump_target, callee_entry_runs_in_full) {
-    Machine m;
+    auto m_storage = std::make_unique<Machine>();
+    Machine& m = *m_storage;
     // jal func ; nop ; syscall ... func: sw $t9 marker word at 0x404
     const uint32_t base = kProgramBase;
     const uint32_t prog[] = {

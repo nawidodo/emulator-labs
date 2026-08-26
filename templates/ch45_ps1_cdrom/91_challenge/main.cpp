@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include <sstream>
+#include <filesystem>
 #include <cstdio>
 
 #include "labstest.hpp"
@@ -25,7 +26,9 @@ void write_script(const std::string& path) {
 }  // namespace
 
 TEST(session, deterministic_log_transcript) {
-    const std::string path = "/tmp/labs_ch45_session.txt";
+    const std::string path =
+        (std::filesystem::temp_directory_path() / "labs_ch45_session.txt")
+            .string();
     write_script(path);
 
     // Two fresh controllers must produce byte-identical transcripts.
@@ -49,7 +52,9 @@ TEST(session, unknown_op_rejected) {
     std::ostringstream log;
     bool threw = false;
     try {
-        const std::string path = "/tmp/labs_ch45_bad.txt";
+        const std::string path =
+            (std::filesystem::temp_directory_path() / "labs_ch45_bad.txt")
+                .string();
         FILE* f = fopen(path.c_str(), "w");
         EXPECT_TRUE(f != nullptr);
         if (!f) return;

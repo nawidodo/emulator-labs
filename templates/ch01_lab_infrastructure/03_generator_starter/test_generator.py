@@ -106,7 +106,9 @@ def run_gen(args, out_dir):
 
 def tree_hashes(out_dir: Path) -> dict:
     return {
-        p.relative_to(out_dir).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        p.relative_to(out_dir).as_posix(): hashlib.sha256(
+            p.read_bytes().replace(b"\r\n", b"\n")
+        ).hexdigest()
         for p in sorted(out_dir.rglob("*"))
         if p.is_file()
     }

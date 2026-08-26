@@ -1,18 +1,21 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 #include "memops.hpp"
 
 using psx::r3000a::Bus;
 
 TEST(words, roundtrip) {
-    Bus bus;
+    auto bus_storage = std::make_unique<Bus>();
+    Bus& bus = *bus_storage;
     psx::r3000a::do_sw(bus, 0x80000100u, 0x12345678u);
     EXPECT_EQ(psx::r3000a::do_lw(bus, 0x00000100u), 0x12345678u);   // kuseg mirror
     EXPECT_EQ(psx::r3000a::do_lw(bus, 0xA0000100u), 0x12345678u);   // kseg1 mirror
 }
 
 TEST(bytes, sign_extension) {
-    Bus bus;
+    auto bus_storage = std::make_unique<Bus>();
+    Bus& bus = *bus_storage;
     psx::r3000a::do_sb(bus, 0x100u, 0x80u);
     EXPECT_EQ(psx::r3000a::do_load_byte(bus, 0x100u, false), 0x80u);
     EXPECT_EQ(psx::r3000a::do_load_byte(bus, 0x100u, true), 0xFFFFFF80u);
@@ -21,7 +24,8 @@ TEST(bytes, sign_extension) {
 }
 
 TEST(halfwords, sign_extension) {
-    Bus bus;
+    auto bus_storage = std::make_unique<Bus>();
+    Bus& bus = *bus_storage;
     psx::r3000a::do_sh(bus, 0x100u, 0x8001u);
     EXPECT_EQ(psx::r3000a::do_load_half(bus, 0x100u, false), 0x8001u);
     EXPECT_EQ(psx::r3000a::do_load_half(bus, 0x100u, true), 0xFFFF8001u);
@@ -38,7 +42,8 @@ uint32_t ref_unaligned_load(const Bus& bus, uint32_t x) {
 
 TEST(lwlr, all_alignments) {
     for (uint32_t off = 0; off < 4; ++off) {
-        Bus bus;
+        auto bus_storage = std::make_unique<Bus>();
+        Bus& bus = *bus_storage;
         // four consecutive marker words
         psx::r3000a::do_sw(bus, 0x200u, 0x11111111u);
         psx::r3000a::do_sw(bus, 0x204u, 0x22222222u);
@@ -55,7 +60,8 @@ TEST(lwlr, all_alignments) {
 }
 
 TEST(lwlr, preserves_untouched_halves) {
-    Bus bus;
+    auto bus_storage = std::make_unique<Bus>();
+    Bus& bus = *bus_storage;
     psx::r3000a::do_sw(bus, 0x200u, 0xAABBCCDDu);
     // lwr with b=2 loads only the low 16 bits; high half of rt survives.
     const uint32_t t0 = psx::r3000a::do_lwr(bus, 0x202u, 0x11223344u);

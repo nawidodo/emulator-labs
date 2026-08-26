@@ -75,7 +75,7 @@ def copy_verbatim(src: Path, dst: Path) -> None:
 //@LABS-BEGIN 2
 //@LABS-SOLUTION
     dst.parent.mkdir(parents=True, exist_ok=True)
-    dst.write_bytes(src.read_bytes())
+    dst.write_bytes(src.read_bytes().replace(b"\r\n", b"\n"))
 //@LABS-STUB
     # TODO(2): create dst's parent directories, then copy src byte-exact.
     raise SystemExit("TODO(2): implement copy_verbatim")
@@ -226,7 +226,7 @@ def run(args) -> int:
         if "@LABS-BEGIN" in text or "%LABS-BEGIN" in text:
             body = render(parse_template(text, src), todo)
             dst.parent.mkdir(parents=True, exist_ok=True)
-            dst.write_text(body, encoding="utf-8")
+            dst.write_bytes(body.replace("\r\n", "\n").encode("utf-8"))
             action = "skeleton" if args.mode == "skel" else "solution"
         else:
             copy_verbatim(src, dst)
@@ -235,9 +235,8 @@ def run(args) -> int:
             (rel, action, hashlib.sha256(dst.read_bytes()).hexdigest()))
 
     manifest_path = out_root / "manifest.json"
-    manifest_path.write_text(
-        build_manifest(args.mode, args.todo, template_name, entries),
-        encoding="utf-8")
+    manifest_text = build_manifest(args.mode, args.todo, template_name, entries)
+    manifest_path.write_bytes(manifest_text.replace("\r\n", "\n").encode("utf-8"))
     print(f"[student-gen] {args.mode} '{template_name}' -> {out_root} "
           f"({len(entries)} files)")
     return 0

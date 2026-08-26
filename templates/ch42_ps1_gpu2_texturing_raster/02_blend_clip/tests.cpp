@@ -1,5 +1,6 @@
 #define LABSTEST_MAIN
 #include "labstest.hpp"
+#include <memory>
 
 #include "blend_stages.hpp"
 
@@ -93,7 +94,8 @@ TEST(blend, semi_equations) {
 }
 
 TEST(blend, pixel_pipeline_modulate_vs_decal) {
-    Vram vram;
+    auto vram_storage = std::make_unique<Vram>();
+    Vram& vram = *vram_storage;
     vram.at(5, 5) = 0x03E0;  // green backdrop
     TexEnv env;
     env.mode.depth = 2;

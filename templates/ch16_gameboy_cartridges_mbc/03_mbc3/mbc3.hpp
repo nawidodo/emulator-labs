@@ -91,8 +91,10 @@ class Mbc3 final : public Mapper {
 //@LABS-SOLUTION
         if (isRtcSelect(bank2_)) return rtcRegister(bank2_);
         if (!ramEnable_ || ramSize_ == 0) return 0xFF;
-        const size_t off = (addr - kRamBankSize) % ramSize_;
-        return ram_[(bank2_ & 0x03u) * kRamBankSize + off];
+        // Bank selects beyond the cart's size mirror low (no OOB).
+        const size_t nBanks = std::max<size_t>(ramSize_ / kRamBankSize, 1);
+        return ram_[((bank2_ & 0x03u) % nBanks) * kRamBankSize
+                   + (addr - kRamBankSize) % ramSize_];
 //@LABS-STUB
         // TODO(4): route $A000-$BFFF to the selected RTC register when
         // bank2 holds $08-$0C (shadow values while frozen), otherwise
@@ -133,8 +135,10 @@ class Mbc3 final : public Mapper {
             return;
         }
         if (!ramEnable_ || ramSize_ == 0) return;
-        const size_t off = (addr - kRamBankSize) % ramSize_;
-        ram_[(bank2_ & 0x03u) * kRamBankSize + off] = val;
+        // Mirror the same way reads do (no OOB on small carts).
+        const size_t nBanks = std::max<size_t>(ramSize_ / kRamBankSize, 1);
+        ram_[((bank2_ & 0x03u) % nBanks) * kRamBankSize
+             + (addr - kRamBankSize) % ramSize_] = val;
 //@LABS-STUB
         // TODO(5): writes go to the live RTC register when one is
         // selected, otherwise to enabled cart RAM.

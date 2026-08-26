@@ -135,6 +135,19 @@ TEST(mbc3_ram, rtc_writes_hit_live_and_halt_bit_is_writable) {
     EXPECT_EQ(m.liveRtc().secs, 0);            // halted: nothing moved
 }
 
+// Regression (MSVC CI hang): bank selects beyond the cart's RAM size
+// must mirror the low banks instead of indexing out of bounds.
+TEST(mbc3_ram, bank_select_beyond_size_mirrors_low) {
+    auto rom = makePatternRom(64);
+    cart::Mbc3 m(rom.data(), rom.size(), 0x2000);   // single RAM bank
+    m.writeReg(0x0000, 0x0A);
+    m.writeReg(0x4000, 0x03);                  // 03 of 1 available: mirror
+    m.writeRam(0xA010, 0x5A);
+    EXPECT_EQ(m.readRam(0xA010), 0x5A);
+    m.writeReg(0x4000, 0x00);                  // low bank sees same byte
+    EXPECT_EQ(m.readRam(0xA010), 0x5A);
+}
+
 TEST(mbc3_ram, disabled_or_absent_ram_reads_open_bus) {
     auto rom = makePatternRom(64);
     cart::Mbc3 absent(rom.data(), rom.size(), 0);

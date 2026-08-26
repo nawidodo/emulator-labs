@@ -139,6 +139,14 @@ def render(segments: list[tuple], todo: int | None,
     return "\n".join(out) + "\n"
 
 
+def manifest_id_for_dir(name: str, entries: dict) -> str | None:
+    """Map a template directory (e.g. 'c17_002_int_model') to manifest ID."""
+    for cid in entries:
+        if name == cid or name.startswith(cid + "_"):
+            return cid
+    return None
+
+
 def resolve_target(repo: Path, target: str,
                    templates_root: Path | None = None) -> Path:
     """Accept 'ch03_slug', 'ch03', 'ch03_slug/02_fetch' or 'ch03/02'."""
@@ -157,12 +165,12 @@ def resolve_target(repo: Path, target: str,
                          f"(no template dir matches '{parts[0]}')")
     if len(parts) == 1:
         return matched
-    sub = repo / "templates" / matched.name / parts[1]
+    sub = matched / parts[1]
     if not sub.is_dir():
-        for p in sorted((repo / "templates" / matched.name).iterdir()):
+        for p in sorted(matched.iterdir()):
             if p.is_dir() and (p.name == parts[1] or
                                p.name.split("_", 1)[0] == parts[1]):
-                sub = repo / "templates" / matched.name / p.name
+                sub = matched / p.name
                 break
     if not sub.is_dir():
         raise SystemExit(f"error: exercise '{parts[1]}' not found in {matched.name}")
@@ -323,20 +331,6 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     # Planned (non-executable) track chapters must not generate.
-    track_name = getattr(args, "track", None) \
-        or os.environ.get("TRACK", "").strip() or None
-    if track_name and args.mode != "solution":
-        tmf = repo / "tracks" / track_name / "manifest.json"
-        if tmf.is_file():
-            tchapters = json.loads(tmf.read_text()).get("chapters", {})
-            for target in args.targets:
-                cid = target.split("/")[0]
-                impl = tchapters.get(cid, {}).get("implementation")
-                if impl and impl != "verified":
-                    sys.exit(
-                        f"error: '{cid}' is a [{impl}] chapter on the "
-                        f"{track_name} track — its labs are not authored "
-                        f"yet. Only [VERIFIED] chapters generate.")
 
     if args.targets == ["all"]:
         troot = repo / "templates"
@@ -360,7 +354,9 @@ def main(argv: list[str] | None = None) -> int:
         if tmf.is_file():
             tchapters = json.loads(tmf.read_text()).get("chapters", {})
             for target in args.targets:
-                cid = target.split("/")[0]
+                cid = manifest_id_for_dir(target.split("/")[0], tchapters)
+                if cid is None:
+                    continue # Unknown target; maybe it's a chapter not in this manifest
                 impl = tchapters.get(cid, {}).get("implementation")
                 if impl and impl != "verified":
                     sys.exit(

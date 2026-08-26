@@ -81,11 +81,10 @@ jobs:
           python3 tools/labs/grade.py --pipeline --repo .
 
   windows-msvc:
-    # Best-effort portability probe (review #7). Not a merge blocker yet:
-    # MSVC-specific fixes land as they surface.
-    name: windows · msvc (best effort)
+    # Required portability gate: the template tree is MSVC-clean, so any
+    # failure here is a real regression and blocks the merge.
+    name: windows · msvc
     runs-on: windows-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: Generate reference solution trees

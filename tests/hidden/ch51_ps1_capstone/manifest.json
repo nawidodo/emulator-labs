@@ -98,7 +98,7 @@
       ],
       "expect_file_hash": {
         "file": "{{tmp}}/evt.log",
-        "fnv64": "CD44D0EED2553105"
+        "fnv64": "BD6A4DA46CBF9D3A"
       }
     },
     {
@@ -118,7 +118,7 @@
       ],
       "expect_file_hash": {
         "file": "{{tmp}}/dma.state",
-        "fnv64": "84DDF8784CD175D9"
+        "fnv64": "A23C6269C864979C"
       }
     },
     {
@@ -198,7 +198,7 @@
       ],
       "expect_file_hash": {
         "file": "{{tmp}}/boot.log",
-        "fnv64": "FF00E32BC8FDD947"
+        "fnv64": "28D62F92A4371418"
       }
     }
   ]

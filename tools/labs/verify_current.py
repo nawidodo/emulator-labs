@@ -12,11 +12,16 @@ Rules (governing principle: "missing evidence is not a passing result"):
   integration_reference: ch52/ch51 pending|green|error (derived once a
                     canonical reference binary is made available)
 
+Fail-closed gate (v008 #18/#19): exits nonzero iff any REQUIRED dimension
+(reference_ctest, unseen_grade, pipeline_grade when --pipeline,
+grader_self_tests, foundations-c17 audit) is error, invalid, or an
+unexpected not-run -> "overall": "red". Integration references still
+"pending" downgrade green to "incomplete" WITHOUT failing the gate, so
+local runs before the canonical binaries exist stay honest-but-passing.
 Usage:
   python3 tools/labs/verify_current.py [--repo .] [--build-dir build-solutions]
                                        [--pipeline]
 """
-
 from __future__ import annotations
 
 import argparse
@@ -30,6 +35,22 @@ from pathlib import Path
 
 def _run(cmd: list[str], cwd: Path) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
+
+
+def _verdict(required: dict[str, str],
+             integration: dict[str, str]) -> tuple[str, bool]:
+    """Return (overall, gate_ok) per the v008 #18/#19 contract.
+
+    required  — dimension name -> status; anything but "green" is a
+                missing/failed evidence and makes the run red.
+    integration — ch51/ch52 -> pending|green|error; "pending" keeps the
+                gate open (incomplete), only all-green earns green.
+    """
+    if any(st != "green" for st in required.values()):
+        return "red", False
+    if integration and all(v == "green" for v in integration.values()):
+        return "green", True
+    return "incomplete", True
 
 
 def _grade_status(repo: Path, argv: list[str]) -> dict:
@@ -124,25 +145,38 @@ def main() -> int:
     else:
         ext = {"audit": "invalid", "verified_nodes": -1,
                "reason": "track manifest missing"}
+    required = {
+        "reference_ctest": ctest_state["status"],
+        "unseen_grade": unseen["status"],
+        "grader_self_tests": self_state["status"],
+        "foundations_c17_audit": ext["audit"],
+    }
+    if args.pipeline:
+        required["pipeline_grade"] = pipeline["status"]
+
+    integration = {
+        "ch52": "pending",   # derived once canonical reference runs
+        "ch51": "pending",
+    }
+    overall, gate_ok = _verdict(required, integration)
 
     current = {
         "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "head": head,
         "platform": sys.platform,
+        "overall": overall,
+        "required": required,
         "reference_ctest": ctest_state,
         "unseen_grade": unseen,
         "pipeline_grade": pipeline,
         "grader_self_tests": self_state,
         "external_courses": {"foundations-c17": ext},
-        "integration_reference": {
-            "ch52": "pending",   # derived once canonical reference runs
-            "ch51": "pending",
-        },
+        "integration_reference": integration,
     }
     (repo / "verification-current.json").write_text(
         json.dumps(current, indent=2))
     print(json.dumps(current, indent=2))
-    return 0
+    return 0 if gate_ok else 1
 
 
 if __name__ == "__main__":

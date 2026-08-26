@@ -24,3 +24,4 @@ ch14_99_v2_tmp.ppu
 
 # Legacy location of learner progress (now lives in .emulator-labs/)
 progress.json
+/verification-current.json

@@ -79,6 +79,21 @@ jobs:
           ln -s "$(pwd)/build-solutions/solutions" build/skels
           python3 tools/labs/grade.py --allow-missing-env --repo .
           python3 tools/labs/grade.py --pipeline --repo .
+      # Fail-closed live verification (v008 #17/#18): generates
+      # verification-current.json from the canonical CI environment and
+      # fails the job if any required evidence dimension is not green.
+      - name: Live verification gate
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        run: |
+          python3 tools/labs/verify_current.py --repo . \
+            --build-dir build-solutions --pipeline
+
+      - name: Upload live verification snapshot
+        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-current
+          path: verification-current.json
 
   windows-msvc:
     # Required portability gate: the template tree is MSVC-clean, so any

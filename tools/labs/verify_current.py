@@ -71,7 +71,33 @@ def _grade_status(repo: Path, argv: list[str]) -> dict:
             "reason": "grade summary could not be parsed"}
 
 
+def _ctest_state(returncode: int, stdout: str) -> dict:
+    """Parse a ctest run into its evidence dimension (v008 blocker fix).
+
+    Accepts BOTH summary formats:
+      modern : "100% tests passed, 0 tests failed out of 414"
+      legacy : "100% tests passed out of 414"
+    Green requires returncode == 0 AND zero failed tests; an unparseable
+    tail is an error, never a pass.
+    """
+    m = re.search(
+        r"(\d+)% tests passed(?:,\s*(\d+) tests failed)? out of (\d+)",
+        stdout)
+    if returncode != 0 or not m:
+        return {"status": "error",
+                "reason": returncode != 0 and f"ctest exited {returncode}"
+                or "ctest output unparseable",
+                "ran": 0, "passed": 0, "failed": -1}
+    total = int(m.group(3))
+    failed = int(m.group(2)) if m.group(2) is not None else (
+        0 if returncode == 0 else -1)
+    status = "green" if returncode == 0 and failed == 0 else "error"
+    return {"status": status, "ran": total,
+            "passed": total - max(failed, 0), "failed": failed}
+
+
 def main() -> int:
+
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", default=".")
     ap.add_argument("--build-dir", default="build-solutions")
@@ -88,19 +114,7 @@ def main() -> int:
     if (ct / "CTestTestfile.cmake").is_file():
         proc = _run(["ctest", "--test-dir", str(ct), "--output-on-failure"],
                     repo)
-        m = re.search(r"(\d+)% tests passed out of (\d+)", proc.stdout)
-        if proc.returncode != 0 or not m:
-            ctest_state = {"status": "error",
-                           "reason": proc.returncode != 0
-                           and f"ctest exited {proc.returncode}"
-                           or "ctest output unparseable",
-                           "ran": 0, "passed": 0, "failed": -1}
-        else:
-            total = int(m.group(2))
-            failed = 0 if proc.returncode == 0 else -1
-            ctest_state = {"status": "green", "ran": total,
-                           "passed": total - max(failed, 0),
-                           "failed": failed}
+        ctest_state = _ctest_state(proc.returncode, proc.stdout)
     else:
         ctest_state = {"status": "not-run",
                        "reason": f"{args.build_dir}/CTestTestfile.cmake "

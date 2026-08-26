@@ -89,7 +89,7 @@ jobs:
             --build-dir build-solutions --pipeline
 
       - name: Upload live verification snapshot
-        if: matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
+        if: always() && matrix.os == 'ubuntu-latest' && matrix.compiler == 'gcc'
         uses: actions/upload-artifact@v4
         with:
           name: verification-current

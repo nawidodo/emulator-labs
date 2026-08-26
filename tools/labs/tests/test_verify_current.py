@@ -65,5 +65,38 @@ class VerdictContract(unittest.TestCase):
                          ("incomplete", True))
 
 
+class CtestParser(unittest.TestCase):
+    """Literal ctest summary tails — proves the happy path without a build."""
+
+    MODERN = ("1/2 Test #1: ok ...   Passed  0.01 sec\n"
+              "100% tests passed, 0 tests failed out of 414\n")
+    LEGACY = "100% tests passed out of 414\n"
+    FAILING = ("98% tests passed, 8 tests failed out of 414\n")
+
+    def test_modern_summary_all_green(self):
+        st = verify_current._ctest_state(0, self.MODERN)
+        self.assertEqual(st["status"], "green")
+        self.assertEqual((st["ran"], st["passed"], st["failed"]), (414, 414, 0))
+
+    def test_legacy_summary_still_green(self):
+        st = verify_current._ctest_state(0, self.LEGACY)
+        self.assertEqual(st["status"], "green")
+        self.assertEqual((st["ran"], st["passed"], st["failed"]), (414, 414, 0))
+
+    def test_failed_tests_are_error_even_with_rc_zero(self):
+        st = verify_current._ctest_state(0, self.FAILING)
+        self.assertEqual(st["status"], "error")
+        self.assertEqual(st["failed"], 8)
+
+    def test_nonzero_returncode_is_error(self):
+        st = verify_current._ctest_state(1, self.MODERN)
+        self.assertEqual(st["status"], "error")
+
+    def test_unparseable_output_is_error_not_green(self):
+        st = verify_current._ctest_state(0, "some other tool output\n")
+        self.assertEqual(st["status"], "error")
+
+
+
 if __name__ == "__main__":
     unittest.main()

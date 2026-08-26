@@ -37,6 +37,7 @@ TEST(mdec, decodes_single_macroblock_deterministically) {
     const std::string path =
         (std::filesystem::temp_directory_path() / "labs_ch46_one_mb.bin")
             .string();
+    FILE* f = fopen(path.c_str(), "wb");
     EXPECT_TRUE(f != nullptr);
     if (!f) return;
     fwrite(bytes.data(), 1, bytes.size(), f);

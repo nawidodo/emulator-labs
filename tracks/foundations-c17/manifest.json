@@ -55,7 +55,7 @@
         "foundations-c17"
       ],
       "optional": false,
-      "implementation": "planned"
+      "implementation": "verified"
     },
     "c17_006": {
       "title": "Chapter 6 \u2014 Hex Dumps, Trace Files, and First-Divergence Debugging",

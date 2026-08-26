@@ -44,7 +44,7 @@
         "foundations-c17"
       ],
       "optional": false,
-      "implementation": "planned"
+      "implementation": "verified"
     },
     "c17_005": {
       "title": "Chapter 5 \u2014 Deterministic Test Harness",

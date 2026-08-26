@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.21)
+add_executable(c17_ch004_tests build_sanitizers.c build_sanitizers_tests.c)
+target_include_directories(c17_ch004_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_compile_options(c17_ch004_tests PRIVATE -pedantic)
+add_test(NAME c17_ch004 COMMAND c17_ch004_tests)

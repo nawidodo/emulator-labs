@@ -110,3 +110,4 @@ jobs:
         run: cmake --build build-solutions --config Debug --parallel 1
       - name: CTest
         run: ctest --test-dir build-solutions -C Debug --output-on-failure
+             --timeout 120
